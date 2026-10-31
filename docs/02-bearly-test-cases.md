@@ -10,6 +10,10 @@
 > `03-test-execution-report.md`. Expected results quote Bearly's own UI strings or
 > docs (bearly.ai/docs) where they exist, so pass/fail is objective.
 
+> **Test data:** every prompt (**P-01…P-31**) and file (`falcon_report.pdf`, `priya.wav`, …) these cases use is in
+> [`test-data/`](test-data/README.md); its table maps each prompt and file to the case IDs below.
+> Step-by-step bug reproductions: [`04-bug-reports.md`](04-bug-reports.md).
+
 ## What changed from v1 (after testing the live product on 2026-10-31)
 | Change | Cases | Why |
 |---|---|---|

@@ -7,6 +7,9 @@ QA prep material for the Bearly **QA Tester (Remote, India)** role.
 | `docs/01-bearly-overview.md` | What Bearly is: surfaces, features, plans, user-feedback themes |
 | `docs/02-bearly-test-cases.md` | v2: 170 test cases across 18 modules, rewritten after testing the live product (see "What changed from v1") |
 | `docs/03-test-execution-report.md` | Live execution report (2026-10-31, Pro account): all 170 cases, 30 bugs, 20 improvement suggestions |
+| `docs/04-bug-reports.md` | 30 bug reports with first-time-user reproduction steps, screenshots and screen recordings |
+| `docs/05-improvement-suggestions.md` | 20 suggestions, each with steps to see the current behaviour |
+| `docs/test-data/` | Every prompt and file used in testing, plus a script to regenerate the files |
 | `docs/evidence/` | Screenshots referenced by the bug reports |
 | `src/test/java/...` | Selenium 4 + TestNG smoke suite (public pages + logged-in chat) |
 

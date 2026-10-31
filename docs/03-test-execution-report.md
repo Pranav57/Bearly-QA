@@ -38,7 +38,7 @@
 | Non-functional | 8 | 1 | 3 | 2 | 1 | 1 |
 | **Total** | **170** | **42** | **32** | **22** | **24** | **50** |
 
-**Bugs logged: 30** (6 S2-major, 15 S3-minor, 9 S4-trivial) in §3, plus 3 security observations, **20 improvement suggestions** in §4, and test-plan changes in `02-bearly-test-cases.md` ("What changed from v1").
+**Bugs logged: 30** (6 S2-major, 15 S3-minor, 9 S4-trivial) (details in `04-bug-reports.md`), plus 3 security observations, **20 improvement suggestions** (`05-improvement-suggestions.md`), all test data in `test-data/`, and test-plan changes in `02-bearly-test-cases.md` ("What changed from v1").
 
 ### Top 10 to fix first
 | # | Bug | Why it matters |
@@ -267,188 +267,13 @@
 | BUG-29 | Share: "Ready to share" + Publish enabled while the Page is still building | S4 | P3 | 1/1 | SHARE-01 |
 | BUG-30 | Public site: mobile header hides Product/Pricing/Privacy/Enterprise; dead link on /ai-assistant-comparison; pricing toggle has no state for screen readers | S3 | P2 | Always | — |
 
----
+**Full step-by-step reports** (first-time-user steps, test data, expected vs actual, screenshots and screen recordings) for every bug and security observation are in **[04-bug-reports.md](04-bug-reports.md)**.
 
-### BUG-01 — [Web][Privacy] "ZDR models only" is not true by default
-- **Env:** Web, Chrome 153, Pro, build 38519b9
-- **Severity / Priority / Frequency:** S2 / P1 / Always
-- **Steps:**
-  1. Read bearly.ai home: *"MODELS — … ZDR models only"* and *"Every model on Bearly runs with zero data retention."*
-  2. In the app open the model picker → **Show all models**.
-  3. Open Settings → **Privacy & Security**.
-- **Expected:** Every model is ZDR, or the marketing copy is qualified.
-- **Actual:** **Fable 5.1** and **Muse Spark 1.3** are labelled **"Standard. This model's primary route has no verified zero-data-retention guarantee."** The **"Zero Data Retention only"** switch is **off** by default (`aria-checked=false`). Its description says it also controls "automatic fallbacks", so non-ZDR fallbacks are possible by default.
-- **Evidence:** `evidence/models_all.png`, `evidence/set_privacy_security.png`
-- **Fix:** Turn ZDR-only on by default (and let users opt into Standard models), or change the marketing copy.
+## 4. Improvement suggestions
+20 suggestions, each with steps to see the current behaviour, the proposed change and why: **[05-improvement-suggestions.md](05-improvement-suggestions.md)**.
 
-### BUG-02 — [Web][Billing] Plan gating bypassed through the New Chats default model; misleading error
-- **Severity / Priority / Frequency:** S2 / P1 / Always
-- **Steps:**
-  1. On **Pro**, pick Fable 5.1 in the chat model picker → correctly refused ("Fable 5.1 needs the Analyst plan or higher").
-  2. Settings → **New Chats → Model → Fable 5.1** → accepted ("Saved").
-  3. New Chat → picker shows **Fable 5.1** → send "Which model are you?"
-- **Expected:** Locked models can't be set as defaults, or the chat shows the upgrade prompt.
-- **Actual:** The reply is **"Billing limit resolved. Please rerun if necessary."** Nothing was resolved, no answer is produced, and there's no upgrade path.
-- **Evidence:** `evidence/fable_gate.png`, `evidence/default_fable_chat.png`
-- **Notes:** I reverted the setting to "Recommended" afterwards.
-
-### BUG-03 — [Web][Files] Attachments removed before sending stay stored, listed and searchable
-- **Severity / Priority / Frequency:** S2 / P1 / Always
-- **Steps:**
-  1. New chat → attach 10 small files → remove them with each chip's **Remove file** button (mouse click and keyboard both tried).
-  2. Attach `tool.exe`, `archive.zip` → send. Later attach and send `locked_report.pdf`.
-  3. Open **Browse files** in that chat; also search Files for a removed file's name.
-- **Expected:** Only the 3 sent files exist.
-- **Actual:** Browse files shows **22**. All 19 removed attachments are listed as "Uploaded" and returned by file search. Same for large files removed before sending (`big_210MiB.txt` is still listed).
-- **Evidence:** `evidence/orphan_files.png`, `evidence/search_files.png`
-- **Why it matters:** A user who attaches the wrong (sensitive) document and removes it believes it was never uploaded. It also counts against storage quotas.
-
-### BUG-04 — [Web][Security] File download URLs are long-lived bearer links that survive logout
-- **Severity / Priority / Frequency:** S2 / P1 / Always
-- **Steps:**
-  1. Open a chat with `falcon_report.pdf` → Download. The app fetches `https://bearly.ai/v1/magicbase/magic-files/open?fileId=…&key=v2.…`
-  2. Request that URL with `curl` (no cookies, no token).
-  3. Repeat after 35 min, and again after **logging out** (token revoked: all RPCs → 401).
-- **Expected:** Downloads need the session, or the key expires in minutes and dies with the session.
-- **Actual:** **HTTP 200, the original 8,429-byte decrypted PDF**, at 0 min, at 35 min, and after logout. Without the key, or with an altered key → 400, so it isn't guessable. The risk is leakage through browser history, proxies, logs or forwarding.
-- **Fix:** Short TTL (≤5 min), bind to the session, revoke on logout and on file/chat deletion.
-
-### BUG-05 — [Web][Meetings] Recording of silence never finishes transcription
-- **Severity / Priority / Frequency:** S2 / P2 / 1 of 1 (speech recording in the same session finished in 15 s)
-- **Steps:** Meetings → Start recording → 43 s of silence → Stop.
-- **Expected:** "No speech detected" (or an empty transcript) within about a minute.
-- **Actual:** **"Transcription in progress — You can leave this page."** still showing **45+ minutes** later.
-- **Evidence:** `evidence/meet_silence_final.png`
-
-### BUG-06 — [Web][Search] Chat & file search return everything for non-matching queries
-- **Severity / Priority / Frequency:** S2 / P2 / Always
-- **Steps:** Ctrl+F → type `zzqxv12345` (also `Ravi`, `"C++" OR <tag>`).
-- **Expected:** Only matching chats; "No results" for nonsense.
-- **Actual:** Always the same 3 chats with "10 matches / 4 matches / 1 match", even for `zzqxv12345`. The Files tab lists every file. For "ocean" the right chat is found, but the snippet shows the fruit list instead of the ocean lines.
-- **Evidence:** `evidence/search_none2.png`, `evidence/search_files.png`
-- **Notes:** It looks like semantic search with no relevance cut-off. Add a threshold plus keyword highlighting.
-
-### BUG-07 — [Web][Chat] Offline send: generic error, no Retry, failure persists
-- **Severity / Priority / Frequency:** S3 / P1 / Always
-- **Steps:** Go offline (the app shows an orange **Offline** banner) → send a message → reconnect → reload.
-- **Expected:** Send blocked or queued until online, or a specific offline error with **Retry**.
-- **Actual:** The message is accepted; the reply is **"An error occurred. Please wait and try again."** with only "Get help". No retry after reconnecting, and the failed turn is still there after reload.
-- **Evidence:** `evidence/offline.png`, `evidence/offline_send.png`
-
-### BUG-08 — [Web][Sync] Rename/delete don't reach other open sessions
-- **Severity / Priority / Frequency:** S3 / P2 / 2 of 2
-- **Steps:** Same account in two browsers. On A rename a chat, then delete it (confirmed). Watch B for 90 s each.
-- **Expected:** B updates live (messages already sync live in ~5 s).
-- **Actual:** B's sidebar keeps the old name, and then the deleted chat, for 90+ s. Only a reload fixes it. B with the chat open could still read all its messages after deletion.
-
-### BUG-09 — [Web][Voice] Voice call with no microphone access fails silently
-- **Severity / Priority / Frequency:** S3 / P2 / Always
-- **Steps:** Browser with no mic permission/device → "Start voice call".
-- **Expected:** A message like the Meetings one ("Recording could not start. Check your audio permissions…").
-- **Actual:** Nothing visible happens. Console: `realtimeVoice:error failed {errorName: UnknownError, errorCode: unavailable}`. An empty "New Chat 1" is also added to history.
-- **Evidence:** `evidence/mic_denied_voice.png` vs `evidence/mic_denied_meet.png`
-
-### BUG-10 — [Web][Files/Billing] File-size limits are inconsistent everywhere
-- **Severity / Priority / Frequency:** S3 / P2 / Always
-- **Sources:** docs *"Each attachment must be 300 MB or smaller"*; in-app Billing cards *Free 10MB, Pro 200MB, Analyst 600MB, Research 2GB*; /pricing says nothing.
-- **Actual on Pro:** 205 MB (shown "196 MB"), 210 MiB and **310 MiB** all uploaded. The agent confirmed 325,000,000 bytes. Sizes are binary MiB labelled "MB".
-- **Evidence:** `evidence/set_Billing.png`
-- **Fix:** One limit, enforced at selection time with a clear message, and the same units everywhere.
-
-### BUG-11 — [Web][Chat] Gated models aren't marked in the picker
-S3/P3. Fable 5.1 looks identical to available models; clicking it opens Billing instead. Add a lock + "Analyst" badge.
-
-### BUG-12 — [Web][Files] Same-content files show the wrong name
-S3/P3, 3 of 3. Attach `dup_a.txt`, then `dup_b.txt` with identical bytes → two chips **both named `dup_a.txt`**. Content de-duplication is replacing the user's file name. Evidence `evidence/dedupe.png`.
-
-### BUG-13 — [Web][Chat] Voice-call chat auto-titled "Chat Title Request"
-S3/P3, 1 of 1. After a voice call the chat was named **"Chat Title Request"**, which looks like the title generator's own prompt leaking. Text chats are titled well ("TCP vs UDP Explained").
-
-### BUG-14 — [Web][History] Empty "New Chat 1" chats left in history
-S3/P3. Created when files are attached but never sent (it held 2 files, 0 messages), and when a voice call fails. They clutter history and hold uploaded files.
-
-### BUG-15 — [Web][a11y] Accessibility violations on every main screen (axe-core, WCAG 2 A/AA)
-S3/P2. App home, chat and Settings:
-- **Composer** (`chat-input`, contenteditable textbox) has **no accessible name** (serious).
-- **Icon buttons with no name** (critical): `+` (plus-menu), chat-config, jump-to-bottom.
-- **"New Chat" button contrast 2.05:1** (needs 4.5:1). The sign-in "Continue" button is ~2.4:1.
-- **Nested interactive controls** ×19–33 (sidebar rows are `role=button` containing buttons).
-- **6 Settings dropdowns** have no accessible name.
-- Billing toggle on /pricing exposes no on/off state.
-
-### BUG-16 — [Mobile web] Small tap targets
-S4/P3. At 390 px: Search 14×14, Open sidebar 24×24, message actions 28×28, dictation 28×28 (guideline 44×44). Otherwise the mobile app is solid: no overflow, 16 px composer, drawer sidebar, camera button.
-
-### BUG-17 — [Web][TTS] Asked for MP3, got WAV
-S3/P3. "Create an MP3…" → reply "The audio is ready in Voice Studio, where you can play and download the MP3." The served file is `bearly-voice-3Y0WCW.wav`, `audio/wav`.
-
-### BUG-18 — [Web][Auth] Code screen: no resend, no visible throttling, partial code allowed
-S3/P2. 7 consecutive wrong codes → 7× HTTP 401 and the same message each time, with no cooldown, lockout or CAPTCHA (I stopped at 7). There's no "Resend code" or "check spam" help. Sign in is enabled with only 1 of 3 words filled.
-
-### BUG-19 — [Web][Chat] RTL text rendered LTR
-S3/P3. Arabic reply `مرحبًا، سعيد بلقائك.` renders with `direction: ltr`, left-aligned, punctuation on the wrong side. Fix: `dir="auto"` on message paragraphs. Evidence `evidence/i18n.png`.
-
-### BUG-20 — [Web][Search] Source links are buttons
-S3/P3. Web-search citations render as `<button data-markdown-link="https://…">`. There's no hover URL, no "Copy link address", and no middle-click/new tab, and screen readers announce them as buttons.
-
-### BUG-21 — [Web][Pricing] Pricing page contradicts docs and in-app plans
-S3/P2. /pricing Pro card lists **"deep research"**, but docs say Deep Research needs **Analyst**. The FAQ says paid tiers differ only by credits + Fable, but docs list Deep Research, People Search and Ultra research. The Free card says "Claude, GPT, Gemini, and Grok models", but docs say "low-cost models". The in-app Research card says "Everything in Pro" instead of Analyst.
-
-### BUG-22 — [Web][Settings] Desktop version mismatch
-S4/P3. Settings → Get Desktop App: "Currently v5.2.9". `/download/*` redirects to **v5.2.11**.
-
-### BUG-23 — [Web][Usage] Reset countdown and totals
-S4/P3. On Oct 31: **"Credits reset in 0 days (Nov 1)"** (should be "tomorrow"/"in 1 day"). Usage by service total **$0.26** vs "Used this month **$0.27**".
-
-### BUG-24 — [Web][Shortcuts] Mac labels on Linux/Windows
-S4/P3. Header shows **"⌘ K"**; tooltips "Search conversations (⌘F)", "Open command menu (⌘K)". The command menu itself correctly shows "CTRL SHIFT N". Ctrl+K and Ctrl+L work.
-
-### BUG-25 — [Web][Auth] Sign-in email field
-S4/P3. Continue stays enabled for empty/`abc@`/`a b@x.com`; no `required` or `autocomplete="email"`. Button text contrast ~2.4:1 and it looks disabled. On mobile the email input is 13 px (iOS Safari zooms on focus).
-
-### BUG-26 — [Web][Files] Enter ignored while a file is processing, without feedback
-S4/P3, 1 of 2. Attach a PDF and press Enter straight away → nothing happens, no message. The docs say send waits for "Uploading/Analyzing"; the UI should show that.
-
-### BUG-27 — [Web][Voice] Voice transcript duplicates/truncates lines
-S4/P3. The saved call transcript shows "Bearly: Okay." twice, "Bearly: Mm-h" (cut off) twice, and "mm." twice around single user turns. Evidence `evidence/voice_transcript.png`.
-
-### BUG-28 — [Web][Templates] Inconsistent submit key
-S4/P3. The template form submits on **Shift+Enter** ("Submit (shift-enter)"). In the composer, Shift+Enter is a newline.
-
-### BUG-29 — [Web][Share] "Ready to share" too early
-S4/P3. After "Prepare share", the header showed **"Ready to share"** + Publish while the preview was still a spinner and the composer still showed Stop.
-
-### BUG-30 — [Public site] Marketing site issues (from the logged-out audit)
-S3/P2. At 375 px the header shows only News + Get Bearly, with no menu button, so Pricing, Product, Privacy and Enterprise are reachable only from the footer. `support.claude.com/en/articles/11049762-choose-a-claude-plan` on /ai-assistant-comparison returns 404. The sign-in page `<title>` is the old "Bearly.ai | AI at your fingertips". The Monthly/Yearly toggle has no `aria-pressed`/`role=switch`.
-
-### Security observations (not exploited)
-- **S-1:** The app shell `/dashboard/*` sends no `Content-Security-Policy` and no `frame-ancestors`/`X-Frame-Options`. HSTS preload, `nosniff` and referrer-policy are present.
-- **S-2:** The session token is kept in `localStorage` (`_bearly:token`), so any XSS could read it. Combined with S-1, a strict CSP is the main defence. CHAT-18 found no XSS.
-- **S-3:** "Continue with Microsoft" appears on the sign-in page only after a logout on the device. Check `loginCapabilities` behaviour.
-
-## 4. Improvement suggestions (beyond the bugs)
-| # | Area | Suggestion | Why |
-|---|---|---|---|
-| SUG-01 | Model picker | Lock icon + plan badge on gated models; a "ZDR / Standard" filter | Avoids surprise upgrade walls and supports privacy-minded choice |
-| SUG-02 | Privacy | Show a small "ZDR" or "Standard" badge on each **answer**, not just in the picker | Users can see what happened to *this* message |
-| SUG-03 | Chat | Collapse long user messages ("Show more") and turn 20k+ pastes into an attachment chip | A 50k paste made a 15,000 px bubble |
-| SUG-04 | Chat | After Stop, label the reply "Stopped" with a **Continue** button | Clearer state, saves a re-prompt |
-| SUG-05 | Uploads | Show % progress + ETA, and a "Waiting for connection…" state when offline | Large uploads showed only a spinner for 3 min |
-| SUG-06 | Offline | Queue messages typed offline and send them on reconnect | Makes the existing Offline banner useful |
-| SUG-07 | Meetings | Auto-create the summary after transcription; add "Upload recording" to the web Meetings page | Matches the "meeting notes" promise; the page has no upload today |
-| SUG-08 | Dictation | Show interim text while speaking | Users can't tell it's working until they stop |
-| SUG-09 | Search | Highlight the matched words in the snippet and jump to the matching message | Today's snippets don't show why a chat matched |
-| SUG-10 | Sources | Favicon + domain chips with hover preview and real links | Easier to judge credibility (SRCH-02) |
-| SUG-11 | Code | Language label + always-visible copy button on code blocks | Faster copy for developers |
-| SUG-12 | Login | "Resend code (30 s)", "Check spam", the code expiry time, and auto-split on paste | Fewer stuck sign-ins |
-| SUG-13 | Pricing | A credits calculator ("$20 ≈ N Opus messages / M meeting hours"), generated from the same source as in-app plan cards | Credits are abstract; and it fixes BUG-10/21 at the root |
-| SUG-14 | Sync | Push sidebar events (rename/delete/move) over the same live channel messages use | Fixes BUG-08 |
-| SUG-15 | History | Keep empty drafts out of history until the first message is sent | Fixes BUG-14 |
-| SUG-16 | Files | "Remove" should delete the upload, with a "Removed" toast + Undo | Fixes BUG-03 with a forgiving UX |
-| SUG-17 | Mobile | Add an installable web app (PWA) + "Add to Home Screen" prompt for Android | There's no Android app, and Android is most of the Indian market |
-| SUG-18 | Voice | One permission-error component used by Meetings, Voice call and Dictation, with OS-specific "how to enable" steps | Consistent recovery |
-| SUG-19 | Settings | Filter the New Chats model list by plan, or badge locked entries | Prevents BUG-02 by design |
-| SUG-20 | Onboarding | Explain "ZDR", "Standard", "Full access" and credits inline the first time they appear | These are new concepts to most users |
+## 4a. Test data
+Every prompt (P-01…P-31) and every uploaded file used in this run: **[test-data/](test-data/README.md)**.
 
 ## 5. What worked well (worth saying in an interview)
 - Core chat is fast (~0.4 s to first change) and solid: context, stop, rerun, edit with version history, and queueing.
