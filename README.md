@@ -5,8 +5,8 @@ QA prep material for the Bearly **QA Tester (Remote, India)** role.
 | File | What it is |
 |---|---|
 | `docs/01-bearly-overview.md` | What Bearly is: surfaces, features, plans, user-feedback themes |
-| `docs/02-bearly-test-cases.md` | 104 detailed test cases across 11 modules, ★ daily smoke set, exploratory charters, bug template |
-| `docs/03-test-execution-report.md` | Execution report from 2026-10-31: 10 bugs, UX suggestions, test-plan corrections (logged-in cases blocked) |
+| `docs/02-bearly-test-cases.md` | v2: 170 test cases across 18 modules, rewritten after testing the live product (see "What changed from v1") |
+| `docs/03-test-execution-report.md` | Live execution report (2026-10-31, Pro account): all 170 cases, 30 bugs, 20 improvement suggestions |
 | `docs/evidence/` | Screenshots referenced by the bug reports |
 | `src/test/java/...` | Selenium 4 + TestNG smoke suite (public pages + logged-in chat) |
 
