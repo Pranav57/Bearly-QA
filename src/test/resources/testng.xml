@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Bearly Smoke" verbose="1">
+  <test name="Public pages">
+    <classes><class name="com.bearly.qa.tests.PublicPagesTest"/></classes>
+  </test>
+  <test name="Authenticated smoke">
+    <classes><class name="com.bearly.qa.tests.ChatSmokeTest"/></classes>
+  </test>
+</suite>
