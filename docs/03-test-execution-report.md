@@ -344,7 +344,7 @@ After the first report, every screen was swept again on the same account. Change
 **Full step-by-step reports** (first-time-user steps, test data, expected vs actual, screenshots and screen recordings) for every bug and security observation are in **[04-bug-reports.md](04-bug-reports.md)**.
 
 ## 4. Improvement suggestions
-33 suggestions (SUG-21…33 added 1 Nov), each with steps to see the current behaviour, the proposed change and why: **[05-improvement-suggestions.md](05-improvement-suggestions.md)**.
+34 suggestions (SUG-21…34 added 1 Nov), each with steps to see the current behaviour, the proposed change and why: **[05-improvement-suggestions.md](05-improvement-suggestions.md)**.
 
 ## 4a. Test data
 Every prompt (P-01…P-47) and every uploaded file used in this run: **[test-data/](test-data/README.md)**.

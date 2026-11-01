@@ -39,6 +39,7 @@ Each suggestion says **how to see it today** (same setup as [04-bug-reports.md](
 | SUG-31 | Style the "1x" speed control like the Download button; align the time label | Low |
 | SUG-32 | Show message time on hover; add the date in Query info | Medium |
 | SUG-33 | Make the "jump to latest" arrow visible, labelled and unread-aware | Medium |
+| SUG-34 | Show paid features (Routines, Best Pick, Council…) to Free users with a lock and upgrade prompt | High |
 
 ---
 
@@ -207,3 +208,9 @@ Each suggestion says **how to see it today** (same setup as [04-bug-reports.md](
 **See it today:** In a long chat, scroll up. A small grey **⌄** in a light-grey 32×32 square appears at the bottom right, above the message box. It works (it jumps to the latest message, tested on desktop and 390 px), but it's easy to miss (manual testers reported "no arrow"), has no tooltip or accessible name (BUG-15), and on phones it overlaps the message bubbles.
 **Change:** A higher-contrast round button with a tooltip and `aria-label` "Jump to latest", a "New message" badge when a reply arrives while you're scrolled up, and placement that doesn't cover messages on mobile.
 **Why:** Long chats are common, and users shouldn't have to scroll manually through 15,000-px messages (SUG-03).
+
+### SUG-34 — Show paid features to Free users, locked, instead of hiding them
+**See it today** (reported from manual testing on a **Free** account; not verified here because the test account is Pro): on Pro the sidebar shows **Routines** (and the "/" menu shows Pro tools such as Best Pick and Council). On **Free**, Routines is simply **not on screen**, so a Free user never learns it exists. The docs list it as a Pro feature: *"Pro … Routines, Best Pick, Council, your choice of voice model…"* (Plans, credits, and limits).
+**Change:** Keep paid features visible on Free with a 🔒 badge and the plan name ("Pro"). Clicking opens a short preview ("Routines run a prompt on a schedule, e.g. a Monday AI-news brief") with **Upgrade to Pro**. Apply the same pattern to models (SUG-01), tools in the "/" menu, and Settings.
+**Why:** Hidden features can't drive upgrades. A visible, explained lock is the standard freemium pattern, and it also avoids the opposite problem seen with Fable 5.1, which looks available and then jumps to Billing (BUG-11).
+**To verify:** sign in with a Free account and compare the sidebar, the "/" menu and Settings with Pro.
