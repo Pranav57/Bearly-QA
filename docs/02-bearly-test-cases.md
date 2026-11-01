@@ -1,7 +1,7 @@
 # Bearly.ai — Detailed Test Cases (v2)
 
 **Scope:** Web app (`bearly.ai/dashboard`), mobile web (incl. Android), iOS app, Mac / Windows / Linux desktop apps, Chrome extension (Bearly Companion)
-**Modules:** Auth · Chat · Files · Meetings & Transcription · Search · Voice & Dictation · Extension · Sync · Billing & Plans · Settings & Account · Prompt Templates · Routines · Projects · Sharing (Pages) · Text-to-speech · Privacy & Encryption · Connectors & Permissions · Cross-cutting
+**Modules:** Auth · Chat · Files · Meetings & Transcription · Search · Voice & Dictation · Extension · Sync · Billing & Plans · Settings & Account · Prompt Templates · Routines · Projects · Built-in tools · Sharing (Pages) · Text-to-speech · Privacy & Encryption · Connectors & Permissions · Cross-cutting
 **Priority:** P0 = release blocker, P1 = major, P2 = minor, P3 = polish
 **Type:** F = functional, N = negative, E = edge, U = UX, P = performance, S = security, X = cross-platform
 
@@ -10,7 +10,7 @@
 > `03-test-execution-report.md`. Expected results quote Bearly's own UI strings or
 > docs (bearly.ai/docs) where they exist, so pass/fail is objective.
 
-> **Test data:** every prompt (**P-01…P-31**) and file (`falcon_report.pdf`, `priya.wav`, …) these cases use is in
+> **Test data:** every prompt (**P-01…P-47**) and file (`falcon_report.pdf`, `priya.wav`, …) these cases use is in
 > [`test-data/`](test-data/README.md); its table maps each prompt and file to the case IDs below.
 > Step-by-step bug reproductions: [`04-bug-reports.md`](04-bug-reports.md).
 
@@ -29,7 +29,7 @@
 | **Removed** | SYNC-04, SYNC-05 moved to DESK-* | Desktop-only items grouped in a Desktop module |
 | **Added** | 69 new cases | Prompt Templates, Routines, Projects, Sharing, TTS, Privacy/ZDR/E2E, Connectors & Permissions, Desktop, command menu, queueing, message versions, gating-via-settings, removed-attachment cleanup, file-link lifetime, live sidebar sync, RTL, offline send |
 
-Total: **170 cases**: v1's 104, minus 3 removed or moved, plus 69 new. 16 cases are marked *(rewritten)* or *(re-targeted)*, and several more have sharper expected results.
+Total: **186 cases** (170 + 16 in module 19, added 1 Nov): v1's 104, minus 3 removed or moved, plus 69 new. 16 cases are marked *(rewritten)* or *(re-targeted)*, and several more have sharper expected results.
 
 ## 0. Test environment matrix
 | Surface | Configs to cover |
@@ -289,11 +289,35 @@ Total: **170 cases**: v1's 104, minus 3 removed or moved, plus 69 new. 16 cases 
 
 ---
 
-## 19. Daily smoke checklist (★, about 60 min)
+## 19. Built-in tools (the "/" menu) *(new module, 1 Nov)*
+Type `/` in the composer to see the tools. Prompts **P-32…P-47** are in `test-data/`. Each case: New Chat → send the prompt → check the reply and any files in **Browse files**.
+
+| ID | Pri | Type | Title | Preconditions | Steps | Expected result |
+|---|---|---|---|---|---|---|
+| TOOL-01 | P2 | F | Weather | — | Send P-32 | Current temperature for the city, with source, < 60 s |
+| TOOL-02 | P2 | F | Maps (routes) | — | Send P-33 | Plausible drive time and main road (Bengaluru–Mysuru ≈ 2–3 h via NH 275 expressway) |
+| TOOL-03 | P2 | F | Scholar | — | Send P-34 | Correct paper ("Attention Is All You Need", Vaswani et al., NeurIPS 2017) with a real quote from the abstract |
+| TOOL-04 | P1 | F | Best Pick | — | Send P-35 | A product that meets the budget, with price and store. If nothing fits, the "closest matches" are close to the budget |
+| TOOL-05 | P2 | F | Domain research | — | Send P-36 | Availability answer for the exact domain |
+| TOOL-06 | P2 | U | People Search | — | Send P-37 (a well-known public figure) | A cited brief. Asks to disambiguate only when the name is truly ambiguous |
+| TOOL-07 | P2 | F | YouTube digest | — | Send P-38 | Summary matches the video; transcript file attached |
+| TOOL-08 | P1 | F | Document editor: Word | — | Send P-39 | Real `.docx` with the title, heading and 3 bullets; preview and download work |
+| TOOL-09 | P2 | F | Create chart | — | Send P-40 | Bar chart with the right values, categories in the order given; source CSV attached |
+| TOOL-10 | P2 | F | Visualize (interactive app) | — | Send P-41 | Working sliders; correct maths (₹2,50,000 at 6.5 % for 20 y ≈ 1,864/month); currency suits the user's region |
+| TOOL-11 | P1 | F | Image generation | — | Send P-42 | Image matches the prompt; Edit / Change area / Extend / Combine tools available |
+| TOOL-12 | P1 | F | Transcribe a file | `priya.wav` | Attach + send P-43 | Word-for-word transcript (`.srt`) matching the audio |
+| TOOL-13 | P2 | F | Memory across chats | A chat where you told it your name (P-02) | New chat → P-44 | Follows the Memories setting: recalls "Ravi" when memories are on for all chats, otherwise says it doesn't know |
+| TOOL-14 | P2 | F | Council of Experts | — | Send P-45 | Answer shows multiple expert views and a consensus, within the word limit |
+| TOOL-15 | P1 | F | Document editor: PowerPoint | — | Send P-46 | Real `.pptx` with exactly 3 slides; preview works |
+| TOOL-16 | P1 | F | Document editor: Excel | — | Send P-47 | Real `.xlsx` with the rows and a working total (= 535) |
+
+---
+
+## 20. Daily smoke checklist (★, about 60 min)
 AUTH-01/02 → CHAT-01/02/04 → FILE-01/02 → MEET-01/02 → SRCH-01 → VOICE-01 → EXT-01/02 → SYNC-01 → BILL-01 (staging) → PRIV-01
 Run on Web Chrome + one other surface; rotate browsers/OS daily.
 
-## 20. Exploratory charters
+## 21. Exploratory charters
 1. **New writer, first 5 minutes.** Can I upload a draft and get edits without help?
 2. **Researcher with 3 papers.** Are sources kept straight and citations trustworthy?
 3. **Analyst with a CSV.** Is the arithmetic right? Check by hand.
@@ -303,7 +327,7 @@ Run on Web Chrome + one other surface; rotate browsers/OS daily.
 7. **Privacy-first user.** Does every model and fallback honour ZDR? Where does data go?
 8. **Two devices.** Rename, delete and edit on one; is the other ever stale or misleading?
 
-## 21. Bug report template
+## 22. Bug report template
 ```
 Title: [Surface][Module] Short, specific symptom
 Env: Web Chrome 153 / Linux / build 38519b9 / Pro plan / Wi-Fi

@@ -72,3 +72,19 @@ Type each prompt **exactly** (copy from the code block) into the chat box at htt
 | P-29 | `SYNC-PROBE-7731 reply with OK` (sent on device A) | SYNC-01 | Appears on device B |
 | P-30 | Chat search queries: `Ravi`, `printing press`, `ocean`, `zzqxv12345`, `"C++" OR <tag>`; Files tab: `falcon`, `leave policy`, `Quillfeather`, `zzqxv12345` | SRCH-03…06, BUG-06 | Only matching items; "No results" for zzqxv12345 |
 | P-31 | Login codes for AUTH-04 (wrong on purpose): `wrong-code-word`, `apple-banana-cherry`, `aaa-bbb-ccc`, `one-two-three`, `red-green-blue`, `xx-yy-zz`, plus an already-used real code | AUTH-04, BUG-18 | "Codewords invalid…", then a cooldown |
+| P-32 | `Weather: what is the weather in Bengaluru right now? One line with temperature and source.` | TOOL-01 | Temperature + source |
+| P-33 | `Maps: how long does it take to drive from Bengaluru to Mysuru, and by which main road? Two lines.` | TOOL-02 | ≈ 2–3 h, NH 275 |
+| P-34 | `Scholar: find the 2017 paper that introduced the Transformer architecture. Give title, authors (first 3), venue and one quoted sentence from the abstract.` | TOOL-03 | Attention Is All You Need |
+| P-35 | `Best Pick: one wireless mouse under 1500 rupees available in India. Give one pick with price and why, in 3 lines.` | TOOL-04, BUG-34 | A ₹650–₹1,500 mouse (actual: "nothing found") |
+| P-36 | `Domain research: is bearly-qa-test-7731.com available to register? One line.` | TOOL-05 | Available / taken |
+| P-37 | `People Search: give a 3-line cited brief on Sundar Pichai.` | TOOL-06 | Brief (actual: asks which Sundar Pichai) |
+| P-38 | `Summarize this YouTube video in 3 bullets: https://www.youtube.com/watch?v=dQw4w9WgXcQ` | TOOL-07 | 3 bullets about the song |
+| P-39 | `Create a Word document (.docx) titled "QA Test Plan" with a heading and 3 bullet points about regression testing. Give me the file.` | TOOL-08 | qa-test-plan.docx |
+| P-40 | `Create a bar chart from this CSV data:` then Shift+Enter and the lines `Region,Q3` / `North,150` / `South,95` / `East,210` / `West,80` | TOOL-09 | Bars N 150, S 95, E 210, W 80 |
+| P-41 | `Visualize: a simple loan EMI calculator with sliders for amount, interest rate and tenure.` | TOOL-10 | Interactive calculator |
+| P-42 | `Generate an image: a friendly brown bear mascot holding a magnifying glass, flat vector style, white background.` | TOOL-11 | Matching image |
+| P-43 | `Transcribe the attached audio word for word.` (attach `priya.wav`) | TOOL-12 | Same text as priya.wav |
+| P-44 | `What is my name? Reply with one word only, or say "unknown".` | TOOL-13 | Depends on Memories setting |
+| P-45 | `Use the Council of Experts to answer: should a 5-person startup use microservices or a monolith? Keep it under 120 words.` | TOOL-14 | Consensus answer |
+| P-46 | `Create a 3-slide PowerPoint presentation (.pptx) about software testing basics. Give me the file.` | TOOL-15 | 3-slide .pptx |
+| P-47 | `Create an Excel spreadsheet (.xlsx) with columns Region and Q3 and these rows: North 150, South 95, East 210, West 80, plus a total row. Give me the file.` | TOOL-16 | .xlsx, total 535 |

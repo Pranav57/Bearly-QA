@@ -26,6 +26,11 @@ Each suggestion says **how to see it today** (same setup as [04-bug-reports.md](
 | SUG-18 | One permission-error component | Medium |
 | SUG-19 | Filter locked models from Settings defaults | High |
 | SUG-20 | Explain ZDR / Standard / Full access / credits on first use | Medium |
+| SUG-21 | Archive: toast with Undo, and an "Archived" label inside the chat | Medium |
+| SUG-22 | Use the user's locale (₹, units, date format) in generated apps and answers | Medium |
+| SUG-23 | People Search: answer directly for unambiguous public figures | Low |
+| SUG-24 | Keep chart categories in the order of the data | Low |
+| SUG-25 | Make "@" different from "/" (mentions of files, chats, models) or explain the difference | Low |
 
 ---
 
@@ -125,3 +130,28 @@ Each suggestion says **how to see it today** (same setup as [04-bug-reports.md](
 **See it today:** New Chat → click **Permissions** under the composer ("Standard" / "Full access"); model list badges "ZDR" / "Standard"; the usage bar "0%" at the bottom of the sidebar. None are explained in place.
 **Change:** One-time tooltips ("ZDR = the AI provider keeps nothing", "Full access = no approval prompts for tools", "Credits = …").
 **Why:** These concepts are new to most users and drive trust and billing decisions.
+
+### SUG-21 — Archive: confirm with Undo, and label archived chats
+**See it today:** Sidebar → hover a chat → **⋯ → Archive**. The chat disappears with no toast and no Undo. It's now under a small **Archives (1)** entry at the very bottom of the sidebar. Opening the archived chat shows no "Archived" label, and you can keep chatting in it.
+**Change:** Toast "Chat archived · Undo". An "Archived — Unarchive" banner in the chat.
+**Why:** Users who archive by accident think the chat is lost. (Unarchive is in ⋯ inside Archives; Delete says "unarchive first".)
+
+### SUG-22 — Use the user's locale in generated content
+**See it today:** Send **P-41** (EMI calculator) from India. The generated app defaults to **$ (USD)**, and the reply even says "Currency defaults to USD".
+**Change:** Default to the account's country and currency (₹ and lakh/crore grouping for India), metric units and local date format.
+**Why:** Bearly targets Indian users (₹ pricing elsewhere in the product). Wrong-currency defaults look careless.
+
+### SUG-23 — People Search: don't ask for disambiguation when the person is obvious
+**See it today:** Send **P-37** ("brief on Sundar Pichai"). The tool replies "Which Sundar Pichai do you mean—Google's CEO? If so, confirm…" instead of answering.
+**Change:** Answer for the dominant public figure, with "Did you mean someone else?" underneath.
+**Why:** An extra round-trip on every obvious query makes the tool feel slow.
+
+### SUG-24 — Keep chart categories in data order
+**See it today:** Send **P-40**. The CSV order is North, South, East, West. The chart shows North, **East, South**, West.
+**Change:** Keep the input order by default; offer "Sort by value".
+**Why:** Users often order categories on purpose (regions, months, funnel steps).
+
+### SUG-25 — Give "@" its own purpose
+**See it today:** In the composer type `/`, then clear it and type `@`. Both open the **same** menu (Skills, Bearly AI Models, Visualize, Research…).
+**Change:** Use "@" for mentions (a file, a past chat, a model, a project), or show one menu with a hint "Tip: / and @ both open tools".
+**Why:** The placeholder "Type / or @ for tools" suggests they do different things.

@@ -7,7 +7,7 @@
 | Date | 2026-10-31 |
 | Environment | Chromium 153 (Playwright), Linux, 1440×900 desktop and iPhone 13 emulation (390×844). A second browser was used as a second "device". Fake microphone fed from recorded speech for voice tests |
 | Account / plan | Real **Pro** account (email-code sign-in). Total credit used for all testing: **$0.27** of $20 |
-| Test plan | `02-bearly-test-cases.md` v2 (170 cases; rewritten during this run) |
+| Test plan | `02-bearly-test-cases.md` v2 (170 cases; rewritten during this run) + module 19 "Built-in tools" (16 cases) added 1 Nov |
 
 ## How to read this report
 - **Pass / Fail / Partial** = observed in the live product. Every Fail links to a bug below.
@@ -27,18 +27,32 @@
 | Extension | 10 | 0 | 0 | 0 | 10 | 0 |
 | Sync | 6 | 1 | 2 | 0 | 0 | 3 |
 | Billing & Credits | 9 | 1 | 3 | 1 | 1 | 3 |
-| Settings & Account | 9 | 3 | 1 | 1 | 0 | 4 |
-| Prompt Templates | 5 | 2 | 1 | 0 | 0 | 2 |
+| Settings & Account | 9 | 2 | 2 | 1 | 0 | 4 |
+| Prompt Templates | 5 | 2 | 2 | 0 | 0 | 1 |
 | Routines | 6 | 1 | 0 | 0 | 0 | 5 |
-| Projects | 7 | 0 | 0 | 1 | 0 | 6 |
+| Projects | 7 | 1 | 0 | 1 | 0 | 5 |
 | Sharing (Pages) | 4 | 0 | 1 | 0 | 0 | 3 |
 | Text-to-speech | 3 | 0 | 1 | 1 | 0 | 1 |
-| Privacy / ZDR / E2E | 5 | 1 | 1 | 0 | 0 | 3 |
+| Privacy / ZDR / E2E | 5 | 2 | 1 | 0 | 0 | 2 |
 | Connectors & Desktop | 7 | 0 | 0 | 0 | 4 | 3 |
 | Non-functional | 8 | 1 | 3 | 2 | 1 | 1 |
-| **Total** | **170** | **42** | **32** | **22** | **24** | **50** |
+| Built-in tools *(1 Nov)* | 16 | 11 | 1 | 4 | 0 | 0 |
+| **Total** | **186** | **54** | **35** | **26** | **24** | **47** |
 
-**Bugs logged: 31** (7 S2-major, 15 S3-minor, 9 S4-trivial) (details and screen recordings in `04-bug-reports.md`; BUG-31 was found on 1 Nov while recording), plus 3 security observations, **20 improvement suggestions** (`05-improvement-suggestions.md`), all test data in `test-data/`, and test-plan changes in `02-bearly-test-cases.md` ("What changed from v1").
+**Bugs logged: 35** (8 S2-major, 17 S3-minor, 10 S4-trivial) (details and screen recordings in `04-bug-reports.md`; BUG-31…35 were found on 1 Nov while recording and in the second exploration round, see §1b), plus 3 security observations, **20 improvement suggestions** (`05-improvement-suggestions.md`), all test data in `test-data/`, and test-plan changes in `02-bearly-test-cases.md` ("What changed from v1").
+
+### 1b. Second exploration round (1 Nov 2026)
+After the first report, every screen was swept again on the same account. Changes were made only where they could be undone, and each was restored.
+- **UI inventory:** every clickable element on New Chat, a chat, Prompt Templates, Routines and Meetings was listed and clicked. Destructive, paid and sending actions were skipped. All 16 Settings tabs and 18 pop-up menus were opened and recorded. The full list is in the **UI Inventory** tab of `Bearly-QA-Review.xlsx`.
+- **16 built-in tools** from the "/" menu were tested (module 19, above): 11 Pass, 1 Fail, 4 Partial.
+- **Reversible account actions:**
+  - pin / unpin, mark unread, rename and revert, archive and unarchive, select mode;
+  - create and delete a project;
+  - ZDR-only on and off;
+  - Dark and Dracula themes, then back to System;
+  - template edit and revert.
+- **New bugs:** BUG-32 (template edits silently cut off), BUG-33 (dark-theme contrast), BUG-34 (Best Pick wrong "nothing found"), BUG-35 (delete-dialog copy). BUG-15 and BUG-23 got new findings.
+- **Credits used in round 2:** about $0.40 (Usage, 1 Nov).
 
 ### Top 10 to fix first
 | # | Bug | Why it matters |
@@ -54,7 +68,7 @@
 | 9 | BUG-09 Voice call without microphone access does nothing at all | Silent failure on a headline feature |
 | 10 | BUG-10 Four different file-size limits across docs, plan cards and real behaviour | Billing/storage expectations are unclear |
 
-## 2. Execution log (all 170 cases)
+## 2. Execution log (all 186 cases)
 ### Auth
 | ID | Result | Bug | Notes |
 |---|---|---|---|
@@ -96,8 +110,8 @@
 | CHAT-20 | **Fail** | BUG-07 | |
 | CHAT-21 | Partial | | "Queue message" shown; queued send not exercised |
 | CHAT-22 | Partial | | "Delete Query" present; not executed |
-| CHAT-23 | Partial | | Query info / Edit in Canvas / Read aloud present; Read aloud exercised via TTS |
-| CHAT-24 | **Fail** | BUG-24 | Actions work; labels show ⌘ on Linux |
+| CHAT-23 | Partial | | *1 Nov:* Edit in Canvas opens the reply in a Canvas panel (works). Read aloud gave no audible output in the headless test browser, so not verified |
+| CHAT-24 | **Fail** | BUG-24 | Actions work; labels show ⌘ on Linux. *1 Nov:* Ctrl+D asks for confirmation (good); Download as Markdown opens a dialog with "Include tool activity", Copy, Download. "New" is labelled Ctrl+Shift+N, which Chrome reserves for incognito |
 | CHAT-25 | **Fail** | BUG-13 | Voice-call chat auto-titled "Chat Title Request" |
 | CHAT-26 | Not run | | Viewed only |
 | CHAT-27 | Not run | | |
@@ -194,7 +208,7 @@
 | ID | Result | Bug | Notes |
 |---|---|---|---|
 | SET-01 | Pass | | Reverted to "Recommended" afterwards |
-| SET-02 | Pass | | Dark theme fine; reverted to System |
+| SET-02 | **Fail** | BUG-33 | *1 Nov re-test with axe:* Dark/Dracula sidebar text 3.29:1 (21–22 contrast failures). 31 Oct had marked it Pass by eye. Reverted to System |
 | SET-03 | Pass | | Reply ended "CHEERIO"; instructions cleared afterwards |
 | SET-04, 06, 07, 08 | Not run | | Destructive or lasting changes |
 | SET-05 | Partial | | Shows "Outside US & Canada: SMS isn't available in your region yet." |
@@ -206,17 +220,21 @@
 | TMPL-01 | Pass | | "Simple Hindi Translator" generated; Create disabled when empty |
 | TMPL-02 | Pass | | `/Simple` → form → "कृपया server को restart करें।" |
 | TMPL-03 | **Fail** | BUG-28 | Form submits on Shift+Enter (the opposite of the composer) |
-| TMPL-04/05 | Not run | | Template left in your account; delete it if not wanted |
+| TMPL-04 | **Fail** | BUG-32 | *1 Nov:* edits autosave only the first ~5 typed characters (3/3). Delete not run (template kept). Description restored |
+| TMPL-05 | Not run | | |
 | RT-01 | Pass | | "Monday 9 AM IST" → "Mon Nov 2 · 3:30 AM UTC"; name, instructions, model filled |
 | RT-02…06 | Not run | | Creating a scheduled routine was blocked by the test-session permission rules |
-| PROJ-01…07 | Partial (1) / Not run (6) | | Viewed project "1": Docs & Data, chat defaults, encryption, skills. No changes made |
+| PROJ-01 | Pass | | *1 Nov:* created "QA Temp Project" (opens its Settings), menu Rename/Archive/Delete; delete dialog warns and offers "Also delete all chats in this project"; deleted. Rename not run |
+| PROJ-06 | Partial | | *1 Nov:* chat ⋯ → Move to project lists projects; move not completed |
+| PROJ-02…05, 07 | Not run | | |
 | SHARE-01 | **Fail** | BUG-29 | Page built in ~12 s, but "Ready to share" showed while still building |
 | SHARE-02…04 | Not run | | Not published |
 | TTS-01 | **Fail** | BUG-17 | |
 | TTS-02 | Partial | | Fast/Studio/OpenAI; voices Zephyr, Puck, Charon, Kore… |
 | TTS-03 | Not run | | |
 | PRIV-01 | **Fail** | BUG-01 | |
-| PRIV-02…04 | Not run | | Would change your account's privacy/encryption |
+| PRIV-02 | Pass | | *1 Nov:* ZDR-only on → Fable 5.1 and Muse Spark hidden from the model list; switched back off |
+| PRIV-03/04 | Not run | | Would create encryption keys / recovery phrase |
 | PRIV-05 | Pass | | Disclosure text present |
 | CONN-01…03 | Not run | | No OAuth to third parties |
 | DESK-01…04 | Blocked | | No desktop app (web shows the correct "get desktop" prompt for Work locally) |
@@ -232,6 +250,26 @@
 | NFR-06 | **Fail** | BUG-04, S-1, S-2 | |
 | NFR-07 | **Fail** | BUG-07, BUG-02 | Generic or misleading errors |
 | NFR-08 | Not run | | |
+
+### Built-in tools *(module 19, run 1 Nov)*
+| ID | Result | Bug | Notes |
+|---|---|---|---|
+| TOOL-01 | Pass | | 28 s: "Bengaluru: 23.8°C right now — source: Google Weather." |
+| TOOL-02 | Pass | | 27 s: "About 2 hours 24 minutes … Bengaluru–Mysuru Expressway (NH 275)" |
+| TOOL-03 | Pass | | Correct paper, authors, NeurIPS 2017, real abstract quote |
+| TOOL-04 | **Fail** | BUG-34 | 92 s: "No qualifying wireless mouse under ₹1,500"; suggests MX Master 3S/4, M720 |
+| TOOL-05 | Pass | | "bearly-qa-test-7731.com is available to register." (not cross-checked with a registrar) |
+| TOOL-06 | Partial | | Asked "Which Sundar Pichai do you mean—Google's CEO?" instead of answering (SUG-23) |
+| TOOL-07 | Pass | | Correct summary; transcript .txt attached |
+| TOOL-08 | Pass | | `qa-test-plan.docx` (36 KB): title, "Regression Testing" heading, 3 bullets; preview works |
+| TOOL-09 | Partial | | Values right; bars re-ordered North, East, South, West (data order N, S, E, W) (SUG-24) |
+| TOOL-10 | Partial | | Sliders work, maths correct (1,863.93/month); defaults to **USD** for an India user (SUG-22) |
+| TOOL-11 | Pass | | Correct image (Gemini Flash Lite image model); Edit / Change area / Extend / Combine offered |
+| TOOL-12 | Pass | | `priya transcript.srt` matches priya.wav |
+| TOOL-13 | Partial | | Replied "unknown" although another chat says "My name is Ravi" and the chat menu shows Memories: "All Chats". May be by design; needs a spec |
+| TOOL-14 | Pass | | Consensus answer ("start with a modular monolith"), within limit |
+| TOOL-15 | Pass | | `software-testing-basics.pptx` + PDF copy, exactly 3 slides |
+| TOOL-16 | Pass | | `q3_by_region.xlsx` with total 535 |
 
 ## 3. Bugs
 | ID | Title | Sev | Pri | Freq | Linked |
@@ -267,26 +305,33 @@
 | BUG-29 | Share: "Ready to share" + Publish enabled while the Page is still building | S4 | P3 | 1/1 | SHARE-01 |
 | BUG-30 | Public site: mobile header hides Product/Pricing/Privacy/Enterprise; dead link on /ai-assistant-comparison; pricing toggle has no state for screen readers | S3 | P2 | Always | — |
 | BUG-31 | A sent prompt disappears from the chat when the agent gets stuck on a large attachment *(found 1 Nov while recording videos)* | S2 | P2 | 1/1 | FILE-05 |
+| BUG-32 | Template edits autosave only the first ~5 typed characters *(1 Nov)* | S2 | P1 | 3/3 | TMPL-04 |
+| BUG-33 | Dark / Dracula themes: sidebar text 3.29:1 contrast *(1 Nov)* | S3 | P2 | Always | SET-02, NFR-03 |
+| BUG-34 | Best Pick says no wireless mouse under ₹1,500 exists; suggests ₹10k mice *(1 Nov)* | S3 | P2 | 1/1 | TOOL-04 |
+| BUG-35 | Delete-chat dialog: "All chats, files and memory will be lost" *(1 Nov)* | S4 | P3 | Always | CHAT-15 |
 
 **Full step-by-step reports** (first-time-user steps, test data, expected vs actual, screenshots and screen recordings) for every bug and security observation are in **[04-bug-reports.md](04-bug-reports.md)**.
 
 ## 4. Improvement suggestions
-20 suggestions, each with steps to see the current behaviour, the proposed change and why: **[05-improvement-suggestions.md](05-improvement-suggestions.md)**.
+25 suggestions (SUG-21…25 added 1 Nov), each with steps to see the current behaviour, the proposed change and why: **[05-improvement-suggestions.md](05-improvement-suggestions.md)**.
 
 ## 4a. Test data
-Every prompt (P-01…P-31) and every uploaded file used in this run: **[test-data/](test-data/README.md)**.
+Every prompt (P-01…P-47) and every uploaded file used in this run: **[test-data/](test-data/README.md)**.
 
 ## 5. What worked well (worth saying in an interview)
 - Core chat is fast (~0.4 s to first change) and solid: context, stop, rerun, edit with version history, and queueing.
 - File understanding is excellent: 10 formats at once including OCR, page-accurate citations, a password-PDF flow with exact docs copy, and safe sandboxed inspection of .exe/.zip.
 - Meeting transcription and summary were accurate, with no invented items.
 - Logout properly revokes the session server-side (old token → 401).
+- *1 Nov:* the built-in tools are strong. Weather, Maps, Scholar, Domain, YouTube, image generation, transcription, and real Word/Excel/PowerPoint files all worked first time in 25–60 s. The ZDR-only switch correctly hides non-ZDR models.
 - The mobile web app is well built: 16 px input, drawer sidebar, camera upload, no overflow.
 - Every public sitemap URL (206) returns 200, with 0 dead internal links.
 
 ## 6. Test artefacts left in the account
 - Test chats (e.g. "TCP vs UDP Explained", "QA Renamed Chat ✅", "Report Summary Request", "Attached File Size", "Inspect ZIP and EXE Files", "Team Update Audio"…), 2 meeting recordings, prompt template **"Simple Hindi Translator"**, and about **1 GB of test uploads** (205 MB / 210 MiB / 310 MiB / 200 MB dummy files). Delete them from the sidebar if you don't want them.
 - Every setting I changed was restored: dictation off, New Chats model "Recommended", instructions empty, theme System. Billing, encryption, connectors, phone and API keys were not touched.
+- *Added 1 Nov:* about 16 tool-test chats ("Bengaluru Current Weather", "Budget Wireless Mouse Pick", "Regression Test Plan", "Loan EMI Calculator", "Bear Mascot Illustration", …) and their generated files; 3 "Model Identity" chats (BUG-02 videos); about 12 empty "New Chat 1/2" drafts (BUG-14); a Canvas copy of the TCP answer.
+- *1 Nov restores:* ZDR-only back off, theme back to System, template description back to the original, "TCP vs UDP Explained" unpinned, renamed back and unarchived, temporary project deleted, New Chats model "Recommended".
 - The test browser was logged out at the end.
 
 ## 7. Findings withdrawn after re-testing

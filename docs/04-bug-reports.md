@@ -304,6 +304,7 @@ The video ends with a summary card.
 - `color-contrast` (serious): **New Chat** button **2.05:1** (`#fc865…` on light orange). The sign-in **Continue** button is ~2.4:1.
 - `nested-interactive` (serious): 19–33 per page. Sidebar chat rows are `role=button` and contain the "More actions" button.
 - Settings dialog: 6 dropdowns with no accessible name.
+- *Added 1 Nov (UI inventory):* the **Share conversation** button in the chat header is an unnamed `span role=button`. The **Personalization** on/off switch has no name. The plus menu, chat-settings (sliders) and "jump to latest" buttons have no name. The sidebar search icon is 14×14 px and New project is 21×21 px.
 
 ---
 
@@ -399,6 +400,10 @@ The video ends with a summary card.
 **Expected:** "Credits reset tomorrow" (or "in 1 day"); "Used this month" equals the "Usage by service" total.
 **Actual:** **"Credits reset in 0 days (Nov 1)"** on Oct 31. "Used this month **$0.27**" vs service table total **$0.26**.
 **Evidence:** `evidence/usage_final.png`
+**Re-checked 1 Nov 2026, 03:38 UTC:** the same screen contradicts itself in three more ways (`evidence/usage_today_gt_month.png`):
+- **"Today $0.67"** is larger than **"Used this month $0.40"**. Today is part of this month, so it can never be larger. Likely cause: "Today" uses the account's local day (India, which started 18:30 UTC on 31 Oct), while "this month" uses UTC.
+- "Usage by service" lists **"Web search"** twice and **"Best Pick · store listings"** twice as separate rows.
+- Usage says **"Credits reset in 29 days (Dec 1)"**, but Billing says the plan **"Cancels on November 3, 2026"**.
 
 ---
 
@@ -495,6 +500,53 @@ The video ends with a summary card.
 **Actual:** The chat has a title and **Browse files (1)**, but the body is empty (*"Ready when you are."*). The prompt and the agent's turn are gone, with no error. The chat looks as if nothing was ever asked.
 **Evidence:** `evidence/bug31_lost_turn.png`
 **Impact:** Users lose their question and don't know whether it ran (or used credits). Long-running agent turns need to be saved on the server and resumable.
+
+---
+
+## BUG-32 — [Web][Prompt Templates] Editing a template saves only the first few characters you type
+**Severity / Priority / Frequency:** S2 / P1 / 3 of 3 (1 Nov 2026) · **Test data:** the template "Simple Hindi Translator" (created with P-26)
+1. Sidebar → **Prompt Templates** → open any template you own. The editor opens with **Template name**, **Description** and **Your template**. There is no Save button; the editor saves automatically.
+2. Click at the end of the **Description** field and type ` QA-12345` at normal speed.
+3. Wait 5 seconds. Then reload the page (**F5**), or click **Chat** in the sidebar and come back.
+4. Read the Description.
+
+**Expected:** The description ends with ` QA-12345`. If saving is still in progress, show "Saving…" / "Saved".
+**Actual:** Only the first ~5 characters typed are kept. ` QA-12345` became **` QA-1`**, and in another run ` (QA edit)` became **` (QA `**. There is no saving indicator, no error and no warning when leaving the page. Pasting a whole value at once (one change event) does save fully, which points at the autosave debounce: it saves after the first keystrokes and never again.
+**Impact:** Silent data loss in user-written prompts. The user believes their edit is saved and later runs a broken prompt.
+**Clean-up:** Set the description back to its original text (tested and restored).
+
+---
+
+## BUG-33 — [Web][Appearance] Dark themes fail colour contrast across the sidebar
+**Severity / Priority / Frequency:** S3 / P2 / Always · **Evidence:** `evidence/theme_dark_contrast.png`
+1. Account menu → **App Settings → Appearance** → Theme **Dark**. Close Settings.
+2. Look at the sidebar: Prompt Templates, Routines, Meetings, the PROJECTS/TODAY headings and every chat title.
+3. Optional: run the axe DevTools scan (see BUG-15).
+
+**Expected:** Text contrast at least 4.5:1 (WCAG 2.1 AA), as in the default theme.
+**Actual:** All sidebar text is **#696969 on #161616 = 3.29:1**. axe reports **21** contrast failures in Dark and **22** in Dracula, against 2 in System/Light. The **New Chat** button in Dark is 4.14:1.
+**Note:** This replaces the 31 Oct result for SET-02 ("Dark theme fine"), which was judged by eye only.
+**Clean-up:** Theme set back to **System**.
+
+---
+
+## BUG-34 — [Web][Best Pick] "Nothing under ₹1,500" for wireless mice, then suggests ₹10,000 mice
+**Severity / Priority / Frequency:** S3 / P2 / 1 of 1 · **Evidence:** `evidence/bestpick_mouse.png`
+1. **New Chat** → type `Best Pick: one wireless mouse under 1500 rupees available in India. Give one pick with price and why, in 3 lines.` → Enter. Takes ~90 s.
+
+**Expected:** A budget pick, e.g. Logitech M185/M221/B175, which sell in India for about ₹650–₹900 (Variety Infotech ₹649, GeM ₹880, Smartprix ₹894, checked 1 Nov 2026).
+**Actual:** "Read 7 expert reviews, checked 218 listings at 16 stores". The card says **"Nothing up to ₹1,500 is worth recommending"**, and the text says **"No qualifying wireless mouse was found under ₹1,500"**. Those are two different claims. The "closest matches" are **Logitech MX Master 3S, MX Master 4 and M720**, which cost 3–7× the budget. It offers "Raise to ₹1,950".
+**Impact:** Best Pick is a paid data tool (it shows on Usage as "Best Pick · …" rows). A wrong "nothing exists" answer pushes users to spend more.
+
+---
+
+## BUG-35 — [Web][Chat] Delete-chat dialog says "All chats … will be lost" when deleting one chat
+**Severity / Priority / Frequency:** S4 / P3 / Always · **Evidence:** `evidence/delete_chat_dialog.png`
+1. Open any chat → press **Ctrl+D** (or Ctrl+K → Delete, or sidebar ⋯ → Delete).
+2. Read the dialog. Click **Cancel**.
+
+**Expected:** "Delete 'Model Identity'? This chat and its files will be permanently deleted."
+**Actual:** *"Are you sure you want to delete chat 'Model Identity'? **All chats, files and memory will be lost.** This action cannot be undone."* It reads as if every chat will be deleted, and it's unclear whether account memory is affected.
 
 ---
 
