@@ -199,7 +199,7 @@ Severity: S1 blocker · S2 major · S3 minor · S4 trivial. Priority: P0–P3.
 ---
 
 ## BUG-09 — [Web][Voice] "Start voice call" does nothing when the microphone is blocked
-**Severity / Priority / Frequency:** S3 / P2 / Always · **Video:** [`BUG-09.webm`](evidence/video/BUG-09.webm)
+**Severity / Priority / Frequency:** S3 / P2 / Always · **Video:** [`BUG-30.webm`](evidence/video/BUG-30.webm) · **Video:** [`BUG-21.webm`](evidence/video/BUG-21.webm) · **Video:** [`BUG-09.webm`](evidence/video/BUG-09.webm)
 
 **Steps to reproduce**
 1. Block the microphone for bearly.ai: click the **site-settings icon** left of the address bar → **Microphone → Block** → reload. (Or use a computer with no microphone.)
@@ -240,7 +240,7 @@ The video ends with a summary card.
 ---
 
 ## BUG-11 — [Web][Chat] Locked models aren't marked in the model picker
-**Severity / Priority / Frequency:** S3 / P3 / Always · **Plan:** Pro
+**Severity / Priority / Frequency:** S3 / P3 / Always · **Video:** [`BUG-20.webm`](evidence/video/BUG-20.webm) · **Video:** [`BUG-19.webm`](evidence/video/BUG-19.webm) · **Plan:** Pro · **Video:** [`BUG-11.webm`](evidence/video/BUG-11.webm)
 1. **New Chat** → click the **model picker** → **Show all models**.
 2. Compare **Fable 5.1** with any other model.
 
@@ -262,18 +262,19 @@ The video ends with a summary card.
 ---
 
 ## BUG-13 — [Web][Chat] Voice-call chat auto-titled "Chat Title Request"
-**Severity / Priority / Frequency:** S3 / P3 / 1 of 1 · **Needs:** microphone (or `priya.wav` as fake mic)
+**Severity / Priority / Frequency:** S3 / P3 / 3 of 3 (voice ×2, template ×1) · **Needs:** microphone (or `priya.wav` as fake mic) · **Video:** [`BUG-13.webm`](evidence/video/BUG-13.webm)
 1. **New Chat** → click the **waveform icon** ("Start voice call").
 2. Speak (or play `priya.wav`) for ~40 s, then click **End**.
 3. Look at the chat title at the top and in the sidebar.
 
 **Expected:** A title describing the conversation (e.g. "Launch deadline update").
 **Actual:** **"Chat Title Request"**, which looks like the title generator's own internal request name. Text chats get good titles (e.g. "TCP vs UDP Explained").
+**Re-checked 1 Nov (video):** reproduced again (2 of 2). The same title also appears on a chat started from a **Prompt Template** (`/Simple Hindi Translator`, BUG-28 recording), so it isn't limited to voice calls.
 
 ---
 
 ## BUG-14 — [Web][History] Empty "New Chat 1" chats are left in history
-**Severity / Priority / Frequency:** S3 / P3 / 2 of 2 · **Test data:** `plain.txt`
+**Severity / Priority / Frequency:** S3 / P3 / 2 of 2 · **Test data:** `plain.txt` · **Video:** [`BUG-14.webm`](evidence/video/BUG-14.webm)
 1. **New Chat → + → Attach files → `plain.txt`**. Wait for the chip. **Don't send.**
 2. Click another chat in the sidebar.
 3. Look at the sidebar: a **"New Chat 1"** entry now exists. Open it: 0 messages, but **Browse files (1)**.
@@ -309,7 +310,7 @@ The video ends with a summary card.
 ---
 
 ## BUG-16 — [Mobile web] Tap targets smaller than 44 px
-**Severity / Priority / Frequency:** S4 / P3 / Always
+**Severity / Priority / Frequency:** S4 / P3 / Always · **Video:** [`BUG-28.webm`](evidence/video/BUG-28.webm) · **Video:** [`BUG-25.webm`](evidence/video/BUG-25.webm) · **Video:** [`BUG-22.webm`](evidence/video/BUG-22.webm) · **Video:** [`BUG-16.webm`](evidence/video/BUG-16.webm)
 1. On a phone (or Chrome DevTools → device toolbar → iPhone 13) open the app.
 2. Measure (DevTools → inspect) the sidebar **search** icon, **Open sidebar**, a message's **copy/delete** icons.
 
@@ -394,7 +395,7 @@ The video ends with a summary card.
 ---
 
 ## BUG-23 — [Web][Usage] "Credits reset in 0 days", and service totals don't add up
-**Severity / Priority / Frequency:** S4 / P3 / Always (on the last day of a billing period)
+**Severity / Priority / Frequency:** S4 / P3 / Always (on the last day of a billing period) · **Video:** [`BUG-23.webm`](evidence/video/BUG-23.webm)
 1. On the day before your reset date, open **Account menu → App Settings → Usage**.
 
 **Expected:** "Credits reset tomorrow" (or "in 1 day"); "Used this month" equals the "Usage by service" total.
@@ -408,7 +409,7 @@ The video ends with a summary card.
 ---
 
 ## BUG-24 — [Web][Shortcuts] Mac "⌘" labels shown on Windows/Linux
-**Severity / Priority / Frequency:** S4 / P3 / Always · **OS:** Windows or Linux
+**Severity / Priority / Frequency:** S4 / P3 / Always · **OS:** Windows or Linux · **Video:** [`BUG-24.webm`](evidence/video/BUG-24.webm)
 1. Open the app on Windows/Linux. Look at the top right of a chat: **"⌘ K"**.
 2. Hover the sidebar magnifier: tooltip *"Search conversations (⌘F)"*.
 3. Press **Ctrl+K**: the command menu opens and correctly shows "CTRL SHIFT N" for its own items.
@@ -431,7 +432,7 @@ The video ends with a summary card.
 ---
 
 ## BUG-26 — [Web][Files] Enter does nothing while a just-attached file is processing, with no feedback
-**Severity / Priority / Frequency:** S4 / P3 / 1 of 2
+**Severity / Priority / Frequency:** S4 / P3 / 1 of 2 · **Video:** [`BUG-26.webm`](evidence/video/BUG-26.webm)
 1. **New Chat → + → Attach files → `falcon_report.pdf`**.
 2. **Immediately** type **P-14** and press **Enter**.
 
@@ -448,7 +449,7 @@ The video ends with a summary card.
 
 **Expected:** Each spoken turn once.
 **Actual:** Assistant lines repeat around single user turns ("Bearly: Okay." ×2, "Bearly: Mm-h" ×2, "mm." ×2) and some are cut off ("Mm-h").
-**Evidence:** `evidence/voice_transcript.png`
+**Evidence:** `evidence/voice_transcript.png` · **Video:** [`BUG-13.webm`](evidence/video/BUG-13.webm) (transcript at the end). In the 1 Nov call, user turns were split mid-sentence ("You: December. Arjen will own…", "You: . Hi team…"), but assistant lines were not duplicated this time.
 
 ---
 
@@ -473,6 +474,7 @@ The video ends with a summary card.
 **Expected:** "Ready to share" + Publish only after the preview has rendered.
 **Actual:** The panel header shows **"Ready to share"** and an active **Publish** while the preview area is still a spinner and the composer still shows **Stop** (agent still working).
 **Evidence:** `evidence/share2.png`
+**Re-checked 1 Nov 2026: not reproduced.** The panel now shows **"Preparing share" / "Building your Page · Ns"** with a **Stop building** button until the preview is ready, and no early "Ready to share". Keep this as *fixed / not reproducible* unless it comes back; no video was made.
 
 ---
 
@@ -489,8 +491,17 @@ The video ends with a summary card.
 
 ---
 
-## BUG-31 — [Web][Chat] A sent prompt disappears when the agent gets stuck on a large attachment
-**Severity / Priority / Frequency:** S2 / P2 / 1 of 1 (found 1 Nov 2026 while recording BUG-10) · **Test data:** `big_310MiB.txt` · **Video:** [`BUG-10.webm`](evidence/video/BUG-10.webm) (from 1:05)
+## BUG-31 — [Web][Chat] Closing the tab while the agent is working deletes the prompt and its answer
+**Severity / Priority / Frequency:** S2 / **P1** / 3 of 3 · **Trigger:** closing the tab while the agent is still working · **Video:** [`BUG-31.webm`](evidence/video/BUG-31.webm)
+**Quick reproduction (found 1 Nov while recording, 2 more times):**
+1. **New Chat** → send a task that takes a minute or more, e.g. `Best Pick: one pair of wireless earbuds under 3000 rupees available in India. One pick with price, in 2 lines.`
+2. While it shows **Working…** (after ~20 s), **close the browser tab**.
+3. Open https://bearly.ai/dashboard again and click the chat in the sidebar (it already has an auto-title).
+4. The chat shows **"Ready when you are."**: the prompt and the agent's turn are gone.
+
+The same happened with the BUG-34 Best Pick recording ("Budget Wireless Mouse Pick" chat, now empty).
+
+**Original occurrence (310 MiB file):**
 1. **New Chat → + → Attach files → `big_310MiB.txt`**. Wait until the chip's spinner stops (≈ 1 min).
 2. Type **P-20** `What is the exact size in bytes of the attached file? Reply with the number only.` → **Enter**.
 3. The prompt appears, and the agent shows **Working · Read Asset · "Reading attached file metadata…"**. Leave it for 6 minutes. It doesn't finish.
@@ -499,12 +510,12 @@ The video ends with a summary card.
 **Expected:** The prompt and the agent's turn are still there, finished or with an error and **Retry**.
 **Actual:** The chat has a title and **Browse files (1)**, but the body is empty (*"Ready when you are."*). The prompt and the agent's turn are gone, with no error. The chat looks as if nothing was ever asked.
 **Evidence:** `evidence/bug31_lost_turn.png`
-**Impact:** Users lose their question and don't know whether it ran (or used credits). Long-running agent turns need to be saved on the server and resumable.
+**Impact:** Users lose their question and don't know whether it ran (or used credits): Usage still bills the tool calls. Closing a laptop lid or a tab mid-answer is very common. Long-running agent turns need to be saved on the server and resumable.
 
 ---
 
 ## BUG-32 — [Web][Prompt Templates] Editing a template saves only the first few characters you type
-**Severity / Priority / Frequency:** S2 / P1 / 3 of 3 (1 Nov 2026) · **Test data:** the template "Simple Hindi Translator" (created with P-26)
+**Severity / Priority / Frequency:** S2 / P1 / 3 of 3 (1 Nov 2026) · **Test data:** the template "Simple Hindi Translator" (created with P-26) · **Video:** [`BUG-32.webm`](evidence/video/BUG-32.webm)
 1. Sidebar → **Prompt Templates** → open any template you own. The editor opens with **Template name**, **Description** and **Your template**. There is no Save button; the editor saves automatically.
 2. Click at the end of the **Description** field and type ` QA-12345` at normal speed.
 3. Wait 5 seconds. Then reload the page (**F5**), or click **Chat** in the sidebar and come back.
@@ -518,7 +529,7 @@ The video ends with a summary card.
 ---
 
 ## BUG-33 — [Web][Appearance] Dark themes fail colour contrast across the sidebar
-**Severity / Priority / Frequency:** S3 / P2 / Always · **Evidence:** `evidence/theme_dark_contrast.png`
+**Severity / Priority / Frequency:** S3 / P2 / Always · **Evidence:** `evidence/theme_dark_contrast.png` · **Video:** [`BUG-33.webm`](evidence/video/BUG-33.webm)
 1. Account menu → **App Settings → Appearance** → Theme **Dark**. Close Settings.
 2. Look at the sidebar: Prompt Templates, Routines, Meetings, the PROJECTS/TODAY headings and every chat title.
 3. Optional: run the axe DevTools scan (see BUG-15).
@@ -531,17 +542,18 @@ The video ends with a summary card.
 ---
 
 ## BUG-34 — [Web][Best Pick] "Nothing under ₹1,500" for wireless mice, then suggests ₹10,000 mice
-**Severity / Priority / Frequency:** S3 / P2 / 1 of 1 · **Evidence:** `evidence/bestpick_mouse.png`
+**Severity / Priority / Frequency:** S3 / P2 / 3 of 3 · **Evidence:** `evidence/bestpick_mouse.png` · **Video:** [`BUG-34.webm`](evidence/video/BUG-34.webm)
 1. **New Chat** → type `Best Pick: one wireless mouse under 1500 rupees available in India. Give one pick with price and why, in 3 lines.` → Enter. Takes ~90 s.
 
 **Expected:** A budget pick, e.g. Logitech M185/M221/B175, which sell in India for about ₹650–₹900 (Variety Infotech ₹649, GeM ₹880, Smartprix ₹894, checked 1 Nov 2026).
 **Actual:** "Read 7 expert reviews, checked 218 listings at 16 stores". The card says **"Nothing up to ₹1,500 is worth recommending"**, and the text says **"No qualifying wireless mouse was found under ₹1,500"**. Those are two different claims. The "closest matches" are **Logitech MX Master 3S, MX Master 4 and M720**, which cost 3–7× the budget. It offers "Raise to ₹1,950".
+**2nd run (1 Nov, video):** "read 8 expert reviews and 239 listings at 17 stores", again *"Nothing up to ₹1,500 is worth recommending"*, and *"I couldn't find a verified wireless mouse under ₹1,500 … would you consider raising the limit to ₹1,950?"* This time it named no expensive models.
 **Impact:** Best Pick is a paid data tool (it shows on Usage as "Best Pick · …" rows). A wrong "nothing exists" answer pushes users to spend more.
 
 ---
 
 ## BUG-35 — [Web][Chat] Delete-chat dialog says "All chats … will be lost" when deleting one chat
-**Severity / Priority / Frequency:** S4 / P3 / Always · **Evidence:** `evidence/delete_chat_dialog.png`
+**Severity / Priority / Frequency:** S4 / P3 / Always · **Evidence:** `evidence/delete_chat_dialog.png` · **Video:** [`BUG-35.webm`](evidence/video/BUG-35.webm)
 1. Open any chat → press **Ctrl+D** (or Ctrl+K → Delete, or sidebar ⋯ → Delete).
 2. Read the dialog. Click **Cancel**.
 

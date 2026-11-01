@@ -234,7 +234,7 @@ After the first report, every screen was swept again on the same account. Change
 | PROJ-04 | Not run | | Needs a second account to invite as a reader |
 | PROJ-05 | Not run | | Project encryption creates keys that can't be cleanly undone |
 | PROJ-07 | Not run | | Project skills need the desktop app |
-| SHARE-01 | **Fail** | BUG-29 | Page built in ~12 s, but "Ready to share" showed while still building |
+| SHARE-01 | **Fail** | BUG-29 | Page built in ~12 s, but "Ready to share" showed while still building. *1 Nov re-check: not reproduced (now shows "Preparing share" / "Building your Page" until ready)* |
 | SHARE-02…04 | Not run | | Would publish a public Page from your account; a published link can be cached or indexed even after deletion, so not done |
 | TTS-01 | **Fail** | BUG-17 | |
 | TTS-02 | Partial | | Fast/Studio/OpenAI; voices Zephyr, Puck, Charon, Kore… |
@@ -309,12 +309,12 @@ After the first report, every screen was swept again on the same account. Change
 | BUG-26 | Enter while a file is processing does nothing, with no feedback | S4 | P3 | 1/2 | FILE-16 |
 | BUG-27 | Voice transcript duplicates/truncates assistant lines ("Mm-h") | S4 | P3 | 1/1 | VOICE-02 |
 | BUG-28 | Template form submits on Shift+Enter (composer: newline) | S4 | P3 | Always | TMPL-03 |
-| BUG-29 | Share: "Ready to share" + Publish enabled while the Page is still building | S4 | P3 | 1/1 | SHARE-01 |
+| BUG-29 | Share: "Ready to share" + Publish enabled while the Page is still building *(not reproduced 1 Nov; likely fixed)* | S4 | P3 | 1/2 | SHARE-01 |
 | BUG-30 | Public site: mobile header hides Product/Pricing/Privacy/Enterprise; dead link on /ai-assistant-comparison; pricing toggle has no state for screen readers | S3 | P2 | Always | — |
-| BUG-31 | A sent prompt disappears from the chat when the agent gets stuck on a large attachment *(found 1 Nov while recording videos)* | S2 | P2 | 1/1 | FILE-05 |
+| BUG-31 | Closing the tab while the agent is working deletes the prompt and its answer (chat left empty) *(1 Nov)* | S2 | P1 | 3/3 | FILE-05 |
 | BUG-32 | Template edits autosave only the first ~5 typed characters *(1 Nov)* | S2 | P1 | 3/3 | TMPL-04 |
 | BUG-33 | Dark / Dracula themes: sidebar text 3.29:1 contrast *(1 Nov)* | S3 | P2 | Always | SET-02, NFR-03 |
-| BUG-34 | Best Pick says no wireless mouse under ₹1,500 exists; suggests ₹10k mice *(1 Nov)* | S3 | P2 | 1/1 | TOOL-04 |
+| BUG-34 | Best Pick says no wireless mouse under ₹1,500 can be recommended (cheap ones exist) *(1 Nov)* | S3 | P2 | 3/3 | TOOL-04 |
 | BUG-35 | Delete-chat dialog: "All chats, files and memory will be lost" *(1 Nov)* | S4 | P3 | Always | CHAT-15 |
 
 **Full step-by-step reports** (first-time-user steps, test data, expected vs actual, screenshots and screen recordings) for every bug and security observation are in **[04-bug-reports.md](04-bug-reports.md)**.
