@@ -664,6 +664,26 @@ The same happened with the BUG-34 Best Pick recording ("Budget Wireless Mouse Pi
 
 ---
 
+## BUG-43 — [Web][Plans] Free plan: paid features are hidden, shown unlocked, or blocked only after sending, with three different behaviours
+**Severity / Priority / Frequency:** S3 / P1 / Always (Free account) · **Video:** [`BUG-43.webm`](evidence/video/BUG-43.webm)
+**Account:** a **Free** test account (sidebar badge "Free"), compared with the Pro account used elsewhere.
+1. Sign in with a Free account. Look at the sidebar.
+2. Open `https://bearly.ai/dashboard/focus/routines` directly.
+3. In a New Chat type **/**, look at the tools, then send `Best Pick: one pair of wired earphones under 500 rupees in India, one line.` (also try **/Deep research** or **/council**).
+4. Model picker → **Show all models** → click **Opus 5.5**.
+
+**Expected:** One consistent pattern for paid features on Free: visible, marked with 🔒 and the plan name ("Pro"), with an explanation and upgrade button **before** use. Bearly's docs say *"If your plan does not include Council of Experts, selecting the command opens the upgrade information instead."*
+**Actual:**
+- **Routines is hidden entirely.** It's not in the Free sidebar, and its URL shows a generic *"Page not found — This page doesn't exist or has been moved"*. A Free user never learns it exists.
+- **Paid tools are shown unlocked.** Deep research, Best Pick, People Search and others appear in the "/" menu with no lock. They can be selected and sent, and only then does the reply say *"This request tripped our free-plan checks. Go Pro to continue, or email support@bearly.ai if we've misread it."* (with **Go Pro**). That wording reads like an abuse filter, not "this is a Pro feature". Council (`/council` → Ask Experts) behaves the same, contrary to the docs.
+- **Locked models look available.** In the model picker, Opus 5.5 (and others) look normal; clicking opens Billing with *"Opus 5.5 needs the Pro plan or higher"* (same pattern as BUG-11 on Pro). Bearly Pro and Ultra can be selected on Free with no prompt.
+- Free accounts also have **no Usage tab** in Settings (only a "0%" meter in the sidebar), so Free users can't see what their daily allowance is or how much is left.
+- *Correct on Free:* Settings → Voice clearly says *"Choosing a voice model needs a paid plan."*
+
+**Impact:** Users can't tell what Pro adds, waste a request before learning it's paid, and see an alarming "tripped our checks" message. Hidden features (Routines) can't drive upgrades. See SUG-34 for the proposed single pattern.
+
+---
+
 ## Security observations (not exploited)
 **S-1. No Content-Security-Policy or anti-framing header on the app.**
 Run `curl -sI https://bearly.ai/dashboard/focus/new` → the response has HSTS, `x-content-type-options`, `referrer-policy`, but **no** `content-security-policy` and no `x-frame-options` / `frame-ancestors`.

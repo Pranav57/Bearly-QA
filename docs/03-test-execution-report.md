@@ -21,12 +21,12 @@
 | Auth | 14 | 3 | 3 | 2 | 4 | 2 |
 | Chat | 31 | 16 | 6 | 7 | 0 | 2 |
 | Files | 21 | 9 | 6 | 4 | 1 | 1 |
-| Meetings | 14 | 4 | 1 | 1 | 1 | 7 |
+| Meetings | 14 | 4 | 1 | 2 | 1 | 6 |
 | Search | 8 | 1 | 4 | 1 | 1 | 1 |
-| Voice & Dictation | 10 | 2 | 2 | 1 | 1 | 4 |
+| Voice & Dictation | 10 | 3 | 2 | 1 | 1 | 3 |
 | Extension | 10 | 0 | 0 | 0 | 10 | 0 |
 | Sync | 6 | 1 | 2 | 0 | 0 | 3 |
-| Billing & Credits | 11 | 1 | 3 | 2 | 1 | 4 |
+| Billing & Credits | 13 | 1 | 4 | 3 | 1 | 4 |
 | Settings & Account | 10 | 2 | 2 | 2 | 0 | 4 |
 | Prompt Templates | 5 | 2 | 2 | 0 | 0 | 1 |
 | Routines | 6 | 1 | 0 | 0 | 0 | 5 |
@@ -37,9 +37,9 @@
 | Connectors & Desktop | 7 | 0 | 0 | 0 | 4 | 3 |
 | Non-functional | 12 | 1 | 7 | 2 | 1 | 1 |
 | Built-in tools | 17 | 12 | 1 | 4 | 0 | 0 |
-| **Total** | **203** | **59** | **43** | **28** | **24** | **49** |
+| **Total** | **205** | **60** | **44** | **30** | **24** | **47** |
 
-**Bugs logged: 42** (9 S2-major, 20 S3-minor, 13 S4-trivial) (details and screen recordings in `04-bug-reports.md`; BUG-31…42 were found on 1 Nov while recording and in the second exploration round, see §1b), plus 3 security observations, **20 improvement suggestions** (`05-improvement-suggestions.md`), all test data in `test-data/`, and test-plan changes in `02-bearly-test-cases.md` ("What changed from v1").
+**Bugs logged: 43** (9 S2-major, 21 S3-minor, 13 S4-trivial) (details and screen recordings in `04-bug-reports.md`; BUG-31…43 were found on 1 Nov while recording and in the second exploration round, see §1b), plus 3 security observations, **20 improvement suggestions** (`05-improvement-suggestions.md`), all test data in `test-data/`, and test-plan changes in `02-bearly-test-cases.md` ("What changed from v1").
 
 ### 1b. Second exploration round (1 Nov 2026)
 After the first report, every screen was swept again on the same account. Changes were made only where they could be undone, and each was restored.
@@ -68,7 +68,7 @@ After the first report, every screen was swept again on the same account. Change
 | 9 | BUG-31 Closing the tab while the agent is working deletes the prompt and its answer | Silent data loss on the most common action (closing a tab or laptop lid) |
 | 10 | BUG-10 Four different file-size limits across docs, plan cards and real behaviour | Billing/storage expectations are unclear |
 
-## 2. Execution log (all 203 cases)
+## 2. Execution log (all 205 cases)
 ### Auth
 | ID | Result | Bug | Notes |
 |---|---|---|---|
@@ -161,7 +161,7 @@ After the first report, every screen was swept again on the same account. Change
 | MEET-09 | Pass | | "The launch deadline was moved to December 12. Arjun owns the testing plan." |
 | MEET-10 | Partial | | Copy/Download present; transcript attached as `launch-deadline-and-action-items.md` |
 | MEET-11 | Not run | | Closing the tab mid-recording could leave a stuck recording in your account. Needs: a manual run |
-| MEET-12 | Not run | | Needs a Free-plan account to check the minute/credit limits; this account is Pro |
+| MEET-12 | Partial | | *1 Nov, Free account:* Meetings available on Free ("Up to 1 hr 15 min" per recording); no minute/credit limit shown anywhere and no Usage tab on Free (BUG-43). Not recorded on Free |
 | MEET-13 | Pass | | Overview / Key points / Decisions / Action items, nothing invented |
 | MEET-14 | Not run | | Not attempted; recording tests covered start/stop only. Needs: one more recording session |
 
@@ -187,7 +187,7 @@ After the first report, every screen was swept again on the same account. Change
 | VOICE-05 | Blocked | | Needs the iOS app or an Android phone and an incoming phone call |
 | VOICE-06 | Not run | | Needs Hindi speech audio (no Hindi sample in the test data) and dictation turned on |
 | VOICE-07 | Not run | | Needs dictation turned on, vocabulary/replacements added and speech input. Not attempted |
-| VOICE-08 | Not run | | Needs a Free-plan account; this account is Pro |
+| VOICE-08 | Pass | | *1 Nov, Free account:* Settings → Voice shows "Choosing a voice model needs a paid plan." with GPT Realtime Mini fixed |
 | VOICE-09 | **Fail** | SUG-08 | Text appears only after Stop |
 | VOICE-10 | Pass |  | Call starts on every model; calls always use the voice model "GPT-Live 1" (Settings → Voice). "Not supported for this model" (manual report) not reproduced |
 
@@ -215,6 +215,8 @@ After the first report, every screen was swept again on the same account. Change
 | BILL-09 | Pass | | $200 / $600 / $1000 per year |
 | BILL-10 | Partial |  | Only month totals, one "Today" figure and a per-service table; no export (SUG-29) |
 | BILL-11 | Not run |  | Needs an organization with seats. Documented on /enterprise: "billed per seat", per-person spend limits, usage by member |
+| BILL-12 | **Fail** | BUG-43 | Routines hidden (URL → Page not found); Deep research/Best Pick/Council unlocked in "/" then "tripped our free-plan checks" after sending; Opus → Billing |
+| BILL-13 | Partial | BUG-43 | No Usage tab on Free; only a "0%" meter in the sidebar |
 
 ### Settings & Account
 | ID | Result | Bug | Notes |
@@ -340,6 +342,7 @@ After the first report, every screen was swept again on the same account. Change
 | BUG-40 | Contact Support sends an empty message *(1 Nov)* | S4 | P3 | 2/2 | NFR-09 |
 | BUG-41 | Advertised Gemini/DeepSeek/MiniMax not selectable; Gemini only in Council *(1 Nov)* | S3 | P2 | Always | CHAT-29 |
 | BUG-42 | Pricing plan buttons download the desktop app from GitHub instead of sign-up; no "Sign in" link on the site *(1 Nov)* | S2 | P1 | Always | NFR-12 |
+| BUG-43 | Free plan: Routines hidden (URL 404), paid tools unlocked then "tripped our free-plan checks", locked models jump to Billing; no Usage tab *(1 Nov, Free account)* | S3 | P1 | Always | BILL-12, BILL-13 |
 
 **Full step-by-step reports** (first-time-user steps, test data, expected vs actual, screenshots and screen recordings) for every bug and security observation are in **[04-bug-reports.md](04-bug-reports.md)**.
 

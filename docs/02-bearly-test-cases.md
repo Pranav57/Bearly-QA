@@ -29,7 +29,7 @@
 | **Removed** | SYNC-04, SYNC-05 moved to DESK-* | Desktop-only items grouped in a Desktop module |
 | **Added** | 69 new cases | Prompt Templates, Routines, Projects, Sharing, TTS, Privacy/ZDR/E2E, Connectors & Permissions, Desktop, command menu, queueing, message versions, gating-via-settings, removed-attachment cleanup, file-link lifetime, live sidebar sync, RTL, offline send |
 
-Total: **203 cases** (170 + 16 in module 19 + 17 more added on 1 Nov): v1's 104, minus 3 removed or moved, plus 69 new. 16 cases are marked *(rewritten)* or *(re-targeted)*, and several more have sharper expected results.
+Total: **205 cases** (170 + 16 in module 19 + 19 more added on 1 Nov): v1's 104, minus 3 removed or moved, plus 69 new. 16 cases are marked *(rewritten)* or *(re-targeted)*, and several more have sharper expected results.
 
 ## 0. Test environment matrix
 | Surface | Configs to cover |
@@ -205,6 +205,8 @@ Total: **203 cases** (170 + 16 in module 19 + 17 more added on 1 Nov): v1's 104,
 | BILL-09 | P2 | F | Yearly toggle *(new)* | Toggle Monthly/Yearly | Yearly = 10× monthly; "17% off" |
 | BILL-10 | P2 | U | Daily usage history / statement *(new, 1 Nov)* | Usage pane: look for per-day history and export | Per-day list and export |
 | BILL-11 | P2 | F | Organization per-seat billing *(new, 1 Nov)* | Enterprise page and Organizations: per-person plans, spend limits, usage by member | Seats billed per person; limits per person/group; usage per member |
+| BILL-12 | P1 | U | Free plan: paid features discoverable and explained *(new, 1 Nov)* | Sign in with a Free account; check sidebar, "/" menu, model picker; use one paid tool | Paid features visible with lock + plan name; upgrade explained before use |
+| BILL-13 | P2 | U | Free plan: usage visibility *(new, 1 Nov)* | Free account → Settings | Free users can see their allowance and what is left |
 
 ## 10. Settings & Account
 | ID | Pri | Type | Title | Steps | Expected result |
