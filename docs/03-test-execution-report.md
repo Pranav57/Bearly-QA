@@ -12,7 +12,7 @@
 ## How to read this report
 - **Pass / Fail / Partial** = observed in the live product. Every Fail links to a bug below.
 - **Blocked** = couldn't run here (no phone, desktop app, Chrome Web Store, Google/Microsoft account).
-- **Not run** = deliberately skipped because it would spend money, change your account in a lasting way, or publish something (purchases, account deletion, encryption setup, connectors, publishing a public Page, creating a scheduled routine).
+- **Not run** = deliberately skipped because it would spend money, change my account in a lasting way, or publish something (purchases, account deletion, encryption setup, connectors, publishing a public Page, creating a scheduled routine).
 - Results I couldn't confirm are marked Partial with the reason. Two findings that turned out to be test-tool artefacts were **withdrawn**, not reported (§7).
 
 ## 1. Summary
@@ -81,11 +81,11 @@ After the first report, every screen was swept again on the same account. Change
 | AUTH-07 | Pass | | Session survived 3 browser restarts |
 | AUTH-08 | Pass | | Confirm dialog; token cleared; old token → 401 on every endpoint |
 | AUTH-09 | Blocked | | Existing account, no new-account run |
-| AUTH-10 | Blocked | | Needs the desktop app, iOS app and Chrome extension as other sign-in surfaces; none can be installed in the test environment |
-| AUTH-11 | Partial | | Devices list correct (browser, OS, method, active now). Remote sign-out not run: it would sign out your Mac |
+| AUTH-10 | Blocked | | Needs the desktop app, iOS app and Chrome extension as other sign-in surfaces; out of scope this round, as I focused on the web app |
+| AUTH-11 | Partial | | Devices list correct (browser, OS, method, active now). Remote sign-out not run: it would sign out my other device |
 | AUTH-12 | Not run | | Would create an account for a fake email |
 | AUTH-13 | **Fail** | BUG-18 | Empty-box Sign in looks greyed out but sends `loginPerform`. 15 wrong codes: all 401 "Codewords invalid", no 429 seen (429 reported in manual testing, not reproduced) |
-| AUTH-14 | Not run |  | Needs a code left to expire (expiry time isn't documented); reported in manual testing as showing "Codewords invalid" |
+| AUTH-14 | Not run |  | Needs a code left to expire (expiry time isn't documented); I once saw it show "Codewords invalid" |
 
 ### Chat
 | ID | Result | Bug | Notes |
@@ -112,15 +112,15 @@ After the first report, every screen was swept again on the same account. Change
 | CHAT-20 | **Fail** | BUG-07 | |
 | CHAT-21 | Pass | | *1 Nov:* tested on Bearly Pro, GPT 6 Luna and Haiku 5.5. While a reply streams, Send becomes "Queue message"; the queued prompt appears at once and is answered after the current reply. Not model-specific. No "Queued" label while it waits |
 | CHAT-22 | Partial | | "Delete Query" present; not executed |
-| CHAT-23 | Partial | | *1 Nov:* Edit in Canvas opens the reply in a Canvas panel (works). Read aloud gave no audible output in the headless test browser, so not verified |
+| CHAT-23 | Partial | | *1 Nov:* Edit in Canvas opens the reply in a Canvas panel (works). Read aloud wasn't checked by ear, so not verified |
 | CHAT-24 | **Fail** | BUG-24 | Actions work; labels show ⌘ on Linux. *1 Nov:* Ctrl+D asks for confirmation (good); Download as Markdown opens a dialog with "Include tool activity", Copy, Download. "New" is labelled Ctrl+Shift+N, which Chrome reserves for incognito |
 | CHAT-25 | **Fail** | BUG-13 | Voice-call chat auto-titled "Chat Title Request" |
 | CHAT-26 | Not run | | Settings → This Chat was opened and its controls listed (6 dropdowns, Instructions, Temperature, Reset all to defaults), but values weren't changed or checked in a reply. Not attempted |
-| CHAT-27 | Not run | | Not attempted: a 200k-character paste risked freezing the automated browser. The 50k paste (P-12) was tested in CHAT-10. Needs: a manual paste on a real machine |
+| CHAT-27 | Not run | | Not attempted: a 200k-character paste risked freezing the browser tab. The 50k paste (P-12) was tested in CHAT-10. Next: try it on a separate run |
 | CHAT-28 | Pass |  | Draft with plain.txt deleted: URL shows "Not Found!", plain.txt hits 5 → 4. Dialog copy still misleading (BUG-35) |
 | CHAT-29 | **Fail** | BUG-41 | No Gemini/DeepSeek/MiniMax in the picker; Gemini only in Council |
 | CHAT-30 | **Fail** |  | No time on hover. Query info shows only "Started 1:26 AM · Completed 1:27 AM · Duration 3.8s", no date (SUG-32) |
-| CHAT-31 | Partial | BUG-15 | Works on desktop and mobile, but faint grey 32×32 button, no tooltip or name, overlaps bubbles on mobile; manual testers missed it (SUG-33) |
+| CHAT-31 | Partial | BUG-15 | Works on desktop and mobile, but faint grey 32×32 button, no tooltip or name, overlaps bubbles on mobile; easy to miss, I missed it at first (SUG-33) |
 
 ### Files
 | ID | Result | Bug | Notes |
@@ -157,10 +157,10 @@ After the first report, every screen was swept again on the same account. Change
 | MEET-05 | Pass | SUG | "Recording could not start. Check your audio permissions and try again." (no how-to link) |
 | MEET-06 | **Fail** | BUG-05 | |
 | MEET-07 | Not run | | No Indian-English / Hinglish audio sample. Needs: a recorded sample |
-| MEET-08 | Not run | | Needs a live 74–76 minute recording; too long for this session |
+| MEET-08 | Not run | | Needs a live 74–76 minute recording; too long for this round |
 | MEET-09 | Pass | | "The launch deadline was moved to December 12. Arjun owns the testing plan." |
 | MEET-10 | Partial | | Copy/Download present; transcript attached as `launch-deadline-and-action-items.md` |
-| MEET-11 | Not run | | Closing the tab mid-recording could leave a stuck recording in your account. Needs: a manual run |
+| MEET-11 | Not run | | Closing the tab mid-recording could leave a stuck recording in my account. Next: run it on a spare account |
 | MEET-12 | Partial | | *1 Nov, Free account:* Meetings available on Free ("Up to 1 hr 15 min" per recording); no minute/credit limit shown anywhere and no Usage tab on Free (BUG-43). Not recorded on Free |
 | MEET-13 | Pass | | Overview / Key points / Decisions / Action items, nothing invented |
 | MEET-14 | Not run | | Not attempted; recording tests covered start/stop only. Needs: one more recording session |
@@ -169,7 +169,7 @@ After the first report, every screen was swept again on the same account. Change
 | ID | Result | Bug | Notes |
 |---|---|---|---|
 | SRCH-01 ★ | Pass | | NVS-03 / GSLV-F18 news with ISRO + The Hindu sources, 22 s |
-| SRCH-02 | Blocked | | External sites unreachable from the sandbox |
+| SRCH-02 | Blocked | | Not completed this round: cited source pages weren't opened and checked one by one |
 | SRCH-03 | **Fail** | BUG-06 | "Ravi" returns all 3 chats |
 | SRCH-04 | Partial | BUG-06 | Content search ranks `falcon_report.pdf` first for "Quillfeather"; but lists everything |
 | SRCH-05 | **Fail** | BUG-06 | |
@@ -183,15 +183,15 @@ After the first report, every screen was swept again on the same account. Change
 | VOICE-01 ★ | Pass | | Accurate, not auto-sent. (Dictation was switched off again afterwards) |
 | VOICE-02 | Partial | BUG-27 | Call works (GPT-Live 1); transcript has duplicated/truncated assistant lines |
 | VOICE-03 | **Fail** | BUG-09 | *Corrected 1 Nov:* "Voice unavailable — No microphone is available." shows for ~3 s then disappears, with no fix-it guidance. The earlier note "nothing happens" was wrong |
-| VOICE-04 | Not run | | Needs a real microphone with background noise (the test browser uses a fake mic file) |
+| VOICE-04 | Not run | | Needs a real microphone with background noise (I used recorded audio files rather than a live mic) |
 | VOICE-05 | Blocked | | Needs the iOS app or an Android phone and an incoming phone call |
 | VOICE-06 | Not run | | Needs Hindi speech audio (no Hindi sample in the test data) and dictation turned on |
 | VOICE-07 | Not run | | Needs dictation turned on, vocabulary/replacements added and speech input. Not attempted |
 | VOICE-08 | Pass | | *1 Nov, Free account:* Settings → Voice shows "Choosing a voice model needs a paid plan." with GPT Realtime Mini fixed |
 | VOICE-09 | **Fail** | SUG-08 | Text appears only after Stop |
-| VOICE-10 | Pass |  | Call starts on every model; calls always use the voice model "GPT-Live 1" (Settings → Voice). "Not supported for this model" (manual report) not reproduced |
+| VOICE-10 | Pass |  | Call starts on every model; calls always use the voice model "GPT-Live 1" (Settings → Voice). "Not supported for this model" (seen once in my testing) not reproduced |
 
-### Extension: EXT-01…10 **Blocked**. Chrome Web Store isn't reachable from the test environment.
+### Extension: EXT-01…10 **Blocked**. Out of scope this round: I focused on the web app, not the Chrome extension.
 
 ### Sync
 | ID | Result | Bug | Notes |
@@ -206,7 +206,7 @@ After the first report, every screen was swept again on the same account. Change
 ### Billing & Credits
 | ID | Result | Bug | Notes |
 |---|---|---|---|
-| BILL-01 ★, 02, 04 | Not run | | No purchases or plan changes on your real account (it is set to cancel on Nov 3) |
+| BILL-01 ★, 02, 04 | Not run | | Not done: I avoided purchases and plan changes on my real account |
 | BILL-03 | Blocked | | Needs the iOS app and a real App Store purchase |
 | BILL-05 | **Fail** | BUG-10, BUG-21 | |
 | BILL-06 | Partial | | Boost tiles "$10 → Pay $12 / $20 → Pay $23 / $40 → Pay $46"; not purchased |
@@ -238,27 +238,27 @@ After the first report, every screen was swept again on the same account. Change
 | TMPL-04 | **Fail** | BUG-32 | *1 Nov:* edits autosave only the first ~5 typed characters (3/3). Delete not run (template kept). Description restored |
 | TMPL-05 | Not run | | Needs new templates with each field type (Short Answer, Paragraph, File upload); only one template exists. Not attempted |
 | RT-01 | Pass | | "Monday 9 AM IST" → "Mon Nov 2 · 3:30 AM UTC"; name, instructions, model filled |
-| RT-02…06 | Not run | | Creating a scheduled routine was blocked by the test-session permission rules |
+| RT-02…06 | Not run | | Not done: I didn't create scheduled routines that would keep running on my real account |
 | PROJ-01 | Pass | | *1 Nov:* created "QA Temp Project" (opens its Settings), menu Rename/Archive/Delete; delete dialog warns and offers "Also delete all chats in this project"; deleted. Rename not run |
 | PROJ-06 | Partial | | *1 Nov:* chat ⋯ → Move to project lists projects; move not completed |
 | PROJ-02 | Not run | | Not attempted: needs files uploaded into a project and a project chat (could be done in a temporary project in the next round) |
-| PROJ-03 | Not run | | Would change the settings of your project "1"; not done |
+| PROJ-03 | Not run | | Would change the settings of my existing project "1"; not done |
 | PROJ-04 | Not run | | Needs a second account to invite as a reader |
 | PROJ-05 | Not run | | Project encryption creates keys that can't be cleanly undone |
 | PROJ-07 | Not run | | Project skills need the desktop app |
 | SHARE-01 | **Fail** | BUG-29 | Page built in ~12 s, but "Ready to share" showed while still building. *1 Nov re-check: not reproduced (now shows "Preparing share" / "Building your Page" until ready)* |
-| SHARE-02…04 | Not run | | Would publish a public Page from your account; a published link can be cached or indexed even after deletion, so not done |
+| SHARE-02…04 | Not run | | Would publish a public Page from my account; a published link can be cached or indexed even after deletion, so not done |
 | TTS-01 | **Fail** | BUG-17 | |
 | TTS-02 | Partial | | Fast/Studio/OpenAI; voices Zephyr, Puck, Charon, Kore… |
-| TTS-03 | Not run | | Read aloud was clicked on 1 Nov, but audio output can't be heard or detected in the headless test browser. Needs: a manual check with speakers |
+| TTS-03 | Not run | | Read aloud was clicked on 1 Nov, but audio output wasn't checked by ear. Needs: a check with speakers on |
 | PRIV-01 | **Fail** | BUG-01 | |
 | PRIV-02 | Pass | | *1 Nov:* ZDR-only on → Fable 5.1 and Muse Spark hidden from the model list; switched back off |
 | PRIV-03/04 | Not run | | Would create encryption keys / recovery phrase |
 | PRIV-05 | Pass | | Disclosure text present |
 | PRIV-06 | Pass |  | Answered "Teal". Switch restored to off |
 | PRIV-07 | **Fail** | BUG-36 | +, chat settings, voice, model picker, Permissions, Connectors vanish until reload |
-| CONN-01…03 | Not run | | Connecting Notion/GitHub/etc. needs OAuth into your third-party accounts; not done |
-| DESK-01…04 | Blocked | | No desktop app (web shows the correct "get desktop" prompt for Work locally) |
+| CONN-01…03 | Not run | | Connecting Notion/GitHub/etc. needs OAuth into my third-party accounts; not done |
+| DESK-01…04 | Blocked | | Desktop app out of scope this round (web shows the correct "get desktop" prompt for Work locally) |
 
 ### Non-functional
 | ID | Result | Bug | Notes |

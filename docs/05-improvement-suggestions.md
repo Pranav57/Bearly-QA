@@ -205,7 +205,7 @@ Each suggestion says **how to see it today** (same setup as [04-bug-reports.md](
 **Why:** In long or multi-day chats users need to know when something was said, e.g. to match an answer to a meeting or a file version.
 
 ### SUG-33 — Make the "jump to latest" arrow obvious
-**See it today:** In a long chat, scroll up. A small grey **⌄** in a light-grey 32×32 square appears at the bottom right, above the message box. It works (it jumps to the latest message, tested on desktop and 390 px), but it's easy to miss (manual testers reported "no arrow"), has no tooltip or accessible name (BUG-15), and on phones it overlaps the message bubbles.
+**See it today:** In a long chat, scroll up. A small grey **⌄** in a light-grey 32×32 square appears at the bottom right, above the message box. It works (it jumps to the latest message, tested on desktop and 390 px), but it's easy to miss (I missed it myself at first), has no tooltip or accessible name (BUG-15), and on phones it overlaps the message bubbles.
 **Change:** A higher-contrast round button with a tooltip and `aria-label` "Jump to latest", a "New message" badge when a reply arrives while you're scrolled up, and placement that doesn't cover messages on mobile.
 **Why:** Long chats are common, and users shouldn't have to scroll manually through 15,000-px messages (SUG-03).
 

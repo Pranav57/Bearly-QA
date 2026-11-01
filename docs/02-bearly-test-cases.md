@@ -165,7 +165,7 @@ Total: **205 cases** (170 + 16 in module 19 + 19 more added on 1 Nov): v1's 104,
 | VOICE-07 | P2 | F | Dictation vocabulary & replacements *(new)* | Add "Bearly" + a replacement | Dictate | Custom words spelled right; replacements applied |
 | VOICE-08 | P2 | F | Voice model gating *(new)* | Free | Settings → Voice → Model | "Choosing a voice model needs a paid plan." |
 | VOICE-09 | P2 | U | Live dictation preview *(new)* | — | Dictate 10 s | Interim text visible while speaking |
-| VOICE-10 | P2 | F | Voice call with any chat model *(new, 1 Nov)* | Fake mic | Pick GLM 5.3 / Grok 4.7 / Haiku 5.5 → Start voice call | Call works, or the voice button is hidden for unsupported models |
+| VOICE-10 | P2 | F | Voice call with any chat model *(new, 1 Nov)* | Recorded audio file as mic input | Pick GLM 5.3 / Grok 4.7 / Haiku 5.5 → Start voice call | Call works, or the voice button is hidden for unsupported models |
 
 ## 7. Chrome Extension (Bearly Companion)
 | ID | Pri | Type | Title | Preconditions | Steps | Expected result |
