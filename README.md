@@ -1,6 +1,6 @@
 # Bearly.ai QA Exercise
 
-QA prep material for the Bearly **QA Tester (Remote, India)** role.
+QA material for Bearly.
 
 | File | What it is |
 |---|---|
