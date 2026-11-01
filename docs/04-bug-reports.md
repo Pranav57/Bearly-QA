@@ -658,7 +658,7 @@ The same happened with the BUG-34 Best Pick recording ("Budget Wireless Mouse Pi
 - Every plan button starts the **desktop installer download** (`Bearly-5.2.11.AppImage` / `.exe` / `.dmg`) from `bearly.ai/download/<os>` → **github.com/bearlyai/releases** → `release-assets.githubusercontent.com`, and shows "Download started — Bearly is on its way." None of them select a plan or open checkout.
 - If the browser blocks automatic downloads, the user lands on **GitHub**, which explains the manual-testing report "Get started opened GitHub".
 - On iPhone the same buttons open the **App Store**; on Android they open the web app (`/dashboard/focus`).
-- There is **no "Sign in" link** anywhere on the public site (home, pricing, product, enterprise, privacy, news). Returning users must know to go to `/dashboard` or use "Get Bearly".
+- There is **no "Sign in" or "Open web app" link** on the public site (home, pricing, product, enterprise, privacy, news). On desktop the only way into the web app is **"Continue in browser"**, which appears only in the dialog shown *after* the installer download has already started. (On Android, "Get Bearly" goes straight to the web sign-in, which works well.)
 
 **Impact:** The pricing page's buy buttons don't sell anything. A user who wants Pro gets an executable download from a third-party domain, which hurts conversion and trust.
 

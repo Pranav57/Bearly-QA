@@ -341,7 +341,7 @@ After the first report, every screen was swept again on the same account. Change
 | BUG-39 | Sign-in outlines ~1.2:1 contrast; no pressed feedback on mobile; orange vs red errors *(1 Nov)* | S3 | P2 | Always | AUTH-05, NFR-03 |
 | BUG-40 | Contact Support sends an empty message *(1 Nov)* | S4 | P3 | 2/2 | NFR-09 |
 | BUG-41 | Advertised Gemini/DeepSeek/MiniMax not selectable; Gemini only in Council *(1 Nov)* | S3 | P2 | Always | CHAT-29 |
-| BUG-42 | Pricing plan buttons download the desktop app from GitHub instead of sign-up; no "Sign in" link on the site *(1 Nov)* | S2 | P1 | Always | NFR-12 |
+| BUG-42 | Pricing plan buttons download the desktop app from GitHub instead of sign-up; no "Sign in" link (web app reachable only via "Continue in browser" after the download starts) *(1 Nov)* | S2 | P1 | Always | NFR-12 |
 | BUG-43 | Free plan: Routines hidden (URL 404), paid tools unlocked then "tripped our free-plan checks", locked models jump to Billing; no Usage tab *(1 Nov, Free account)* | S3 | P1 | Always | BILL-12, BILL-13 |
 
 **Full step-by-step reports** (first-time-user steps, test data, expected vs actual, screenshots and screen recordings) for every bug and security observation are in **[04-bug-reports.md](04-bug-reports.md)**.
