@@ -29,7 +29,7 @@
 | **Removed** | SYNC-04, SYNC-05 moved to DESK-* | Desktop-only items grouped in a Desktop module |
 | **Added** | 69 new cases | Prompt Templates, Routines, Projects, Sharing, TTS, Privacy/ZDR/E2E, Connectors & Permissions, Desktop, command menu, queueing, message versions, gating-via-settings, removed-attachment cleanup, file-link lifetime, live sidebar sync, RTL, offline send |
 
-Total: **186 cases** (170 + 16 in module 19, added 1 Nov): v1's 104, minus 3 removed or moved, plus 69 new. 16 cases are marked *(rewritten)* or *(re-targeted)*, and several more have sharper expected results.
+Total: **200 cases** (170 + 16 in module 19 + 14 more added on 1 Nov): v1's 104, minus 3 removed or moved, plus 69 new. 16 cases are marked *(rewritten)* or *(re-targeted)*, and several more have sharper expected results.
 
 ## 0. Test environment matrix
 | Surface | Configs to cover |
@@ -60,6 +60,8 @@ Total: **186 cases** (170 + 16 in module 19, added 1 Nov): v1's 104, minus 3 rem
 | AUTH-10 | P1 | X | Same account across surfaces | 1 account | Log in on web, desktop, iOS, extension | Same plan, history, settings everywhere |
 | AUTH-11 | P1 | S | Devices list & remote sign-out *(new)* | Signed in on 2 devices | Settings → Devices → Sign out the other device | Other device returns to sign-in within seconds; list shows browser/OS, method (email code/Google), last active |
 | AUTH-12 | P2 | S | Account enumeration *(new)* | Unknown email | Request a code for an unregistered email | Same screen and timing as a registered email. Nothing reveals whether an account exists |
+| AUTH-13 | P1 | N | Sign in disabled state and rate-limit message *(new, 1 Nov)* | Code requested | 1. Click Sign in with all 3 boxes empty 2. Enter 15+ wrong codes quickly | 1. Sign in disabled until all words are filled, no request sent 2. After N attempts: "Too many attempts, try again in X min" (not "Codewords invalid") |
+| AUTH-14 | P2 | N | Expired code message *(new, 1 Nov)* | Code requested and left unused past expiry | Enter the expired code | "This code has expired. Request a new one" + Resend |
 
 ## 2. Chat (core)
 | ID | Pri | Type | Title | Preconditions | Steps | Expected result |
@@ -91,6 +93,8 @@ Total: **186 cases** (170 + 16 in module 19, added 1 Nov): v1's 104, minus 3 rem
 | CHAT-25 | P2 | F | Auto-title quality *(new)* | — | Start chats by text, voice call, file only | Titles describe the content. Never internal names like "Chat Title Request" |
 | CHAT-26 | P2 | F | Per-chat settings *(new)* | — | Settings → This Chat: Response Style, Web Search off, Temperature, Instructions | Applied to this chat only; "Reset all to defaults" works |
 | CHAT-27 | P2 | U | Long paste becomes attachment *(new)* | — | Paste 200k+ characters | Accepted as an attachment or a clear limit; UI stays responsive |
+| CHAT-28 | P1 | F | Delete chat removes its files *(new, 1 Nov)* | Chat with an attached file | ⋯ / Ctrl+D → Delete; reopen the chat URL; search Files for the file | Chat gone ("Not found"); its files no longer listed or searchable |
+| CHAT-29 | P1 | F | Advertised models are selectable *(new, 1 Nov)* | — | Compare homepage/Enterprise model list with Show all models and Council settings | Every advertised family selectable, or copy clarifies |
 
 ## 3. Files
 | ID | Pri | Type | Title | Preconditions | Steps | Expected result |
@@ -159,6 +163,7 @@ Total: **186 cases** (170 + 16 in module 19, added 1 Nov): v1's 104, minus 3 rem
 | VOICE-07 | P2 | F | Dictation vocabulary & replacements *(new)* | Add "Bearly" + a replacement | Dictate | Custom words spelled right; replacements applied |
 | VOICE-08 | P2 | F | Voice model gating *(new)* | Free | Settings → Voice → Model | "Choosing a voice model needs a paid plan." |
 | VOICE-09 | P2 | U | Live dictation preview *(new)* | — | Dictate 10 s | Interim text visible while speaking |
+| VOICE-10 | P2 | F | Voice call with any chat model *(new, 1 Nov)* | Fake mic | Pick GLM 5.3 / Grok 4.7 / Haiku 5.5 → Start voice call | Call works, or the voice button is hidden for unsupported models |
 
 ## 7. Chrome Extension (Bearly Companion)
 | ID | Pri | Type | Title | Preconditions | Steps | Expected result |
@@ -196,6 +201,8 @@ Total: **186 cases** (170 + 16 in module 19, added 1 Nov): v1's 104, minus 3 rem
 | BILL-07 | P1 | F | Usage meter accuracy *(new)* | Use known services | Settings → Usage per service = sum of activity; header % matches; "Credits reset in …" correct (no "0 days" on the day before) |
 | BILL-08 | P1 | N | Gating can't be bypassed via settings *(new)* | Pro | Settings → New Chats → Model = Fable 5.1 (Analyst) | Locked models unavailable as defaults, or the chat shows the upgrade prompt. Never a misleading error |
 | BILL-09 | P2 | F | Yearly toggle *(new)* | Toggle Monthly/Yearly | Yearly = 10× monthly; "17% off" |
+| BILL-10 | P2 | U | Daily usage history / statement *(new, 1 Nov)* | Usage pane: look for per-day history and export | Per-day list and export |
+| BILL-11 | P2 | F | Organization per-seat billing *(new, 1 Nov)* | Enterprise page and Organizations: per-person plans, spend limits, usage by member | Seats billed per person; limits per person/group; usage per member |
 
 ## 10. Settings & Account
 | ID | Pri | Type | Title | Steps | Expected result |
@@ -209,6 +216,7 @@ Total: **186 cases** (170 + 16 in module 19, added 1 Nov): v1's 104, minus 3 rem
 | SET-07 | P1 | S | API keys *(new)* | Create key, call API, delete key | Key shown once; calls work; deleted key gets 401 |
 | SET-08 | P2 | F | Lock all data *(new)* | Account → Lock | Password-protected notebooks need the password again |
 | SET-09 | P2 | F | Desktop app download *(new)* | Get Desktop App | Version shown = version served by `/download/*` |
+| SET-10 | P1 | S | Delete account flow *(new, 1 Nov)* | Account → Delete → read the dialog → Cancel | Lists what is deleted and kept, email verification, delay, cancellation |
 
 ## 11. Prompt Templates *(new module)*
 | ID | Pri | Type | Title | Steps | Expected result |
@@ -263,6 +271,8 @@ Total: **186 cases** (170 + 16 in module 19, added 1 Nov): v1's 104, minus 3 rem
 | PRIV-03 | P1 | S | Set up E2E encryption | Set up this device + recovery phrase | Chats sealed; second device needs approval; recovery phrase restores |
 | PRIV-04 | P1 | S | E2E recovery | Lose device, use recovery phrase | Access restored; wrong phrase rejected |
 | PRIV-05 | P2 | S | Personalization disclosure | Personalization screen | "This is shared with AI models in your conversations." visible |
+| PRIV-06 | P1 | F | ZDR-only keeps chat context *(new, 1 Nov)* | Turn ZDR-only on → tell a fact → ask it back → turn off | Context kept (ZDR affects provider retention, not Bearly history) |
+| PRIV-07 | P1 | F | Open/close E2E setup without finishing *(new, 1 Nov)* | New Chat → Set up end-to-end encryption → close | Message box unchanged |
 
 ## 17. Connectors, Permissions & Desktop *(new module)*
 | ID | Pri | Type | Title | Steps | Expected result |
@@ -286,6 +296,9 @@ Total: **186 cases** (170 + 16 in module 19, added 1 Nov): v1's 104, minus 3 rem
 | NFR-06 | P1 | S | Security basics | Headers, token storage, rate limits | CSP + frame-ancestors on the app; token not in URLs; login attempts throttled |
 | NFR-07 | P2 | U | Error message quality | Cause 5 errors | Specific and actionable (offline ≠ "An error occurred") |
 | NFR-08 | P2 | P | Memory | One chat tab for 1 h | Heap stable |
+| NFR-09 | P2 | U | Support from desktop and mobile *(new, 1 Nov)* | Get help → Contact Support on desktop and 390 px | Same in-app form; empty message blocked |
+| NFR-10 | P2 | U | Public site navigation state *(new, 1 Nov)* | Click each top-menu page; open Pricing | Current page highlighted; items never removed |
+| NFR-11 | P1 | S | Download flow from the website *(new, 1 Nov)* | Click Get Bearly on Windows/Mac/Linux/iPhone/Android | Download only after an explicit click; served from bearly.ai |
 
 ---
 
@@ -310,6 +323,7 @@ Type `/` in the composer to see the tools. Prompts **P-32…P-47** are in `test-
 | TOOL-14 | P2 | F | Council of Experts | — | Send P-45 | Answer shows multiple expert views and a consensus, within the word limit |
 | TOOL-15 | P1 | F | Document editor: PowerPoint | — | Send P-46 | Real `.pptx` with exactly 3 slides; preview works |
 | TOOL-16 | P1 | F | Document editor: Excel | — | Send P-47 | Real `.xlsx` with the rows and a working total (= 535) |
+| TOOL-17 | P2 | F | Council via /council *(new, 1 Nov)* | — | `/council` → question → open tabs → Council settings | 2–5 model tabs, synthesis, model picker for future councils |
 
 ---
 

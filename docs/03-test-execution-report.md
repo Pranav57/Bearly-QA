@@ -18,28 +18,28 @@
 ## 1. Summary
 | Module | Cases | Pass | Fail | Partial | Blocked | Not run |
 |---|---|---|---|---|---|---|
-| Auth | 12 | 3 | 2 | 2 | 4 | 1 |
-| Chat | 27 | 14 | 4 | 7 | 0 | 2 |
+| Auth | 14 | 3 | 3 | 2 | 4 | 2 |
+| Chat | 29 | 15 | 5 | 7 | 0 | 2 |
 | Files | 21 | 9 | 6 | 4 | 1 | 1 |
 | Meetings | 14 | 4 | 1 | 1 | 1 | 7 |
 | Search | 8 | 1 | 4 | 1 | 1 | 1 |
-| Voice & Dictation | 9 | 1 | 2 | 1 | 1 | 4 |
+| Voice & Dictation | 10 | 2 | 2 | 1 | 1 | 4 |
 | Extension | 10 | 0 | 0 | 0 | 10 | 0 |
 | Sync | 6 | 1 | 2 | 0 | 0 | 3 |
-| Billing & Credits | 9 | 1 | 3 | 1 | 1 | 3 |
-| Settings & Account | 9 | 2 | 2 | 1 | 0 | 4 |
+| Billing & Credits | 11 | 1 | 3 | 2 | 1 | 4 |
+| Settings & Account | 10 | 2 | 2 | 2 | 0 | 4 |
 | Prompt Templates | 5 | 2 | 2 | 0 | 0 | 1 |
 | Routines | 6 | 1 | 0 | 0 | 0 | 5 |
 | Projects | 7 | 1 | 0 | 1 | 0 | 5 |
 | Sharing (Pages) | 4 | 0 | 1 | 0 | 0 | 3 |
 | Text-to-speech | 3 | 0 | 1 | 1 | 0 | 1 |
-| Privacy / ZDR / E2E | 5 | 2 | 1 | 0 | 0 | 2 |
+| Privacy / ZDR / E2E | 7 | 3 | 2 | 0 | 0 | 2 |
 | Connectors & Desktop | 7 | 0 | 0 | 0 | 4 | 3 |
-| Non-functional | 8 | 1 | 3 | 2 | 1 | 1 |
-| Built-in tools *(1 Nov)* | 16 | 11 | 1 | 4 | 0 | 0 |
-| **Total** | **186** | **54** | **35** | **26** | **24** | **47** |
+| Non-functional | 11 | 1 | 6 | 2 | 1 | 1 |
+| Built-in tools | 17 | 12 | 1 | 4 | 0 | 0 |
+| **Total** | **200** | **58** | **41** | **28** | **24** | **49** |
 
-**Bugs logged: 35** (8 S2-major, 17 S3-minor, 10 S4-trivial) (details and screen recordings in `04-bug-reports.md`; BUG-31…35 were found on 1 Nov while recording and in the second exploration round, see §1b), plus 3 security observations, **20 improvement suggestions** (`05-improvement-suggestions.md`), all test data in `test-data/`, and test-plan changes in `02-bearly-test-cases.md` ("What changed from v1").
+**Bugs logged: 41** (8 S2-major, 21 S3-minor, 12 S4-trivial) (details and screen recordings in `04-bug-reports.md`; BUG-31…41 were found on 1 Nov while recording and in the second exploration round, see §1b), plus 3 security observations, **20 improvement suggestions** (`05-improvement-suggestions.md`), all test data in `test-data/`, and test-plan changes in `02-bearly-test-cases.md` ("What changed from v1").
 
 ### 1b. Second exploration round (1 Nov 2026)
 After the first report, every screen was swept again on the same account. Changes were made only where they could be undone, and each was restored.
@@ -68,7 +68,7 @@ After the first report, every screen was swept again on the same account. Change
 | 9 | BUG-09 Voice call without microphone access does nothing at all | Silent failure on a headline feature |
 | 10 | BUG-10 Four different file-size limits across docs, plan cards and real behaviour | Billing/storage expectations are unclear |
 
-## 2. Execution log (all 186 cases)
+## 2. Execution log (all 200 cases)
 ### Auth
 | ID | Result | Bug | Notes |
 |---|---|---|---|
@@ -84,6 +84,8 @@ After the first report, every screen was swept again on the same account. Change
 | AUTH-10 | Blocked | | Needs the desktop app, iOS app and Chrome extension as other sign-in surfaces; none can be installed in the test environment |
 | AUTH-11 | Partial | | Devices list correct (browser, OS, method, active now). Remote sign-out not run: it would sign out your Mac |
 | AUTH-12 | Not run | | Would create an account for a fake email |
+| AUTH-13 | **Fail** | BUG-18 | Empty-box Sign in looks greyed out but sends `loginPerform`. 15 wrong codes: all 401 "Codewords invalid", no 429 seen (429 reported in manual testing, not reproduced) |
+| AUTH-14 | Not run |  | Needs a code left to expire (expiry time isn't documented); reported in manual testing as showing "Codewords invalid" |
 
 ### Chat
 | ID | Result | Bug | Notes |
@@ -115,6 +117,8 @@ After the first report, every screen was swept again on the same account. Change
 | CHAT-25 | **Fail** | BUG-13 | Voice-call chat auto-titled "Chat Title Request" |
 | CHAT-26 | Not run | | Settings → This Chat was opened and its controls listed (6 dropdowns, Instructions, Temperature, Reset all to defaults), but values weren't changed or checked in a reply. Not attempted |
 | CHAT-27 | Not run | | Not attempted: a 200k-character paste risked freezing the automated browser. The 50k paste (P-12) was tested in CHAT-10. Needs: a manual paste on a real machine |
+| CHAT-28 | Pass |  | Draft with plain.txt deleted: URL shows "Not Found!", plain.txt hits 5 → 4. Dialog copy still misleading (BUG-35) |
+| CHAT-29 | **Fail** | BUG-41 | No Gemini/DeepSeek/MiniMax in the picker; Gemini only in Council |
 
 ### Files
 | ID | Result | Bug | Notes |
@@ -183,6 +187,7 @@ After the first report, every screen was swept again on the same account. Change
 | VOICE-07 | Not run | | Needs dictation turned on, vocabulary/replacements added and speech input. Not attempted |
 | VOICE-08 | Not run | | Needs a Free-plan account; this account is Pro |
 | VOICE-09 | **Fail** | SUG-08 | Text appears only after Stop |
+| VOICE-10 | Pass |  | Call starts on every model; calls always use the voice model "GPT-Live 1" (Settings → Voice). "Not supported for this model" (manual report) not reproduced |
 
 ### Extension: EXT-01…10 **Blocked**. Chrome Web Store isn't reachable from the test environment.
 
@@ -206,6 +211,8 @@ After the first report, every screen was swept again on the same account. Change
 | BILL-07 | **Fail** | BUG-23 | |
 | BILL-08 | **Fail** | BUG-02 | |
 | BILL-09 | Pass | | $200 / $600 / $1000 per year |
+| BILL-10 | Partial |  | Only month totals, one "Today" figure and a per-service table; no export (SUG-29) |
+| BILL-11 | Not run |  | Needs an organization with seats. Documented on /enterprise: "billed per seat", per-person spend limits, usage by member |
 
 ### Settings & Account
 | ID | Result | Bug | Notes |
@@ -216,6 +223,7 @@ After the first report, every screen was swept again on the same account. Change
 | SET-04, 06, 07, 08 | Not run | | Destructive or lasting changes |
 | SET-05 | Partial | | Shows "Outside US & Canada: SMS isn't available in your region yet." |
 | SET-09 | **Fail** | BUG-22 | |
+| SET-10 | Partial |  | Dialog reviewed: deleted vs retained lists, email code, deletion 24 h later, can cancel until the last reminder, App Store warning. Not executed (irreversible) |
 
 ### New modules
 | ID | Result | Bug | Notes |
@@ -243,6 +251,8 @@ After the first report, every screen was swept again on the same account. Change
 | PRIV-02 | Pass | | *1 Nov:* ZDR-only on → Fable 5.1 and Muse Spark hidden from the model list; switched back off |
 | PRIV-03/04 | Not run | | Would create encryption keys / recovery phrase |
 | PRIV-05 | Pass | | Disclosure text present |
+| PRIV-06 | Pass |  | Answered "Teal". Switch restored to off |
+| PRIV-07 | **Fail** | BUG-36 | +, chat settings, voice, model picker, Permissions, Connectors vanish until reload |
 | CONN-01…03 | Not run | | Connecting Notion/GitHub/etc. needs OAuth into your third-party accounts; not done |
 | DESK-01…04 | Blocked | | No desktop app (web shows the correct "get desktop" prompt for Work locally) |
 
@@ -257,6 +267,9 @@ After the first report, every screen was swept again on the same account. Change
 | NFR-06 | **Fail** | BUG-04, S-1, S-2 | |
 | NFR-07 | **Fail** | BUG-07, BUG-02 | Generic or misleading errors |
 | NFR-08 | Not run | | Needs a 1-hour soak test with heap monitoring; not done |
+| NFR-09 | **Fail** | BUG-40 | Same form on both; mailto link only opens mail. Empty message "sent" |
+| NFR-10 | **Fail** | BUG-37 |  |
+| NFR-11 | **Fail** | BUG-38 | Instant download from github.com on desktop; iPhone → App Store; Android → web app |
 
 ### Built-in tools *(module 19, run 1 Nov)*
 | ID | Result | Bug | Notes |
@@ -277,6 +290,7 @@ After the first report, every screen was swept again on the same account. Change
 | TOOL-14 | Pass | | Consensus answer ("start with a modular monolith"), within limit |
 | TOOL-15 | Pass | | `software-testing-basics.pptx` + PDF copy, exactly 3 slides |
 | TOOL-16 | Pass | | `q3_by_region.xlsx` with total 535 |
+| TOOL-17 | Pass |  | 3 experts (Sonnet 5.5, GPT 6.1 Sol, Gemini 3.8 Flash), synthesis, settings 3/5 selected |
 
 ## 3. Bugs
 | ID | Title | Sev | Pri | Freq | Linked |
@@ -316,6 +330,12 @@ After the first report, every screen was swept again on the same account. Change
 | BUG-33 | Dark / Dracula themes: sidebar text 3.29:1 contrast *(1 Nov)* | S3 | P2 | Always | SET-02, NFR-03 |
 | BUG-34 | Best Pick says no wireless mouse under ₹1,500 can be recommended (cheap ones exist) *(1 Nov)* | S3 | P2 | 3/3 | TOOL-04 |
 | BUG-35 | Delete-chat dialog: "All chats, files and memory will be lost" *(1 Nov)* | S4 | P3 | Always | CHAT-15 |
+| BUG-36 | Opening/closing "Set up end-to-end encryption" removes +, model picker, voice etc. until reload *(1 Nov)* | S3 | P1 | 3/3 | PRIV-07 |
+| BUG-37 | Website menu: no current-page indicator; "Pricing" disappears on /pricing *(1 Nov)* | S4 | P3 | Always | NFR-10 |
+| BUG-38 | "Get Bearly" downloads the installer immediately, from github.com *(1 Nov)* | S3 | P2 | Always | NFR-11 |
+| BUG-39 | Sign-in outlines ~1.2:1 contrast; no pressed feedback on mobile; orange vs red errors *(1 Nov)* | S3 | P2 | Always | AUTH-05, NFR-03 |
+| BUG-40 | Contact Support sends an empty message *(1 Nov)* | S4 | P3 | 2/2 | NFR-09 |
+| BUG-41 | Advertised Gemini/DeepSeek/MiniMax not selectable; Gemini only in Council *(1 Nov)* | S3 | P2 | Always | CHAT-29 |
 
 **Full step-by-step reports** (first-time-user steps, test data, expected vs actual, screenshots and screen recordings) for every bug and security observation are in **[04-bug-reports.md](04-bug-reports.md)**.
 

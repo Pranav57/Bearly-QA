@@ -48,6 +48,7 @@ Severity: S1 blocker · S2 major · S3 minor · S4 trivial. Priority: P0–P3.
 - "Zero Data Retention only" is **off** by default. Its description says it also governs "Automatic fallbacks", so non-ZDR fallbacks are possible on a default account.
 
 **Evidence:** `evidence/models_all.png`, `evidence/set_privacy_security.png`
+**Also (1 Nov):** https://bearly.ai/enterprise lists **"Zero data retention on every model"** under "Built for the security review".
 **Impact:** The product's core promise (privacy) is contradicted inside the product. This is a trust and legal-copy risk.
 **Suggested fix:** Default "ZDR only" to on (Standard models opt-in), or qualify the homepage copy.
 
@@ -262,7 +263,7 @@ The video ends with a summary card.
 ---
 
 ## BUG-13 — [Web][Chat] Voice-call chat auto-titled "Chat Title Request"
-**Severity / Priority / Frequency:** S3 / P3 / 3 of 3 (voice ×2, template ×1) · **Needs:** microphone (or `priya.wav` as fake mic) · **Video:** [`BUG-13.webm`](evidence/video/BUG-13.webm)
+**Severity / Priority / Frequency:** S3 / P3 / 4 of 4 (voice ×3, template ×1) · **Needs:** microphone (or `priya.wav` as fake mic) · **Video:** [`BUG-13.webm`](evidence/video/BUG-13.webm)
 1. **New Chat** → click the **waveform icon** ("Start voice call").
 2. Speak (or play `priya.wav`) for ~40 s, then click **End**.
 3. Look at the chat title at the top and in the sidebar.
@@ -341,7 +342,11 @@ The video ends with a summary card.
 
 **Expected:** A "Resend code (in 30 s)" option; Sign in disabled until all 3 words are filled; after ~5 wrong attempts a cooldown or "request a new code".
 **Actual:** No resend; Sign in active with 1 word (it's also enabled with **0** words; it only looks pale); 7 wrong codes all give *"Codewords invalid. Make sure you typed them in correctly."* (HTTP 401) with no cooldown, lockout or CAPTCHA. (I stopped at 7.)
-**Evidence:** `evidence/login_code.png`, `evidence/auth_wrong.png`
+**Evidence:** `evidence/login_code.png`, `evidence/auth_wrong.png` · **2nd video:** [`BUG-18b.webm`](evidence/video/BUG-18b.webm)
+**Re-checked 1 Nov 2026 (2nd video):**
+- With **all three boxes empty**, Sign in looks greyed out but is not disabled (`disabled=false`, pointer cursor). Clicking it shows a spinner and sends a real `loginPerform` request with an empty code.
+- 15 wrong codes in a row: every request returned **401**, each with *"Codewords invalid…"*; still no cooldown.
+- A report from manual testing said that after many attempts `loginPerform` returned **429 Too Many Requests** while the screen still showed *"Codewords invalid"*, and that an **expired** code also shows *"Codewords invalid"*. Neither was reproduced in 15 attempts; the expired-code case needs a code left to expire and is still open.
 
 ---
 
@@ -426,7 +431,7 @@ The video ends with a summary card.
 4. On a phone (or DevTools → iPhone), tap the email field: the input is 13 px, so iOS Safari zooms the page.
 
 **Expected:** Inline validation; Continue disabled until valid; `autocomplete="email"`; ≥ 16 px input; Continue text contrast ≥ 4.5:1.
-**Actual:** No validation (Continue stays clickable for empty or malformed emails); no `required` or `autocomplete="email"`; the input is 13 px on mobile, so iOS zooms; Continue text is ~2.4:1 and looks disabled.
+**Actual:** No *inline* validation: Continue stays clickable for empty or malformed emails and nothing is flagged while typing. *Correction 1 Nov:* after clicking Continue with `abc@` the form does show **"Please enter a valid email."**, so validation exists on submit only. No `required` or `autocomplete="email"`; the input is 13 px on mobile, so iOS zooms; Continue text is ~2.4:1 and looks disabled.
 **Evidence:** `evidence/login_desktop.png`, `evidence/login_mobile.png`
 
 ---
@@ -559,6 +564,86 @@ The same happened with the BUG-34 Best Pick recording ("Budget Wireless Mouse Pi
 
 **Expected:** "Delete 'Model Identity'? This chat and its files will be permanently deleted."
 **Actual:** *"Are you sure you want to delete chat 'Model Identity'? **All chats, files and memory will be lost.** This action cannot be undone."* It reads as if every chat will be deleted, and it's unclear whether account memory is affected.
+
+---
+
+## BUG-36 — [Web][Encryption] Opening and closing "Set up end-to-end encryption" removes the message-box controls
+**Severity / Priority / Frequency:** S3 / P1 / 3 of 3 · **Video:** [`BUG-36.webm`](evidence/video/BUG-36.webm) · **Evidence:** `evidence/e2e_controls_gone.png`
+1. Click **New Chat**. The message box shows **+**, chat settings, voice, the **model picker**, Work locally, Permissions and Connectors.
+2. Click **Set up end-to-end encryption** (the small pill below the message box).
+3. Don't set anything up. Close the pop-up with **×** (or Esc).
+
+**Expected:** The message box is unchanged, because nothing was set up.
+**Actual:** **+, chat settings, voice, the model picker, Work locally, Permissions and Connectors all disappear.** Only Send and "No project" remain. **New Chat** doesn't restore them; only a **page reload** does. The controls already vanish while the pop-up is open (it says *"Memory is off in these chats"*), so the new chat seems to switch into encrypted-chat mode before setup is confirmed.
+**Impact:** Users who just look at the encryption offer lose the ability to attach files or choose a model, with no explanation.
+
+---
+
+## BUG-37 — [Public website] Top menu doesn't show the current page, and "Pricing" disappears on the Pricing page
+**Severity / Priority / Frequency:** S4 / P3 / Always · **Video:** [`BUG-37.webm`](evidence/video/BUG-37.webm)
+1. Open https://bearly.ai → click **Product**, then **Enterprise**, then **News** in the top menu.
+2. On each page look at the menu item for that page.
+3. Click **Pricing**. Look at the menu. Then click **News**.
+
+**Expected:** The current page's item is highlighted (colour, underline or weight, plus `aria-current="page"`), and menu items never move.
+**Actual:**
+- All items look identical on every page (same colour rgb(92,92,102), same weight 500, no `aria-current`).
+- On /pricing the **"Pricing" item is removed** from the menu (Product · Privacy · Enterprise · News), and the other items shift. It comes back when you leave the page.
+
+---
+
+## BUG-38 — [Public website] "Get Bearly" starts a download immediately, served from github.com
+**Severity / Priority / Frequency:** S3 / P2 / Always (desktop) · **Video:** [`BUG-38.webm`](evidence/video/BUG-38.webm)
+1. On a desktop browser open https://bearly.ai → click **Get Bearly** (top right).
+
+**Expected:** A download page or dialog that says what will be downloaded (file, size, platform) and starts only when the user clicks **Download**.
+**Actual:**
+- The installer download starts **immediately**: `Bearly-5.2.11.AppImage` on Linux, `Bearly-Setup-5.2.11.exe` on Windows, `Bearly-5.2.11-universal.dmg` on Mac. A "Download started" dialog then offers *Download again* / *Continue in browser*.
+- The file comes from `bearly.ai/download/<os>`, which redirects to **github.com/bearlyai/releases** and then `release-assets.githubusercontent.com`. If the browser blocks automatic downloads, the user lands on GitHub.
+- Phones behave sensibly: iPhone goes to the App Store, Android to the web app.
+
+**Impact:** For a privacy-first brand, an unrequested executable download, served from a third-party domain, undermines trust and can trigger browser or antivirus warnings.
+**Note:** "Continue in browser opens GitHub" (reported in manual testing) was **not reproduced**. On desktop, Android and iPhone it opened `bearly.ai/dashboard/focus`.
+
+---
+
+## BUG-39 — [Web][Auth][Accessibility] Sign-in field and button outlines are almost invisible; no tap feedback on mobile
+**Severity / Priority / Frequency:** S3 / P2 / Always · **Evidence:** `evidence/signin_outlines.png`
+1. Open https://bearly.ai/dashboard signed out. Look at the borders of **Continue with Microsoft**, **Continue with Google** and the **Email** box.
+2. On a phone (or DevTools → iPhone 13), tap **Continue**.
+
+**Expected:** Borders of input controls have at least **3:1** contrast with the background (WCAG 1.4.11). Buttons show a pressed state (colour change, ripple or scale) when tapped.
+**Actual:**
+- The Microsoft/Google button borders are `rgba(0,0,0,0.06)` on #F5F5F5, about **1.2:1** (dark mode: `rgba(255,255,255,0.04)` on #161616, about 1.1:1). The email box's orange border is **2.6:1** in light mode.
+- Pressing **Continue** on mobile changes nothing (same background, transform and opacity before and during the press), so users can't tell their tap registered.
+- Design note (manual testing): the orange brand colour sits next to the red error text ("Please enter a valid email."), and the two clash. Errors are hard to tell apart from normal accents.
+
+---
+
+## BUG-40 — [Web][Support] "Contact Support" accepts and sends an empty message
+**Severity / Priority / Frequency:** S4 / P3 / 2 of 2 (desktop and mobile) · **Evidence:** `evidence/support_empty_sent.png`
+1. Open any chat with an error reply (e.g. BUG-07) → click **Get help**. The *Contact Support* form opens.
+2. Leave the text box **empty** and click **Contact Support**.
+
+**Expected:** The button stays disabled, or a message says "Please describe the issue".
+**Actual:** *"Thank you for contacting support! Your message has been sent."* Two empty tickets were sent this way during testing (no video, to avoid sending more).
+**Note:** On desktop and mobile, Get help opens the same in-app form, plus a `mailto:support@bearly.ai` link (only that link opens the mail app).
+
+---
+
+## BUG-41 — [Web][Models] Advertised models (Gemini, DeepSeek, MiniMax) can't be chosen; Gemini only appears inside Council
+**Severity / Priority / Frequency:** S3 / P2 / Always · **Video:** [`BUG-41.webm`](evidence/video/BUG-41.webm)
+1. Homepage https://bearly.ai → MODELS line: *"Claude, GPT, **Gemini**, Grok, **DeepSeek**, GLM, **MiniMax**, ZDR models only"*. The Enterprise page says *"Claude, GPT, Gemini, and Grok"*.
+2. In the app: model picker → **Show all models** (or Settings → This Chat → Model).
+3. Type `/council` → send a question → open the **Council settings** gear.
+
+**Expected:** Every advertised model family can be chosen, or the copy explains which are used only inside Bearly's own models.
+**Actual:**
+- The model list has Bearly Fast/Pro/Ultra, GPT 6 Astra/6.1 Sol/6 Luna, Sonnet/Opus/Fable/Haiku 5.5, Grok 4.7, Muse Spark 1.3 and GLM 5.3/Flash. There is **no Gemini, DeepSeek or MiniMax**.
+- Usage shows Gemini running behind Bearly models (`vertex/gemini-3.8-flash`, 47 calls).
+- **Council of Experts** offers *Gemini 3.8 Flash* and *Gemini 4 Argon*, which can't be picked as a chat model.
+
+**Also:** There is no way to request a model except the generic **Give Feedback** form (see SUG-28).
 
 ---
 

@@ -5,10 +5,10 @@ QA prep material for the Bearly **QA Tester (Remote, India)** role.
 | File | What it is |
 |---|---|
 | `docs/01-bearly-overview.md` | What Bearly is: surfaces, features, plans, user-feedback themes |
-| `docs/02-bearly-test-cases.md` | v2: 186 test cases across 19 modules, rewritten after testing the live product (see "What changed from v1") |
-| `docs/03-test-execution-report.md` | Live execution report (2026-10-31, Pro account): all 186 cases, 35 bugs, 25 improvement suggestions |
-| `docs/Bearly-QA-Review.xlsx` | Review workbook: all bugs (with video links and stills), suggestions, 186 test cases with results, UI inventory, test data; yellow columns for your review |
-| `docs/04-bug-reports.md` | 35 bug reports with first-time-user reproduction steps, screenshots and 33 screen recordings (34 bugs) (`docs/evidence/video/`) |
+| `docs/02-bearly-test-cases.md` | v2: 200 test cases across 19 modules, rewritten after testing the live product (see "What changed from v1") |
+| `docs/03-test-execution-report.md` | Live execution report (2026-10-31, Pro account): all 200 cases, 41 bugs, 31 improvement suggestions |
+| `docs/Bearly-QA-Review.xlsx` | Review workbook: all bugs (with video links and stills), suggestions, 200 test cases with results, UI inventory, test data; yellow columns for your review |
+| `docs/04-bug-reports.md` | 41 bug reports with first-time-user reproduction steps, screenshots and 38 screen recordings (`docs/evidence/video/`) |
 | `docs/05-improvement-suggestions.md` | 20 suggestions, each with steps to see the current behaviour |
 | `docs/test-data/` | Every prompt and file used in testing, plus a script to regenerate the files |
 | `docs/evidence/` | Screenshots referenced by the bug reports |

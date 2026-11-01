@@ -31,6 +31,12 @@ Each suggestion says **how to see it today** (same setup as [04-bug-reports.md](
 | SUG-23 | People Search: answer directly for unambiguous public figures | Low |
 | SUG-24 | Keep chart categories in the order of the data | Low |
 | SUG-25 | Make "@" different from "/" (mentions of files, chats, models) or explain the difference | Low |
+| SUG-26 | Separate error red from brand orange; add pressed states on mobile | Medium |
+| SUG-27 | Explain in the Prompt Template editor how a template is used (/name, @ → Skills) | Medium |
+| SUG-28 | "Request a model" and "Send diagnostic logs" in Give Feedback (esp. mobile) | Medium |
+| SUG-29 | Usage: daily history and a one-line-per-day statement / CSV export | Medium |
+| SUG-30 | Controls that look disabled must be disabled; explain why (uploading, empty code) | High |
+| SUG-31 | Style the "1x" speed control like the Download button; align the time label | Low |
 
 ---
 
@@ -155,3 +161,37 @@ Each suggestion says **how to see it today** (same setup as [04-bug-reports.md](
 **See it today:** In the composer type `/`, then clear it and type `@`. Both open the **same** menu (Skills, Bearly AI Models, Visualize, Research…).
 **Change:** Use "@" for mentions (a file, a past chat, a model, a project), or show one menu with a hint "Tip: / and @ both open tools".
 **Why:** The placeholder "Type / or @ for tools" suggests they do different things.
+
+### SUG-26 — Don't use orange for both brand and errors; give buttons a pressed state
+**See it today:** Sign-in page → type `abc@` → **Continue**. The red error "Please enter a valid email." sits under an orange-bordered field and an orange button. On a phone, tapping **Continue** gives no visual feedback (BUG-39).
+**Change:** Keep orange for primary actions only; use a distinct error red with an icon next to the field. Add `:active` styles (darker fill or slight scale) and a loading state on every primary button.
+**Why:** Users should tell "brand" from "problem" at a glance, and know their tap registered.
+
+### SUG-27 — Explain how a Prompt Template is used
+**See it today:** Sidebar → **Prompt Templates** → open a template. The Live Preview shows a form, plus one line: "Type /Simple Hindi Transla… in your chats to use this template". Nothing says the form appears inside the chat, that the result is sent as a message, or that the template is also listed under **@ → Skills**.
+**Change:** A short "How it works" box: "In any chat type `/Template name` (or pick it under @ → Skills). Fill the fields, press Submit (Shift+Enter), and the prompt is sent with your values."
+**Why:** Users aren't sure whether to copy-paste the template; this cuts confusion and support tickets.
+
+### SUG-28 — Let users request a model and send diagnostic logs
+**See it today:** There's no "Request a model" option anywhere. Advertised families like DeepSeek and MiniMax aren't selectable (BUG-41). Account menu → **Give Feedback** has a text box and **Attach File**, but no "include diagnostic logs" option, which is hard to work around on mobile.
+**Change:** In Give Feedback, add a "Request a model" category and an **Include diagnostics** toggle that attaches app version, device, recent errors and request IDs, with no chat content.
+**Why:** Many issues are device-specific. Logs make mobile bugs reproducible, and model requests show what users want.
+
+### SUG-29 — Daily usage history and a simple statement
+**See it today:** Account menu → App Settings → **Usage**. You get month totals, a single "Today" figure (which is wrong, see BUG-23) and a per-service table. There's no per-day list and no export.
+**Change:** A daily list ("1 Nov · $0.94 · 120 calls") and **Download CSV / statement**, one line per day.
+**Why:** Credit-based plans need simple, private spend tracking, especially for people who expense it.
+
+### SUG-30 — Controls that look disabled must behave disabled
+**See it today:**
+- On the code screen, **Sign in** looks greyed out with empty boxes but still sends a request (BUG-18).
+- While a file is uploading, Send looks active but Enter does nothing (BUG-26).
+- **Contact Support** sends an empty message (BUG-40).
+
+**Change:** One rule everywhere: a control is either enabled or truly `disabled`. When it's disabled, a tooltip says why ("Enter all 3 words", "Waiting for falcon_report.pdf…").
+**Why:** Mismatched states make users think the app is broken.
+
+### SUG-31 — Make the audio player controls consistent
+**See it today:** Meetings and Recordings → open a recording. **1x** (playback speed) is small plain text, and **Download** is a bordered button. They sit on the same line (both centred at the same height), but look mismatched. The time label "0:48" sits lower than the progress bar.
+**Change:** Give "1x" the same button style and size as Download, and vertically centre the time label with the bar.
+**Why:** Visual polish; it also gives "1x" a bigger tap target.
