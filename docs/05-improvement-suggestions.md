@@ -125,7 +125,7 @@ Each suggestion says **how to see it today** (same setup as [04-bug-reports.md](
 **Why:** Most of the Indian market is on Android; this is a cheap bridge.
 
 ### SUG-18 — One permission-error message for every mic feature
-**See it today:** Block the microphone (BUG-09 step 1). Meetings → Start recording shows a clear message; Voice call shows nothing; dictation behaves differently again.
+**See it today:** Block the microphone (BUG-09 step 1). Meetings → Start recording shows a clear, lasting message; Voice call shows "Voice unavailable — No microphone is available." for only ~3 s with no fix-it steps; dictation behaves differently again.
 **Change:** One shared component: "Bearly can't use your microphone" + OS/browser-specific steps + "Try again".
 
 ### SUG-19 — Don't offer locked models as defaults

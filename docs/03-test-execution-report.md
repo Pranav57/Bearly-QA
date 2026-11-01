@@ -39,7 +39,7 @@
 | Built-in tools | 17 | 12 | 1 | 4 | 0 | 0 |
 | **Total** | **200** | **58** | **41** | **28** | **24** | **49** |
 
-**Bugs logged: 41** (8 S2-major, 21 S3-minor, 12 S4-trivial) (details and screen recordings in `04-bug-reports.md`; BUG-31…41 were found on 1 Nov while recording and in the second exploration round, see §1b), plus 3 security observations, **20 improvement suggestions** (`05-improvement-suggestions.md`), all test data in `test-data/`, and test-plan changes in `02-bearly-test-cases.md` ("What changed from v1").
+**Bugs logged: 41** (8 S2-major, 20 S3-minor, 13 S4-trivial) (details and screen recordings in `04-bug-reports.md`; BUG-31…41 were found on 1 Nov while recording and in the second exploration round, see §1b), plus 3 security observations, **20 improvement suggestions** (`05-improvement-suggestions.md`), all test data in `test-data/`, and test-plan changes in `02-bearly-test-cases.md` ("What changed from v1").
 
 ### 1b. Second exploration round (1 Nov 2026)
 After the first report, every screen was swept again on the same account. Changes were made only where they could be undone, and each was restored.
@@ -65,7 +65,7 @@ After the first report, every screen was swept again on the same account. Change
 | 6 | BUG-06 Search returns every chat/file for a nonsense query | Search can't be trusted, and the "No results" state never shows |
 | 7 | BUG-07 Sending while offline gives a generic error with no Retry, even though the app shows "Offline" | Lost messages, confusing recovery |
 | 8 | BUG-08 Rename/delete don't reach other open sessions; a deleted chat stays readable there | Stale data across devices |
-| 9 | BUG-09 Voice call without microphone access does nothing at all | Silent failure on a headline feature |
+| 9 | BUG-31 Closing the tab while the agent is working deletes the prompt and its answer | Silent data loss on the most common action (closing a tab or laptop lid) |
 | 10 | BUG-10 Four different file-size limits across docs, plan cards and real behaviour | Billing/storage expectations are unclear |
 
 ## 2. Execution log (all 200 cases)
@@ -180,7 +180,7 @@ After the first report, every screen was swept again on the same account. Change
 |---|---|---|---|
 | VOICE-01 ★ | Pass | | Accurate, not auto-sent. (Dictation was switched off again afterwards) |
 | VOICE-02 | Partial | BUG-27 | Call works (GPT-Live 1); transcript has duplicated/truncated assistant lines |
-| VOICE-03 | **Fail** | BUG-09 | |
+| VOICE-03 | **Fail** | BUG-09 | *Corrected 1 Nov:* "Voice unavailable — No microphone is available." shows for ~3 s then disappears, with no fix-it guidance. The earlier note "nothing happens" was wrong |
 | VOICE-04 | Not run | | Needs a real microphone with background noise (the test browser uses a fake mic file) |
 | VOICE-05 | Blocked | | Needs the iOS app or an Android phone and an incoming phone call |
 | VOICE-06 | Not run | | Needs Hindi speech audio (no Hindi sample in the test data) and dictation turned on |
@@ -303,7 +303,7 @@ After the first report, every screen was swept again on the same account. Change
 | BUG-06 | Chat & file search ignore relevance; nonsense matches everything | S2 | P2 | Always | SRCH-03/05/06 |
 | BUG-07 | Offline send → generic error, no Retry, failed turn persists | S3 | P1 | Always | CHAT-20 |
 | BUG-08 | Rename/delete not synced to open sessions; deleted chat still readable | S3 | P2 | 2/2 | SYNC-02/04 |
-| BUG-09 | Voice call with no mic access: nothing happens | S3 | P2 | Always | VOICE-03 |
+| BUG-09 | Voice call with no mic: "Voice unavailable" shows ~3 s then vanishes, no fix-it guidance *(corrected 1 Nov)* | S4 | P3 | Always | VOICE-03 |
 | BUG-10 | File-size limits differ: docs 300 MB / cards 10–2000 MB / Pro accepts 310 MiB | S3 | P2 | Always | FILE-05 |
 | BUG-11 | Gated models not marked in the model picker | S3 | P3 | Always | CHAT-03 |
 | BUG-12 | Same-content files: 2nd chip shows the 1st file's name | S3 | P3 | 3/3 | FILE-18 |

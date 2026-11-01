@@ -199,21 +199,22 @@ Severity: S1 blocker · S2 major · S3 minor · S4 trivial. Priority: P0–P3.
 
 ---
 
-## BUG-09 — [Web][Voice] "Start voice call" does nothing when the microphone is blocked
-**Severity / Priority / Frequency:** S3 / P2 / Always · **Video:** [`BUG-30.webm`](evidence/video/BUG-30.webm) · **Video:** [`BUG-21.webm`](evidence/video/BUG-21.webm) · **Video:** [`BUG-09.webm`](evidence/video/BUG-09.webm)
+## BUG-09 — [Web][Voice] "Voice unavailable" message disappears after ~3 s and gives no way to fix it
+**Severity / Priority / Frequency:** S4 / P3 / Always · **Video:** [`BUG-09.webm`](evidence/video/BUG-09.webm)
 
 **Steps to reproduce**
-1. Block the microphone for bearly.ai: click the **site-settings icon** left of the address bar → **Microphone → Block** → reload. (Or use a computer with no microphone.)
+1. Use a computer with no microphone, or block the microphone for bearly.ai: click the **site-settings icon** left of the address bar → **Microphone → Block** → reload.
 2. Click **New Chat**.
-3. Click the **waveform icon** in the composer ("Start voice call").
+3. Click the **waveform icon** in the composer ("Start voice call"). Watch the message box.
 4. For comparison: sidebar → **Meetings and Recordings** → **Start recording**.
 
-**Expected:** A message like the one in step 4: *"Recording could not start. Check your audio permissions and try again."*, ideally with how to unblock.
+**Expected:** The voice-call message stays until dismissed and says how to fix it, like Meetings' *"Recording could not start. Check your audio permissions and try again."*
 
-**Actual:** Step 3: **nothing visible happens** (no message, no call UI). DevTools console: `realtimeVoice:error failed {errorName: UnknownError, errorCode: unavailable}`. An empty "New Chat 1" also appears in the sidebar (BUG-14).
+**Actual:** The message box is replaced by **"Voice unavailable — No microphone is available."** for about **3 seconds** (0:15–0:17 in the video), then it disappears by itself. It gives no hint on how to allow the microphone. DevTools console: `realtimeVoice:error failed {errorName: UnknownError, errorCode: unavailable}`. An empty "New Chat N" also appears in the sidebar (BUG-14).
+
+**Correction (1 Nov):** The earlier version of this report said *"nothing visible happens"*. That was wrong: the test script checked the screen 6 seconds after the click, by which time the 3-second message had already gone. (Thanks to manual review of the recording.) Severity lowered from S3/P2 to S4/P3. The test machine had no microphone at all, so "No microphone is available" was accurate there; a device with a microphone that's **blocked** hasn't been checked yet.
 
 **Evidence:** `evidence/mic_denied_voice.png` vs `evidence/mic_denied_meet.png`
-
 ---
 
 ## BUG-10 — [Web][Files/Billing] File size limit differs in docs, plan cards and real behaviour
@@ -241,7 +242,7 @@ The video ends with a summary card.
 ---
 
 ## BUG-11 — [Web][Chat] Locked models aren't marked in the model picker
-**Severity / Priority / Frequency:** S3 / P3 / Always · **Video:** [`BUG-20.webm`](evidence/video/BUG-20.webm) · **Video:** [`BUG-19.webm`](evidence/video/BUG-19.webm) · **Plan:** Pro · **Video:** [`BUG-11.webm`](evidence/video/BUG-11.webm)
+**Severity / Priority / Frequency:** S3 / P3 / Always · **Plan:** Pro · **Video:** [`BUG-11.webm`](evidence/video/BUG-11.webm)
 1. **New Chat** → click the **model picker** → **Show all models**.
 2. Compare **Fable 5.1** with any other model.
 
@@ -311,7 +312,7 @@ The video ends with a summary card.
 ---
 
 ## BUG-16 — [Mobile web] Tap targets smaller than 44 px
-**Severity / Priority / Frequency:** S4 / P3 / Always · **Video:** [`BUG-28.webm`](evidence/video/BUG-28.webm) · **Video:** [`BUG-25.webm`](evidence/video/BUG-25.webm) · **Video:** [`BUG-22.webm`](evidence/video/BUG-22.webm) · **Video:** [`BUG-16.webm`](evidence/video/BUG-16.webm)
+**Severity / Priority / Frequency:** S4 / P3 / Always · **Video:** [`BUG-16.webm`](evidence/video/BUG-16.webm)
 1. On a phone (or Chrome DevTools → device toolbar → iPhone 13) open the app.
 2. Measure (DevTools → inspect) the sidebar **search** icon, **Open sidebar**, a message's **copy/delete** icons.
 
@@ -351,7 +352,7 @@ The video ends with a summary card.
 ---
 
 ## BUG-19 — [Web][Chat] Arabic (RTL) replies are displayed left-to-right
-**Severity / Priority / Frequency:** S3 / P3 / Always
+**Severity / Priority / Frequency:** S3 / P3 / Always · **Video:** [`BUG-19.webm`](evidence/video/BUG-19.webm)
 1. **New Chat** → type **P-08** → Enter.
 2. Look at the Arabic line of the reply.
 
@@ -362,7 +363,7 @@ The video ends with a summary card.
 ---
 
 ## BUG-20 — [Web][Search] Web-search source links are buttons, not links
-**Severity / Priority / Frequency:** S3 / P3 / Always
+**Severity / Priority / Frequency:** S3 / P3 / Always · **Video:** [`BUG-20.webm`](evidence/video/BUG-20.webm)
 1. **New Chat** → type **P-13** → Enter. Wait for the underlined source names (e.g. "ISRO mission update · The Hindu").
 2. Hover one: no URL in the browser's status bar. Right-click: no "Copy link address" / "Open in new tab". Middle-click: nothing.
 3. Inspect it (right-click → Inspect): `<button data-markdown-link="https://…">`.
@@ -374,7 +375,7 @@ The video ends with a summary card.
 ---
 
 ## BUG-21 — [Web][Pricing] Pricing page contradicts the docs and the in-app plans
-**Severity / Priority / Frequency:** S3 / P2 / Always
+**Severity / Priority / Frequency:** S3 / P2 / Always · **Video:** [`BUG-21.webm`](evidence/video/BUG-21.webm)
 1. Open **https://bearly.ai/pricing**. Read the **Pro** card bullets and the FAQ "What's the difference between the paid tiers?".
 2. Open **https://bearly.ai/docs/manual/plans-and-credits/** → "What each plan unlocks".
 3. In the app: **Account menu → App Settings → Billing**, read the Free/Pro/Analyst/Research cards.
@@ -391,7 +392,7 @@ The video ends with a summary card.
 ---
 
 ## BUG-22 — [Web][Settings] Desktop app version shown (v5.2.9) differs from the version downloaded (v5.2.11)
-**Severity / Priority / Frequency:** S4 / P3 / Always
+**Severity / Priority / Frequency:** S4 / P3 / Always · **Video:** [`BUG-22.webm`](evidence/video/BUG-22.webm)
 1. **Account menu → App Settings → Get Desktop App**: *"Currently v5.2.9."*
 2. Click **Download for macOS/Windows/Linux** (or open https://bearly.ai/download/mac): the file is `Bearly-5.2.11-…`.
 
@@ -424,7 +425,7 @@ The video ends with a summary card.
 ---
 
 ## BUG-25 — [Web][Auth] Sign-in email field: no validation, no autocomplete, low contrast, 13 px on mobile
-**Severity / Priority / Frequency:** S4 / P3 / Always
+**Severity / Priority / Frequency:** S4 / P3 / Always · **Video:** [`BUG-25.webm`](evidence/video/BUG-25.webm)
 1. Open **https://bearly.ai/dashboard** signed out.
 2. Leave **Email** empty, or type `abc@` or `a b@x.com`: **Continue** stays clickable and nothing is flagged.
 3. Inspect the input: no `required`, no `autocomplete="email"`.
@@ -448,7 +449,7 @@ The video ends with a summary card.
 ---
 
 ## BUG-27 — [Web][Voice] Voice-call transcript has duplicated and cut-off lines
-**Severity / Priority / Frequency:** S4 / P3 / 1 of 1 · **Test data:** `priya.wav` as mic input
+**Severity / Priority / Frequency:** S4 / P3 / 1 of 1 · **Test data:** `priya.wav` as mic input · **Video:** [`BUG-13.webm`](evidence/video/BUG-13.webm) (same call as BUG-13)
 1. **New Chat** → **Start voice call** → play `priya.wav` near the mic (it repeats the same sentences) for ~40 s → **End**.
 2. Click **Show transcript**.
 
@@ -459,7 +460,7 @@ The video ends with a summary card.
 ---
 
 ## BUG-28 — [Web][Prompt Templates] Template form submits on Shift+Enter; the chat box uses Shift+Enter for a new line
-**Severity / Priority / Frequency:** S4 / P3 / Always
+**Severity / Priority / Frequency:** S4 / P3 / Always · **Video:** [`BUG-28.webm`](evidence/video/BUG-28.webm)
 1. Sidebar → **Prompt Templates** → **Create Prompt Template** → paste **P-26** → **Create Prompt**.
 2. Go to a **New Chat**, type `/Simple` → press **Enter** to pick "Simple Hindi Translator".
 3. In the form's **Text** box type `Please restart the server.`, press **Enter** (new line), then press **Shift+Enter**.
@@ -484,7 +485,7 @@ The video ends with a summary card.
 ---
 
 ## BUG-30 — [Public website] Mobile header hides main pages; a dead link; an inaccessible toggle; an old page title
-**Severity / Priority / Frequency:** S3 / P2 / Always
+**Severity / Priority / Frequency:** S3 / P2 / Always · **Video:** [`BUG-30.webm`](evidence/video/BUG-30.webm)
 1. On a phone (or DevTools → device toolbar → iPhone 12, 390 px) open **https://bearly.ai**. The header shows only **News** and **Get Bearly**, with no ☰ menu. Product, Privacy, Enterprise and Pricing are reachable only from the footer.
 2. Open **https://bearly.ai/ai-assistant-comparison** → find the link to Claude's plan article (`support.claude.com/en/articles/11049762-choose-a-claude-plan`) → it returns **404**.
 3. Open **https://bearly.ai/pricing** with a screen reader → the Monthly/Yearly switch is announced as a button with no on/off state (no `aria-pressed` / `role="switch"`).
@@ -568,7 +569,7 @@ The same happened with the BUG-34 Best Pick recording ("Budget Wireless Mouse Pi
 ---
 
 ## BUG-36 — [Web][Encryption] Opening and closing "Set up end-to-end encryption" removes the message-box controls
-**Severity / Priority / Frequency:** S3 / P1 / 3 of 3 · **Video:** [`BUG-36.webm`](evidence/video/BUG-36.webm) · **Evidence:** `evidence/e2e_controls_gone.png`
+**Severity / Priority / Frequency:** S3 / P1 / 3 of 3 · **Evidence:** `evidence/e2e_controls_gone.png` · **Video:** [`BUG-36.webm`](evidence/video/BUG-36.webm)
 1. Click **New Chat**. The message box shows **+**, chat settings, voice, the **model picker**, Work locally, Permissions and Connectors.
 2. Click **Set up end-to-end encryption** (the small pill below the message box).
 3. Don't set anything up. Close the pop-up with **×** (or Esc).
