@@ -307,7 +307,7 @@ The video ends with a summary card.
 - `color-contrast` (serious): **New Chat** button **2.05:1** (`#fc865…` on light orange). The sign-in **Continue** button is ~2.4:1.
 - `nested-interactive` (serious): 19–33 per page. Sidebar chat rows are `role=button` and contain the "More actions" button.
 - Settings dialog: 6 dropdowns with no accessible name.
-- *Added 1 Nov (UI inventory):* the **Share conversation** button in the chat header is an unnamed `span role=button`. The **Personalization** on/off switch has no name. The plus menu, chat-settings (sliders) and "jump to latest" buttons have no name. The sidebar search icon is 14×14 px and New project is 21×21 px.
+- *Added 1 Nov (full UI walk-through):* the **Share conversation** button in the chat header is an unnamed `span role=button`. The **Personalization** on/off switch has no name. The plus menu, chat-settings (sliders) and "jump to latest" buttons have no name. The sidebar search icon is 14×14 px and New project is 21×21 px.
 
 ---
 
