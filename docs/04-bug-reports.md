@@ -609,7 +609,7 @@ The same happened with the BUG-34 Best Pick recording ("Budget Wireless Mouse Pi
 ---
 
 ## BUG-39 — [Web][Auth][Accessibility] Sign-in field and button outlines are almost invisible; no tap feedback on mobile
-**Severity / Priority / Frequency:** S3 / P2 / Always · **Evidence:** `evidence/signin_outlines.png`
+**Severity / Priority / Frequency:** S3 / P2 / Always · **Evidence:** `evidence/signin_outlines.png` · **Video:** [`BUG-39.webm`](evidence/video/BUG-39.webm)
 1. Open https://bearly.ai/dashboard signed out. Look at the borders of **Continue with Microsoft**, **Continue with Google** and the **Email** box.
 2. On a phone (or DevTools → iPhone 13), tap **Continue**.
 
