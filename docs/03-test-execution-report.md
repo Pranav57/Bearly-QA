@@ -81,7 +81,7 @@ After the first report, every screen was swept again on the same account. Change
 | AUTH-07 | Pass | | Session survived 3 browser restarts |
 | AUTH-08 | Pass | | Confirm dialog; token cleared; old token → 401 on every endpoint |
 | AUTH-09 | Blocked | | Existing account, no new-account run |
-| AUTH-10 | Blocked | | No other surfaces |
+| AUTH-10 | Blocked | | Needs the desktop app, iOS app and Chrome extension as other sign-in surfaces; none can be installed in the test environment |
 | AUTH-11 | Partial | | Devices list correct (browser, OS, method, active now). Remote sign-out not run: it would sign out your Mac |
 | AUTH-12 | Not run | | Would create an account for a fake email |
 
@@ -113,8 +113,8 @@ After the first report, every screen was swept again on the same account. Change
 | CHAT-23 | Partial | | *1 Nov:* Edit in Canvas opens the reply in a Canvas panel (works). Read aloud gave no audible output in the headless test browser, so not verified |
 | CHAT-24 | **Fail** | BUG-24 | Actions work; labels show ⌘ on Linux. *1 Nov:* Ctrl+D asks for confirmation (good); Download as Markdown opens a dialog with "Include tool activity", Copy, Download. "New" is labelled Ctrl+Shift+N, which Chrome reserves for incognito |
 | CHAT-25 | **Fail** | BUG-13 | Voice-call chat auto-titled "Chat Title Request" |
-| CHAT-26 | Not run | | Viewed only |
-| CHAT-27 | Not run | | |
+| CHAT-26 | Not run | | Settings → This Chat was opened and its controls listed (6 dropdowns, Instructions, Temperature, Reset all to defaults), but values weren't changed or checked in a reply. Not attempted |
+| CHAT-27 | Not run | | Not attempted: a 200k-character paste risked freezing the automated browser. The 50k paste (P-12) was tested in CHAT-10. Needs: a manual paste on a real machine |
 
 ### Files
 | ID | Result | Bug | Notes |
@@ -128,12 +128,12 @@ After the first report, every screen was swept again on the same account. Change
 | FILE-07 | Pass | | "That password didn't work." → unlock works |
 | FILE-08 | Pass | | 10 files, names kept straight, East Q3 = 210 |
 | FILE-09 | Partial | | Drop uploads; drop-zone highlight not observed |
-| FILE-10 | Blocked | | No device |
+| FILE-10 | Blocked | | Needs a real iOS device and Android phone (camera / photo-library / Files pickers) |
 | FILE-11 | Partial | BUG-03 | Chip removed; but removed files stay stored (see BUG-03) |
 | FILE-12 | Partial | SUG-05 | Upload finished ~3 min after reconnect; only a spinner while offline |
 | FILE-13 | Pass | | `résumé_unique.txt`, `हिंदी_unique.txt` fine |
 | FILE-14 | **Fail** | BUG-04 | |
-| FILE-15 | Not run | | |
+| FILE-15 | Not run | | No 300-page PDF in the test data. Needs: a large PDF (can be added to make_test_files.py) and ~10 min |
 | FILE-16 | Partial | BUG-26 | First Enter with a just-attached PDF did nothing, no feedback (seen once) |
 | FILE-17 | **Fail** | BUG-03 | |
 | FILE-18 | **Fail** | BUG-12 | |
@@ -146,18 +146,18 @@ After the first report, every screen was swept again on the same account. Change
 |---|---|---|---|
 | MEET-01 ★ | Pass | | 48 s recording → accurate transcript in ~15 s; title "Launch Deadline and Action Items" |
 | MEET-02 ★ | Not run | | Web Meetings page has no upload; chat transcription not exercised |
-| MEET-03 | Not run | | |
-| MEET-04 | Blocked | | Desktop only |
+| MEET-03 | Not run | | No two-speaker audio in the test data (priya.wav is one voice). Needs: a 2-person recording |
+| MEET-04 | Blocked | | Computer-audio recording needs the desktop app (Meetings shows "Get the desktop app to record computer audio") |
 | MEET-05 | Pass | SUG | "Recording could not start. Check your audio permissions and try again." (no how-to link) |
 | MEET-06 | **Fail** | BUG-05 | |
-| MEET-07 | Not run | | |
-| MEET-08 | Not run | | |
+| MEET-07 | Not run | | No Indian-English / Hinglish audio sample. Needs: a recorded sample |
+| MEET-08 | Not run | | Needs a live 74–76 minute recording; too long for this session |
 | MEET-09 | Pass | | "The launch deadline was moved to December 12. Arjun owns the testing plan." |
 | MEET-10 | Partial | | Copy/Download present; transcript attached as `launch-deadline-and-action-items.md` |
-| MEET-11 | Not run | | |
-| MEET-12 | Not run | | Pro account |
+| MEET-11 | Not run | | Closing the tab mid-recording could leave a stuck recording in your account. Needs: a manual run |
+| MEET-12 | Not run | | Needs a Free-plan account to check the minute/credit limits; this account is Pro |
 | MEET-13 | Pass | | Overview / Key points / Decisions / Action items, nothing invented |
-| MEET-14 | Not run | | |
+| MEET-14 | Not run | | Not attempted; recording tests covered start/stop only. Needs: one more recording session |
 
 ### Search
 | ID | Result | Bug | Notes |
@@ -168,7 +168,7 @@ After the first report, every screen was swept again on the same account. Change
 | SRCH-04 | Partial | BUG-06 | Content search ranks `falcon_report.pdf` first for "Quillfeather"; but lists everything |
 | SRCH-05 | **Fail** | BUG-06 | |
 | SRCH-06 | **Fail** | BUG-06 | |
-| SRCH-07 | Not run | | |
+| SRCH-07 | Not run | | Needs an account with 500+ chats; this account has about 40 |
 | SRCH-08 | **Fail** | BUG-20 | |
 
 ### Voice & Dictation
@@ -177,9 +177,11 @@ After the first report, every screen was swept again on the same account. Change
 | VOICE-01 ★ | Pass | | Accurate, not auto-sent. (Dictation was switched off again afterwards) |
 | VOICE-02 | Partial | BUG-27 | Call works (GPT-Live 1); transcript has duplicated/truncated assistant lines |
 | VOICE-03 | **Fail** | BUG-09 | |
-| VOICE-04 | Not run | | |
-| VOICE-05 | Blocked | | |
-| VOICE-06/07/08 | Not run | | |
+| VOICE-04 | Not run | | Needs a real microphone with background noise (the test browser uses a fake mic file) |
+| VOICE-05 | Blocked | | Needs the iOS app or an Android phone and an incoming phone call |
+| VOICE-06 | Not run | | Needs Hindi speech audio (no Hindi sample in the test data) and dictation turned on |
+| VOICE-07 | Not run | | Needs dictation turned on, vocabulary/replacements added and speech input. Not attempted |
+| VOICE-08 | Not run | | Needs a Free-plan account; this account is Pro |
 | VOICE-09 | **Fail** | SUG-08 | Text appears only after Stop |
 
 ### Extension: EXT-01…10 **Blocked**. Chrome Web Store isn't reachable from the test environment.
@@ -189,15 +191,16 @@ After the first report, every screen was swept again on the same account. Change
 |---|---|---|---|
 | SYNC-01 ★ | Pass | | Message from device A visible on B in 5.3 s |
 | SYNC-02 | **Fail** | BUG-08 | |
-| SYNC-03 | Not run | | |
+| SYNC-03 | Not run | | Needs two devices sending at exactly the same moment; not attempted |
 | SYNC-04 | **Fail** | BUG-08 | Rename not shown on B within 90 s (twice) |
-| SYNC-05/06 | Not run | | |
+| SYNC-05 | Not run | | Needs an account with ~1,000 chats |
+| SYNC-06 | Not run | | Needs the desktop or iOS app as the second surface |
 
 ### Billing & Credits
 | ID | Result | Bug | Notes |
 |---|---|---|---|
 | BILL-01 ★, 02, 04 | Not run | | No purchases or plan changes on your real account (it is set to cancel on Nov 3) |
-| BILL-03 | Blocked | | |
+| BILL-03 | Blocked | | Needs the iOS app and a real App Store purchase |
 | BILL-05 | **Fail** | BUG-10, BUG-21 | |
 | BILL-06 | Partial | | Boost tiles "$10 → Pay $12 / $20 → Pay $23 / $40 → Pay $46"; not purchased |
 | BILL-07 | **Fail** | BUG-23 | |
@@ -221,22 +224,26 @@ After the first report, every screen was swept again on the same account. Change
 | TMPL-02 | Pass | | `/Simple` → form → "कृपया server को restart करें।" |
 | TMPL-03 | **Fail** | BUG-28 | Form submits on Shift+Enter (the opposite of the composer) |
 | TMPL-04 | **Fail** | BUG-32 | *1 Nov:* edits autosave only the first ~5 typed characters (3/3). Delete not run (template kept). Description restored |
-| TMPL-05 | Not run | | |
+| TMPL-05 | Not run | | Needs new templates with each field type (Short Answer, Paragraph, File upload); only one template exists. Not attempted |
 | RT-01 | Pass | | "Monday 9 AM IST" → "Mon Nov 2 · 3:30 AM UTC"; name, instructions, model filled |
 | RT-02…06 | Not run | | Creating a scheduled routine was blocked by the test-session permission rules |
 | PROJ-01 | Pass | | *1 Nov:* created "QA Temp Project" (opens its Settings), menu Rename/Archive/Delete; delete dialog warns and offers "Also delete all chats in this project"; deleted. Rename not run |
 | PROJ-06 | Partial | | *1 Nov:* chat ⋯ → Move to project lists projects; move not completed |
-| PROJ-02…05, 07 | Not run | | |
+| PROJ-02 | Not run | | Not attempted: needs files uploaded into a project and a project chat (could be done in a temporary project in the next round) |
+| PROJ-03 | Not run | | Would change the settings of your project "1"; not done |
+| PROJ-04 | Not run | | Needs a second account to invite as a reader |
+| PROJ-05 | Not run | | Project encryption creates keys that can't be cleanly undone |
+| PROJ-07 | Not run | | Project skills need the desktop app |
 | SHARE-01 | **Fail** | BUG-29 | Page built in ~12 s, but "Ready to share" showed while still building |
-| SHARE-02…04 | Not run | | Not published |
+| SHARE-02…04 | Not run | | Would publish a public Page from your account; a published link can be cached or indexed even after deletion, so not done |
 | TTS-01 | **Fail** | BUG-17 | |
 | TTS-02 | Partial | | Fast/Studio/OpenAI; voices Zephyr, Puck, Charon, Kore… |
-| TTS-03 | Not run | | |
+| TTS-03 | Not run | | Read aloud was clicked on 1 Nov, but audio output can't be heard or detected in the headless test browser. Needs: a manual check with speakers |
 | PRIV-01 | **Fail** | BUG-01 | |
 | PRIV-02 | Pass | | *1 Nov:* ZDR-only on → Fable 5.1 and Muse Spark hidden from the model list; switched back off |
 | PRIV-03/04 | Not run | | Would create encryption keys / recovery phrase |
 | PRIV-05 | Pass | | Disclosure text present |
-| CONN-01…03 | Not run | | No OAuth to third parties |
+| CONN-01…03 | Not run | | Connecting Notion/GitHub/etc. needs OAuth into your third-party accounts; not done |
 | DESK-01…04 | Blocked | | No desktop app (web shows the correct "get desktop" prompt for Work locally) |
 
 ### Non-functional
@@ -245,11 +252,11 @@ After the first report, every screen was swept again on the same account. Change
 | NFR-01 | Pass | | Warm load to usable composer 1.2 s; heap 54 MB; DCL 274 ms |
 | NFR-02 | Partial | BUG-07 | Offline banner good; sending offline isn't |
 | NFR-03 | **Fail** | BUG-15 | axe: 4 violation types on every main screen |
-| NFR-04 | Blocked | | |
+| NFR-04 | Blocked | | Needs a real iOS/Android device (Dynamic Type, TalkBack/VoiceOver) |
 | NFR-05 | Partial | BUG-16 | App at 390 px: no overflow, 16 px composer, drawer sidebar. Tap targets 14–28 px |
 | NFR-06 | **Fail** | BUG-04, S-1, S-2 | |
 | NFR-07 | **Fail** | BUG-07, BUG-02 | Generic or misleading errors |
-| NFR-08 | Not run | | |
+| NFR-08 | Not run | | Needs a 1-hour soak test with heap monitoring; not done |
 
 ### Built-in tools *(module 19, run 1 Nov)*
 | ID | Result | Bug | Notes |
