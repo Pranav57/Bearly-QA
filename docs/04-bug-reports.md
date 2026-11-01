@@ -5,6 +5,13 @@ Each report is written so that someone opening Bearly for the first time can rep
 Test files and exact prompts are in [`test-data/`](test-data/README.md) (referenced as `file.pdf` and **P-xx**).
 Screenshots are in [`evidence/`](evidence/), and screen recordings are in [`evidence/video/`](evidence/video/).
 
+**About the videos** (recorded 1 Nov 2026 on the same account, Chromium 1440×900):
+- On GitHub, click a `.webm` file, then **View raw**. It plays in Chrome, Firefox or Edge. (Safari: use VLC.)
+- A dark caption at the top shows the step number and the expected/actual result. The **red dot** is the mouse pointer. Red outlines and yellow highlighting mark the important text.
+- The tester's email is replaced with `tester@example.com`, and the email field shows dots. Secret parts of links are shown as `[redacted]`.
+- BUG-04 and BUG-08 show two browser windows side by side.
+- Each video re-runs the steps below; where the 1 Nov result differed from 31 Oct, the report says so.
+
 ## Before you start (common setup for every bug)
 1. Download the [`test-data/files`](test-data/files) folder to your computer.
 2. Open **https://bearly.ai/dashboard** in Chrome.
@@ -55,7 +62,8 @@ Severity: S1 blocker · S2 major · S3 minor · S4 trivial. Priority: P0–P3.
    - Result: the picker does **not** switch. The Settings dialog opens on **Billing** with *"Fable 5.1 needs the Analyst plan or higher. Upgrade to use this model…"* (this part is correct). Close the dialog with **Esc**.
 3. Open **Account menu → App Settings → New Chats** (left tab under CHATS).
 4. Click the **Model** dropdown (shows "Recommended") → choose **Fable 5.1**. A small "Saved" appears.
-5. Close Settings (**Esc**) and click **New Chat**. The model picker now shows **Fable 5.1**.
+5. Close Settings (**Esc**) and **reload the page (F5)**. A **New Chat** now opens with the model picker showing **Fable 5.1**.
+   - Note: without the reload, the open tab keeps using the previous model (re-verified 1 Nov 2026), so the new default only applies after a refresh or in a new tab.
 6. Type prompt **P-23** `Which model are you? One short line.` and press **Enter**.
 
 **Expected:** Step 4 shouldn't offer Fable (or should show the same upgrade prompt as step 2). If the chat starts on a locked model anyway, show the upgrade prompt.
@@ -131,6 +139,7 @@ Severity: S1 blocker · S2 major · S3 minor · S4 trivial. Priority: P0–P3.
 **Actual:** **"Transcription in progress — You can leave this page. The final transcript will appear here when it's ready."** was still shown 45+ minutes later. No error or retry.
 
 **Evidence:** `evidence/meet_silence_final.png`. Compare `evidence/meet1_result.png` (speech recording, done in 15 s).
+**Re-checked 1 Nov 2026 (video):** the same silent recording (made 31 Oct, 6:20 PM UTC) still showed "Transcription in progress" about **7 hours** later, including after a reload.
 
 ---
 
@@ -184,7 +193,8 @@ Severity: S1 blocker · S2 major · S3 minor · S4 trivial. Priority: P0–P3.
 
 **Expected:** Steps 4–5: B's sidebar updates within seconds (like messages do). After step 5 B shows "This chat was deleted".
 
-**Actual:** B keeps the old title and still lists, and fully displays, the deleted chat for 90+ s. Only the reload in step 6 updates it.
+**Actual:** B keeps the old title and still lists, and fully displays, the deleted chat for 90+ s. Only the reload in step 6 updates it. After the reload B shows a generic **"Oops! Page not found"** instead of saying the chat was deleted.
+**Video note:** the recording waits 45 s after each change (not 90 s) to keep it short.
 
 ---
 
@@ -221,6 +231,11 @@ Severity: S1 blocker · S2 major · S3 minor · S4 trivial. Priority: P0–P3.
 **Actual:** The 310 MiB file (325,000,000 bytes) uploads and the agent answers **325000000**. So neither the 200 MB plan-card limit nor the 300 MB docs limit is enforced. Sizes are binary MiB but labelled "MB" (205,000,000 bytes is shown as "196 MB").
 
 **Evidence:** `evidence/set_Billing.png`
+**Re-checked 1 Nov 2026 (video):** the 310 MiB file was again **accepted** with no limit message (upload ≈ 1 min, spinner only). Two new problems appeared:
+- Pressing Enter while the chip was still processing did nothing (BUG-26).
+- After sending P-20, the agent stayed on *"Reading attached file metadata…"* for 6+ minutes. The sent prompt was later gone from the chat (BUG-31).
+
+The video ends with a summary card.
 
 ---
 
@@ -323,7 +338,7 @@ Severity: S1 blocker · S2 major · S3 minor · S4 trivial. Priority: P0–P3.
 4. Enter wrong codes (prompt **P-31**) 7 times, clicking **Sign in** after each.
 
 **Expected:** A "Resend code (in 30 s)" option; Sign in disabled until all 3 words are filled; after ~5 wrong attempts a cooldown or "request a new code".
-**Actual:** No resend; Sign in active with 1 word; 7 wrong codes all give *"Codewords invalid. Make sure you typed them in correctly."* (HTTP 401) with no cooldown, lockout or CAPTCHA. (I stopped at 7.)
+**Actual:** No resend; Sign in active with 1 word (it's also enabled with **0** words; it only looks pale); 7 wrong codes all give *"Codewords invalid. Make sure you typed them in correctly."* (HTTP 401) with no cooldown, lockout or CAPTCHA. (I stopped at 7.)
 **Evidence:** `evidence/login_code.png`, `evidence/auth_wrong.png`
 
 ---
@@ -416,6 +431,7 @@ Severity: S1 blocker · S2 major · S3 minor · S4 trivial. Priority: P0–P3.
 
 **Expected:** Docs say sending waits until the file is ready, so show it ("Waiting for falcon_report.pdf…") or send automatically when ready.
 **Actual:** Nothing happens, with no message. Pressing Enter again a few seconds later sends.
+**Seen again 1 Nov 2026** with `big_310MiB.txt`: Enter pressed while the chip spinner was showing was silently ignored, and the prompt stayed in the composer (visible in [`BUG-10.webm`](evidence/video/BUG-10.webm), around 1:05).
 
 ---
 
@@ -462,6 +478,20 @@ Severity: S1 blocker · S2 major · S3 minor · S4 trivial. Priority: P0–P3.
 4. Open **https://bearly.ai/dashboard** signed out → the browser tab title is the old tagline **"Bearly.ai | AI at your fingertips"**.
 
 **Evidence:** `evidence/home_mobile_375.png`, `evidence/pricing_mobile_375.png`
+
+---
+
+## BUG-31 — [Web][Chat] A sent prompt disappears when the agent gets stuck on a large attachment
+**Severity / Priority / Frequency:** S2 / P2 / 1 of 1 (found 1 Nov 2026 while recording BUG-10) · **Test data:** `big_310MiB.txt` · **Video:** [`BUG-10.webm`](evidence/video/BUG-10.webm) (from 1:05)
+1. **New Chat → + → Attach files → `big_310MiB.txt`**. Wait until the chip's spinner stops (≈ 1 min).
+2. Type **P-20** `What is the exact size in bytes of the attached file? Reply with the number only.` → **Enter**.
+3. The prompt appears, and the agent shows **Working · Read Asset · "Reading attached file metadata…"**. Leave it for 6 minutes. It doesn't finish.
+4. Close the tab. Open the chat again from the sidebar (it got the auto-title "Attached File Size").
+
+**Expected:** The prompt and the agent's turn are still there, finished or with an error and **Retry**.
+**Actual:** The chat has a title and **Browse files (1)**, but the body is empty (*"Ready when you are."*). The prompt and the agent's turn are gone, with no error. The chat looks as if nothing was ever asked.
+**Evidence:** `evidence/bug31_lost_turn.png`
+**Impact:** Users lose their question and don't know whether it ran (or used credits). Long-running agent turns need to be saved on the server and resumable.
 
 ---
 

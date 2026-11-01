@@ -38,7 +38,7 @@
 | Non-functional | 8 | 1 | 3 | 2 | 1 | 1 |
 | **Total** | **170** | **42** | **32** | **22** | **24** | **50** |
 
-**Bugs logged: 30** (6 S2-major, 15 S3-minor, 9 S4-trivial) (details in `04-bug-reports.md`), plus 3 security observations, **20 improvement suggestions** (`05-improvement-suggestions.md`), all test data in `test-data/`, and test-plan changes in `02-bearly-test-cases.md` ("What changed from v1").
+**Bugs logged: 31** (7 S2-major, 15 S3-minor, 9 S4-trivial) (details and screen recordings in `04-bug-reports.md`; BUG-31 was found on 1 Nov while recording), plus 3 security observations, **20 improvement suggestions** (`05-improvement-suggestions.md`), all test data in `test-data/`, and test-plan changes in `02-bearly-test-cases.md` ("What changed from v1").
 
 ### Top 10 to fix first
 | # | Bug | Why it matters |
@@ -266,6 +266,7 @@
 | BUG-28 | Template form submits on Shift+Enter (composer: newline) | S4 | P3 | Always | TMPL-03 |
 | BUG-29 | Share: "Ready to share" + Publish enabled while the Page is still building | S4 | P3 | 1/1 | SHARE-01 |
 | BUG-30 | Public site: mobile header hides Product/Pricing/Privacy/Enterprise; dead link on /ai-assistant-comparison; pricing toggle has no state for screen readers | S3 | P2 | Always | — |
+| BUG-31 | A sent prompt disappears from the chat when the agent gets stuck on a large attachment *(found 1 Nov while recording videos)* | S2 | P2 | 1/1 | FILE-05 |
 
 **Full step-by-step reports** (first-time-user steps, test data, expected vs actual, screenshots and screen recordings) for every bug and security observation are in **[04-bug-reports.md](04-bug-reports.md)**.
 
