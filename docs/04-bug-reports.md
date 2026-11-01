@@ -604,7 +604,7 @@ The same happened with the BUG-34 Best Pick recording ("Budget Wireless Mouse Pi
 - Phones behave sensibly: iPhone goes to the App Store, Android to the web app.
 
 **Impact:** For a privacy-first brand, an unrequested executable download, served from a third-party domain, undermines trust and can trigger browser or antivirus warnings.
-**Note:** "Continue in browser opens GitHub" (reported in manual testing) was **not reproduced**. On desktop, Android and iPhone it opened `bearly.ai/dashboard/focus`.
+**Note:** "Continue in browser opens GitHub" (reported in manual testing) was **not reproduced**. On desktop, Android and iPhone it opened `bearly.ai/dashboard/focus`. The GitHub page most likely came from the **Pricing plan buttons**, which download the installer from github.com (BUG-42).
 
 ---
 
@@ -645,6 +645,22 @@ The same happened with the BUG-34 Best Pick recording ("Budget Wireless Mouse Pi
 - **Council of Experts** offers *Gemini 3.8 Flash* and *Gemini 4 Argon*, which can't be picked as a chat model.
 
 **Also:** There is no way to request a model except the generic **Give Feedback** form (see SUG-28).
+
+---
+
+## BUG-42 — [Public website][Pricing] Plan buttons ("Get Started", "Get Pro", "Get Analyst") download the desktop app from GitHub instead of signing up
+**Severity / Priority / Frequency:** S2 / P1 / Always (desktop) · **Video:** [`BUG-42.webm`](evidence/video/BUG-42.webm)
+1. On a desktop browser open https://bearly.ai/pricing.
+2. Click **Get Pro** (or **Get Started** under Free, or **Get Analyst**).
+
+**Expected:** Sign-up / checkout for that plan (or sign-in first, then the plan picker).
+**Actual:**
+- Every plan button starts the **desktop installer download** (`Bearly-5.2.11.AppImage` / `.exe` / `.dmg`) from `bearly.ai/download/<os>` → **github.com/bearlyai/releases** → `release-assets.githubusercontent.com`, and shows "Download started — Bearly is on its way." None of them select a plan or open checkout.
+- If the browser blocks automatic downloads, the user lands on **GitHub**, which explains the manual-testing report "Get started opened GitHub".
+- On iPhone the same buttons open the **App Store**; on Android they open the web app (`/dashboard/focus`).
+- There is **no "Sign in" link** anywhere on the public site (home, pricing, product, enterprise, privacy, news). Returning users must know to go to `/dashboard` or use "Get Bearly".
+
+**Impact:** The pricing page's buy buttons don't sell anything. A user who wants Pro gets an executable download from a third-party domain, which hurts conversion and trust.
 
 ---
 

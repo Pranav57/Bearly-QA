@@ -19,7 +19,7 @@
 | Module | Cases | Pass | Fail | Partial | Blocked | Not run |
 |---|---|---|---|---|---|---|
 | Auth | 14 | 3 | 3 | 2 | 4 | 2 |
-| Chat | 29 | 15 | 5 | 7 | 0 | 2 |
+| Chat | 31 | 16 | 6 | 7 | 0 | 2 |
 | Files | 21 | 9 | 6 | 4 | 1 | 1 |
 | Meetings | 14 | 4 | 1 | 1 | 1 | 7 |
 | Search | 8 | 1 | 4 | 1 | 1 | 1 |
@@ -35,11 +35,11 @@
 | Text-to-speech | 3 | 0 | 1 | 1 | 0 | 1 |
 | Privacy / ZDR / E2E | 7 | 3 | 2 | 0 | 0 | 2 |
 | Connectors & Desktop | 7 | 0 | 0 | 0 | 4 | 3 |
-| Non-functional | 11 | 1 | 6 | 2 | 1 | 1 |
+| Non-functional | 12 | 1 | 7 | 2 | 1 | 1 |
 | Built-in tools | 17 | 12 | 1 | 4 | 0 | 0 |
-| **Total** | **200** | **58** | **41** | **28** | **24** | **49** |
+| **Total** | **203** | **59** | **43** | **28** | **24** | **49** |
 
-**Bugs logged: 41** (8 S2-major, 20 S3-minor, 13 S4-trivial) (details and screen recordings in `04-bug-reports.md`; BUG-31…41 were found on 1 Nov while recording and in the second exploration round, see §1b), plus 3 security observations, **20 improvement suggestions** (`05-improvement-suggestions.md`), all test data in `test-data/`, and test-plan changes in `02-bearly-test-cases.md` ("What changed from v1").
+**Bugs logged: 42** (9 S2-major, 20 S3-minor, 13 S4-trivial) (details and screen recordings in `04-bug-reports.md`; BUG-31…42 were found on 1 Nov while recording and in the second exploration round, see §1b), plus 3 security observations, **20 improvement suggestions** (`05-improvement-suggestions.md`), all test data in `test-data/`, and test-plan changes in `02-bearly-test-cases.md` ("What changed from v1").
 
 ### 1b. Second exploration round (1 Nov 2026)
 After the first report, every screen was swept again on the same account. Changes were made only where they could be undone, and each was restored.
@@ -68,7 +68,7 @@ After the first report, every screen was swept again on the same account. Change
 | 9 | BUG-31 Closing the tab while the agent is working deletes the prompt and its answer | Silent data loss on the most common action (closing a tab or laptop lid) |
 | 10 | BUG-10 Four different file-size limits across docs, plan cards and real behaviour | Billing/storage expectations are unclear |
 
-## 2. Execution log (all 200 cases)
+## 2. Execution log (all 203 cases)
 ### Auth
 | ID | Result | Bug | Notes |
 |---|---|---|---|
@@ -110,7 +110,7 @@ After the first report, every screen was swept again on the same account. Change
 | CHAT-18 | Pass | | No script, no dialog, no `javascript:` href |
 | CHAT-19 | Partial | | Bearly Pro baseline ~0.4 s; other models not measured |
 | CHAT-20 | **Fail** | BUG-07 | |
-| CHAT-21 | Partial | | "Queue message" shown; queued send not exercised |
+| CHAT-21 | Pass | | *1 Nov:* tested on Bearly Pro, GPT 6 Luna and Haiku 5.5. While a reply streams, Send becomes "Queue message"; the queued prompt appears at once and is answered after the current reply. Not model-specific. No "Queued" label while it waits |
 | CHAT-22 | Partial | | "Delete Query" present; not executed |
 | CHAT-23 | Partial | | *1 Nov:* Edit in Canvas opens the reply in a Canvas panel (works). Read aloud gave no audible output in the headless test browser, so not verified |
 | CHAT-24 | **Fail** | BUG-24 | Actions work; labels show ⌘ on Linux. *1 Nov:* Ctrl+D asks for confirmation (good); Download as Markdown opens a dialog with "Include tool activity", Copy, Download. "New" is labelled Ctrl+Shift+N, which Chrome reserves for incognito |
@@ -119,6 +119,8 @@ After the first report, every screen was swept again on the same account. Change
 | CHAT-27 | Not run | | Not attempted: a 200k-character paste risked freezing the automated browser. The 50k paste (P-12) was tested in CHAT-10. Needs: a manual paste on a real machine |
 | CHAT-28 | Pass |  | Draft with plain.txt deleted: URL shows "Not Found!", plain.txt hits 5 → 4. Dialog copy still misleading (BUG-35) |
 | CHAT-29 | **Fail** | BUG-41 | No Gemini/DeepSeek/MiniMax in the picker; Gemini only in Council |
+| CHAT-30 | **Fail** |  | No time on hover. Query info shows only "Started 1:26 AM · Completed 1:27 AM · Duration 3.8s", no date (SUG-32) |
+| CHAT-31 | Partial | BUG-15 | Works on desktop and mobile, but faint grey 32×32 button, no tooltip or name, overlaps bubbles on mobile; manual testers missed it (SUG-33) |
 
 ### Files
 | ID | Result | Bug | Notes |
@@ -270,6 +272,7 @@ After the first report, every screen was swept again on the same account. Change
 | NFR-09 | **Fail** | BUG-40 | Same form on both; mailto link only opens mail. Empty message "sent" |
 | NFR-10 | **Fail** | BUG-37 |  |
 | NFR-11 | **Fail** | BUG-38 | Instant download from github.com on desktop; iPhone → App Store; Android → web app |
+| NFR-12 | **Fail** | BUG-42 | All three download the desktop installer from github.com; iPhone → App Store; Android → web app. No "Sign in" link on the public site |
 
 ### Built-in tools *(module 19, run 1 Nov)*
 | ID | Result | Bug | Notes |
@@ -336,11 +339,12 @@ After the first report, every screen was swept again on the same account. Change
 | BUG-39 | Sign-in outlines ~1.2:1 contrast; no pressed feedback on mobile; orange vs red errors *(1 Nov)* | S3 | P2 | Always | AUTH-05, NFR-03 |
 | BUG-40 | Contact Support sends an empty message *(1 Nov)* | S4 | P3 | 2/2 | NFR-09 |
 | BUG-41 | Advertised Gemini/DeepSeek/MiniMax not selectable; Gemini only in Council *(1 Nov)* | S3 | P2 | Always | CHAT-29 |
+| BUG-42 | Pricing plan buttons download the desktop app from GitHub instead of sign-up; no "Sign in" link on the site *(1 Nov)* | S2 | P1 | Always | NFR-12 |
 
 **Full step-by-step reports** (first-time-user steps, test data, expected vs actual, screenshots and screen recordings) for every bug and security observation are in **[04-bug-reports.md](04-bug-reports.md)**.
 
 ## 4. Improvement suggestions
-25 suggestions (SUG-21…25 added 1 Nov), each with steps to see the current behaviour, the proposed change and why: **[05-improvement-suggestions.md](05-improvement-suggestions.md)**.
+33 suggestions (SUG-21…33 added 1 Nov), each with steps to see the current behaviour, the proposed change and why: **[05-improvement-suggestions.md](05-improvement-suggestions.md)**.
 
 ## 4a. Test data
 Every prompt (P-01…P-47) and every uploaded file used in this run: **[test-data/](test-data/README.md)**.

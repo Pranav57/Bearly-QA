@@ -37,6 +37,8 @@ Each suggestion says **how to see it today** (same setup as [04-bug-reports.md](
 | SUG-29 | Usage: daily history and a one-line-per-day statement / CSV export | Medium |
 | SUG-30 | Controls that look disabled must be disabled; explain why (uploading, empty code) | High |
 | SUG-31 | Style the "1x" speed control like the Download button; align the time label | Low |
+| SUG-32 | Show message time on hover; add the date in Query info | Medium |
+| SUG-33 | Make the "jump to latest" arrow visible, labelled and unread-aware | Medium |
 
 ---
 
@@ -195,3 +197,13 @@ Each suggestion says **how to see it today** (same setup as [04-bug-reports.md](
 **See it today:** Meetings and Recordings → open a recording. **1x** (playback speed) is small plain text, and **Download** is a bordered button. They sit on the same line (both centred at the same height), but look mismatched. The time label "0:48" sits lower than the progress bar.
 **Change:** Give "1x" the same button style and size as Download, and vertically centre the time label with the bar.
 **Why:** Visual polish; it also gives "1x" a bigger tap target.
+
+### SUG-32 — Show when each message was sent
+**See it today:** Open any chat and hover a message. You see Copy, Delete, Edit, the version arrows, Query info (ⓘ), Rerun and the model name, but **no time**. Only clicking **Query info** shows *"Started 1:26 AM · Completed 1:27 AM · Duration 3.8s"*, with **no date**.
+**Change:** Show a short time on hover ("1:26 AM", or "Yesterday 1:26 AM" / "31 Oct") with the full date and time as a tooltip, and add the date in Query info.
+**Why:** In long or multi-day chats users need to know when something was said, e.g. to match an answer to a meeting or a file version.
+
+### SUG-33 — Make the "jump to latest" arrow obvious
+**See it today:** In a long chat, scroll up. A small grey **⌄** in a light-grey 32×32 square appears at the bottom right, above the message box. It works (it jumps to the latest message, tested on desktop and 390 px), but it's easy to miss (manual testers reported "no arrow"), has no tooltip or accessible name (BUG-15), and on phones it overlaps the message bubbles.
+**Change:** A higher-contrast round button with a tooltip and `aria-label` "Jump to latest", a "New message" badge when a reply arrives while you're scrolled up, and placement that doesn't cover messages on mobile.
+**Why:** Long chats are common, and users shouldn't have to scroll manually through 15,000-px messages (SUG-03).

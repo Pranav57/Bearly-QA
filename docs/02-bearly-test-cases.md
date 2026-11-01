@@ -29,7 +29,7 @@
 | **Removed** | SYNC-04, SYNC-05 moved to DESK-* | Desktop-only items grouped in a Desktop module |
 | **Added** | 69 new cases | Prompt Templates, Routines, Projects, Sharing, TTS, Privacy/ZDR/E2E, Connectors & Permissions, Desktop, command menu, queueing, message versions, gating-via-settings, removed-attachment cleanup, file-link lifetime, live sidebar sync, RTL, offline send |
 
-Total: **200 cases** (170 + 16 in module 19 + 14 more added on 1 Nov): v1's 104, minus 3 removed or moved, plus 69 new. 16 cases are marked *(rewritten)* or *(re-targeted)*, and several more have sharper expected results.
+Total: **203 cases** (170 + 16 in module 19 + 17 more added on 1 Nov): v1's 104, minus 3 removed or moved, plus 69 new. 16 cases are marked *(rewritten)* or *(re-targeted)*, and several more have sharper expected results.
 
 ## 0. Test environment matrix
 | Surface | Configs to cover |
@@ -95,6 +95,8 @@ Total: **200 cases** (170 + 16 in module 19 + 14 more added on 1 Nov): v1's 104,
 | CHAT-27 | P2 | U | Long paste becomes attachment *(new)* | — | Paste 200k+ characters | Accepted as an attachment or a clear limit; UI stays responsive |
 | CHAT-28 | P1 | F | Delete chat removes its files *(new, 1 Nov)* | Chat with an attached file | ⋯ / Ctrl+D → Delete; reopen the chat URL; search Files for the file | Chat gone ("Not found"); its files no longer listed or searchable |
 | CHAT-29 | P1 | F | Advertised models are selectable *(new, 1 Nov)* | — | Compare homepage/Enterprise model list with Show all models and Council settings | Every advertised family selectable, or copy clarifies |
+| CHAT-30 | P2 | U | Message timestamps *(new, 1 Nov)* | Existing chat | Hover a user and an assistant message; open Query info | Time visible on hover; full date and time available |
+| CHAT-31 | P2 | U | Jump to latest message *(new, 1 Nov)* | Long chat | Scroll up; click the ⌄ button (desktop and 390 px) | Visible, labelled button returns to the latest message |
 
 ## 3. Files
 | ID | Pri | Type | Title | Preconditions | Steps | Expected result |
@@ -299,6 +301,7 @@ Total: **200 cases** (170 + 16 in module 19 + 14 more added on 1 Nov): v1's 104,
 | NFR-09 | P2 | U | Support from desktop and mobile *(new, 1 Nov)* | Get help → Contact Support on desktop and 390 px | Same in-app form; empty message blocked |
 | NFR-10 | P2 | U | Public site navigation state *(new, 1 Nov)* | Click each top-menu page; open Pricing | Current page highlighted; items never removed |
 | NFR-11 | P1 | S | Download flow from the website *(new, 1 Nov)* | Click Get Bearly on Windows/Mac/Linux/iPhone/Android | Download only after an explicit click; served from bearly.ai |
+| NFR-12 | P1 | F | Pricing plan buttons *(new, 1 Nov)* | /pricing → Get Started / Get Pro / Get Analyst | Open sign-up / checkout for that plan |
 
 ---
 
