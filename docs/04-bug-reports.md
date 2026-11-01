@@ -419,7 +419,8 @@ The video ends with a summary card.
 3. Inspect the input: no `required`, no `autocomplete="email"`.
 4. On a phone (or DevTools → iPhone), tap the email field: the input is 13 px, so iOS Safari zooms the page.
 
-**Expected:** Inline validation; Continue disabled until valid; `autocomplete="email"`; ≥ 16 px input; Continue text contrast ≥ 4.5:1 (it's ~2.4:1 and looks disabled).
+**Expected:** Inline validation; Continue disabled until valid; `autocomplete="email"`; ≥ 16 px input; Continue text contrast ≥ 4.5:1.
+**Actual:** No validation (Continue stays clickable for empty or malformed emails); no `required` or `autocomplete="email"`; the input is 13 px on mobile, so iOS zooms; Continue text is ~2.4:1 and looks disabled.
 **Evidence:** `evidence/login_desktop.png`, `evidence/login_mobile.png`
 
 ---
@@ -477,6 +478,8 @@ The video ends with a summary card.
 3. Open **https://bearly.ai/pricing** with a screen reader → the Monthly/Yearly switch is announced as a button with no on/off state (no `aria-pressed` / `role="switch"`).
 4. Open **https://bearly.ai/dashboard** signed out → the browser tab title is the old tagline **"Bearly.ai | AI at your fingertips"**.
 
+**Expected:** A ☰ menu on mobile with all main pages; no dead outbound links; the pricing switch exposes its state (`role="switch"` + `aria-checked`, or `aria-pressed`); the app title matches the current brand line.
+**Actual:** As in steps 1–4: no mobile menu (main pages only in the footer), a 404 link, a switch with no announced state, and an outdated page title.
 **Evidence:** `evidence/home_mobile_375.png`, `evidence/pricing_mobile_375.png`
 
 ---
